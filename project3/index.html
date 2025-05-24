@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计算机网络期末复习资料 - 轻松愉快的网络学习之旅</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/15.0.7/marked.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#6366f1',
+                        'secondary': '#ec4899',
+                        'accent': '#10b981',
+                        'security': '#facc15',
+                        'practice': '#3b82f6',
+                        'review': '#8b5cf6' /* New color for the review chapter */
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-800 min-h-screen">
+    <!-- Navigation Header -->
+    <nav class="bg-white/80 backdrop-blur-lg border-b border-gray-200/50 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="p-2 bg-gradient-to-r from-primary to-secondary rounded-lg">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z"/>
+                        </svg>
+                    </div>
+                    <h1 class="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                        计算机网络复习指南
+                    </h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="themeToggle" class="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                        🌙
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section (Omitted as per previous instructions, assuming it exists) -->
+    <!-- <section class="relative py-20 px-4"> ... </section> -->
+
+    <!-- Study Guide Overview (Omitted as per previous instructions, assuming it exists) -->
+    <!-- <section id="overview" class="py-16 px-4 bg-white/50"> ... </section> -->
+
+    <!-- Chapters Navigation -->
+    <section id="chapters" class="py-16 px-4">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-4">章节目录</h2>
+            <p class="text-gray-600 text-center mb-12">点击章节卡片开始你的网络学习之旅</p>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                <!-- Chapter 1 Card -->
+                <div class="group cursor-pointer" onclick="loadChapter(1)">
+                    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                        <div class="p-8">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center mr-4">
+                                    <span class="text-white font-bold text-xl">01</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-gray-800 group-hover:text-primary transition-colors">网络世界初探</h3>
+                                    <p class="text-sm text-gray-500">Network World Introduction</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                像探索一座神奇城市一样，我们将了解计算机网络的基本概念、分层模型，以及协议的重要性。
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">OSI模型</span>
+                                <span class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm">TCP/IP</span>
+                                <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">网络分类</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-500">💡 核心概念 & 理论基础</span>
+                                <div class="text-primary">
+                                    <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chapter 2 Card -->
+                <div class="group cursor-pointer" onclick="loadChapter(2)">
+                    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                        <div class="p-8">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-gradient-to-r from-emerald-500 to-green-600 rounded-lg flex items-center justify-center mr-4">
+                                    <span class="text-white font-bold text-xl">02</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-gray-800 group-hover:text-accent transition-colors">神奇的物理连接</h3>
+                                    <p class="text-sm text-gray-500">Magical Physical Connections</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                就像水在管道中流淌，我们将探索数据如何通过各种传输介质在网络中传输。
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-sm">物理层</span>
+                                <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">传输介质</span>
+                                <span class="px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-sm">信号传输</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-500">🔌 硬件基础 & 信号传输</span>
+                                <div class="text-accent">
+                                    <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chapter 3 Card -->
+                 <div class="group cursor-pointer" onclick="loadChapter(3)">
+                    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                        <div class="p-8">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg flex items-center justify-center mr-4">
+                                    <span class="text-white font-bold text-xl">03</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-gray-800 group-hover:text-secondary transition-colors">局域网的秘密</h3>
+                                    <p class="text-sm text-gray-500">Secrets of LAN</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                深入数据链路层，揭开局域网高效通信的面纱，了解MAC地址、帧以及交换机的工作原理。
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">数据链路层</span>
+                                <span class="px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-sm">MAC地址</span>
+                                <span class="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm">交换机</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-500">🔑 局域网核心技术</span>
+                                <div class="text-secondary">
+                                    <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chapter 4 Card -->
+                 <div class="group cursor-pointer" onclick="loadChapter(4)">
+                    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                        <div class="p-8">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-600 rounded-lg flex items-center justify-center mr-4">
+                                    <span class="text-white font-bold text-xl">04</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-gray-800 group-hover:text-red-600 transition-colors">数据包的奇幻漂流</h3>
+                                    <p class="text-sm text-gray-500">The Fantastic Voyage of Data Packets</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                探索网络层的奥秘，学习IP地址如何指引方向，以及路由器如何为数据包规划最佳路径。
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm">网络层</span>
+                                <span class="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm">IP地址</span>
+                                <span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm">路由</span>
+                                 <span class="px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-sm">NAT</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-500">🌍 互联网导航系统</span>
+                                <div class="text-red-600">
+                                    <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Chapter 5 Card -->
+                 <div class="group cursor-pointer" onclick="loadChapter(5)">
+                    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                        <div class="p-8">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center mr-4">
+                                    <span class="text-white font-bold text-xl">05</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-gray-800 group-hover:text-blue-600 transition-colors">可靠与高效的传输艺术</h3>
+                                    <p class="text-sm text-gray-500">Art of Reliable & Efficient Transport</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                揭示传输层的秘密：TCP如何保障数据可靠送达？UDP为何如此迅速？端口号有何魔力？
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 bg-cyan-100 text-cyan-700 rounded-full text-sm">传输层</span>
+                                <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">TCP/UDP</span>
+                                <span class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm">端口</span>
+                                <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">连接管理</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-500">📦 传输层核心协议</span>
+                                <div class="text-blue-600">
+                                    <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <!-- End Chapter 5 Card -->
+
+                 <!-- Chapter 6 Card -->
+                 <div class="group cursor-pointer" onclick="loadChapter(6)">
+                     <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                         <div class="p-8">
+                             <div class="flex items-center mb-4">
+                                 <div class="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-lg flex items-center justify-center mr-4">
+                                     <span class="text-white font-bold text-xl">06</span>
+                                 </div>
+                                 <div>
+                                     <h3 class="text-xl font-bold text-gray-800 group-hover:text-orange-600 transition-colors">应用层协议嘉年华</h3>
+                                     <p class="text-sm text-gray-500">Application Layer Protocol Carnival</p>
+                                 </div>
+                             </div>
+                             <p class="text-gray-600 mb-4 leading-relaxed">
+                                 探索最贴近用户的协议：HTTP如何加载网页？DNS如何解析域名？邮件如何发送？FTP如何传文件？
+                             </p>
+                             <div class="flex flex-wrap gap-2 mb-4">
+                                 <span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm">应用层</span>
+                                 <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm">HTTP/S</span>
+                                 <span class="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm">DNS</span>
+                                 <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-sm">邮件协议</span>
+                             </div>
+                             <div class="flex items-center justify-between">
+                                 <span class="text-sm text-gray-500">🎉 精彩的网络服务</span>
+                                 <div class="text-orange-600">
+                                     <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                     </svg>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                 <!-- End Chapter 6 Card -->
+
+                 <!-- Chapter 7 Card -->
+                 <div class="group cursor-pointer" onclick="loadChapter(7)">
+                     <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                         <div class="p-8">
+                             <div class="flex items-center mb-4">
+                                 <div class="w-12 h-12 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-lg flex items-center justify-center mr-4">
+                                     <span class="text-white font-bold text-xl">07</span>
+                                 </div>
+                                 <div>
+                                     <h3 class="text-xl font-bold text-gray-800 group-hover:text-security transition-colors">网络安全小课堂</h3>
+                                     <p class="text-sm text-gray-500">Network Security Mini-Class</p>
+                                 </div>
+                             </div>
+                             <p class="text-gray-600 mb-4 leading-relaxed">
+                                 学习如何识别和防范网络世界的“小怪兽”，保护好我们的数字资产和个人隐私。
+                             </p>
+                             <div class="flex flex-wrap gap-2 mb-4">
+                                 <span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm">网络安全</span>
+                                 <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-sm">威胁</span>
+                                 <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm">防御</span>
+                             </div>
+                             <div class="flex items-center justify-between">
+                                 <span class="text-sm text-gray-500">🔒 数字世界守护</span>
+                                 <div class="text-security">
+                                     <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                     </svg>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                 <!-- End Chapter 7 Card -->
+
+                 <!-- Chapter 8 Card -->
+                 <div class="group cursor-pointer" onclick="loadChapter(8)">
+                     <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                         <div class="p-8">
+                             <div class="flex items-center mb-4">
+                                 <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center mr-4"> <!-- Use 'practice' color scheme for consistency if desired, or keep as is -->
+                                     <span class="text-white font-bold text-xl">08</span>
+                                 </div>
+                                 <div>
+                                     <h3 class="text-xl font-bold text-gray-800 group-hover:text-practice transition-colors">动手练练基本功</h3>
+                                     <p class="text-sm text-gray-500">Practice Hands-on Skills</p>
+                                 </div>
+                             </div>
+                             <p class="text-gray-600 mb-4 leading-relaxed">
+                                 学习使用Ping, Traceroute, Wireshark等网络工具，亲自诊断问题，看看网络数据包的“真面目”。
+                             </p>
+                             <div class="flex flex-wrap gap-2 mb-4">
+                                 <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">网络诊断</span>
+                                 <span class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm">命令行工具</span>
+                                 <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">Wireshark</span>
+                             </div>
+                             <div class="flex items-center justify-between">
+                                 <span class="text-sm text-gray-500">🛠️ 实践与工具</span>
+                                 <div class="text-practice">
+                                     <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                     </svg>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                 <!-- End Chapter 8 Card -->
+
+                 <!-- Chapter 9 Card - NEW -->
+                 <div class="group cursor-pointer" onclick="loadChapter(9)">
+                    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                        <div class="p-8">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-gradient-to-r from-purple-600 to-violet-700 rounded-lg flex items-center justify-center mr-4"> 
+                                    <span class="text-white font-bold text-xl">09</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-gray-800 group-hover:text-review transition-colors">重点知识梳理与考点冲刺</h3>
+                                    <p class="text-sm text-gray-500">Key Points & Exam Sprint</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                系统回顾1-8章核心知识，锁定高频考点与易错点，掌握高效复习策略，期末稳了！
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 bg-purple-200 text-purple-800 rounded-full text-sm">复习</span>
+                                <span class="px-3 py-1 bg-violet-200 text-violet-800 rounded-full text-sm">考点</span>
+                                <span class="px-3 py-1 bg-indigo-200 text-indigo-800 rounded-full text-sm">总结</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-500">📚 考前必看</span>
+                                <div class="text-review">
+                                    <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Chapter 9 Card -->
+
+
+            </div>
+
+            <!-- Progress Indicator -->
+            <div class="flex justify-center">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <div class="flex items-center space-x-3">
+                        <span class="text-sm text-gray-600">学习进度:</span>
+                        <div class="flex space-x-2" id="progress-indicators">
+                            <!-- Progress dots will be generated by JS -->
+                        </div>
+                        <span class="text-sm text-primary font-medium" id="progress-text">开始学习第一章</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chapter Content Display -->
+    <section id="chapterContent" class="py-16 px-4 hidden">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-2xl shadow-lg border p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <button onclick="backToChapters()" class="flex items-center space-x-2 text-gray-600 hover:text-primary transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                        <span>返回目录</span>
+                    </button>
+                    <div class="flex items-center space-x-2">
+                        <span id="readingTime" class="text-sm text-gray-500"></span>
+                        <button onclick="toggleBookmark()" id="bookmarkBtn" class="text-gray-400 hover:text-yellow-500 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div id="chapterText" class="prose prose-lg max-w-none">
+                    <!-- Chapter content will be loaded here -->
+                </div>
+                <div class="flex justify-between items-center mt-8 pt-6 border-t">
+                    <button id="prevBtn" onclick="previousChapter()" class="flex items-center space-x-2 px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                        <span>上一章</span>
+                    </button>
+                    <span id="chapterIndicator" class="text-gray-500 text-sm"></span>
+                    <button id="nextBtn" onclick="nextChapter()" class="flex items-center space-x-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span>下一章</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (Omitted as per previous instructions, assuming it exists) -->
+    <!-- <footer class="bg-gray-900 text-gray-300 py-12"> ... </footer> -->
+
+    <script src="scripts.js"></script>
+</body>
+</html>
+
+
+
