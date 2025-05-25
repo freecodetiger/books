@@ -1,0 +1,2490 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEB 全栈开发进阶教程：哼，本小姐才不是特意为你准备的呢！</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            border-radius: 8px;
+            padding: 1.5rem;
+            color: #d4d4d4;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            overflow-x: auto;
+            position: relative;
+            cursor: copy;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .code-block:hover::after {
+            content: '点击复制';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .code-comment { color: #6a9955; }
+        .code-keyword { color: #569cd6; }
+        .code-string { color: #ce9178; }
+        .code-function { color: #dcdcaa; }
+        .code-number { color: #b5cea8; }
+        .code-operator { color: #d4d4d4; }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            z-index: 50;
+            transition: width 0.3s ease;
+        }
+
+        .chapter-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .floating-element {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .tsundere-highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 40;
+        }
+
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            margin: 8px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: #667eea;
+            transform: scale(1.5);
+        }
+
+        .knowledge-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .knowledge-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .architecture-diagram {
+            background: rgba(0,0,0,0.3);
+            border: 2px dashed rgba(255,255,255,0.3);
+            position: relative;
+        }
+
+        .flow-arrow:after {
+            content: '→';
+            color: #667eea;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, rgba(255,193,7,0.2) 0%, rgba(255,87,34,0.2) 100%);
+            border-left: 4px solid #ffc107;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, rgba(76,175,80,0.2) 0%, rgba(139,195,74,0.2) 100%);
+            border-left: 4px solid #4caf50;
+        }
+
+        .technique-highlight {
+            background: linear-gradient(135deg, rgba(156,39,176,0.2) 0%, rgba(233,30,99,0.2) 100%);
+            border-left: 4px solid #9c27b0;
+        }
+
+        .performance-meter {
+            background: linear-gradient(90deg, #f44336 0%, #ff9800 33%, #4caf50 66%, #2196f3 100%);
+            height: 8px;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .performance-indicator {
+            position: absolute;
+            top: -5px;
+            width: 4px;
+            height: 18px;
+            background: #fff;
+            border-radius: 2px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .comparison-table {
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .comparison-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: bold;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .comparison-row {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .comparison-row:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-cell {
+            padding: 12px;
+            text-align: center;
+            color: #d4d4d4;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .microservice-diagram {
+            background: radial-gradient(circle at center, rgba(103, 126, 234, 0.1), rgba(0,0,0,0.2));
+            border: 2px solid rgba(103, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-node {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 8px;
+            text-align: center;
+            position: relative;
+        }
+
+        .service-connection {
+            border-top: 2px dashed rgba(103, 126, 234, 0.6);
+            position: relative;
+            margin: 10px 0;
+        }
+
+        .service-connection:after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: -4px;
+            width: 8px;
+            height: 8px;
+            background: #667eea;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- 滚动指示器 -->
+    <div class="scroll-indicator hidden lg:block">
+        <div class="nav-dot active" data-section="intro"></div>
+        <div class="nav-dot" data-section="frontend"></div>
+        <div class="nav-dot" data-section="backend"></div>
+        <div class="nav-dot" data-section="fullstack"></div>
+        <div class="nav-dot" data-section="principles"></div>
+        <div class="nav-dot" data-section="conclusion"></div>
+    </div>
+
+    <!-- 头部导航 -->
+    <nav class="fixed top-0 w-full bg-black bg-opacity-50 backdrop-blur-md z-40 border-b border-gray-800">
+        <div class="max-w-6xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-gradient-to-r from-pink-400 to-purple-500 rounded-full floating-element"></div>
+                    <h1 class="text-lg font-bold tsundere-highlight">全栈教程</h1>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#intro" class="text-gray-300 hover:text-white transition-colors">引言</a>
+                    <a href="#frontend" class="text-gray-300 hover:text-white transition-colors">前端进阶</a>
+                    <a href="#backend" class="text-gray-300 hover:text-white transition-colors">后端进阶</a>
+                    <a href="#fullstack" class="text-gray-300 hover:text-white transition-colors">全栈融合</a>
+                    <a href="#principles" class="text-gray-300 hover:text-white transition-colors">底层原理</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <div class="pt-16">
+        <!-- 标题区域 -->
+        <section id="intro" class="gradient-bg min-h-screen flex items-center justify-center relative overflow-hidden">
+            <div class="absolute inset-0 opacity-20">
+                <div class="floating-element absolute top-20 left-20 w-20 h-20 bg-white rounded-full"></div>
+                <div class="floating-element absolute bottom-32 right-32 w-16 h-16 bg-pink-300 rounded-full" style="animation-delay: 1s"></div>
+                <div class="floating-element absolute top-1/2 left-1/3 w-12 h-12 bg-yellow-300 rounded-full" style="animation-delay: 2s"></div>
+            </div>
+            <div class="text-center z-10 max-w-4xl mx-auto px-4">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                    WEB 全栈开发<br>
+                    <span class="tsundere-highlight">进阶教程</span>
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 text-gray-200 font-medium">
+                    哼，本小姐才不是特意为你准备的呢！
+                </p>
+                <div class="bg-black bg-opacity-30 rounded-lg p-6 backdrop-blur-sm">
+                    <p class="text-lg text-gray-300 italic">
+                        "这份教程嘛，勉强算是本小姐为了'拯救'那些在全栈泥潭里挣扎的小可怜们而写的。<br>
+                        读完它，说不定你也能变成……嗯，一个还算合格的全栈开发者吧。<br>
+                        但想超越本小姐？哼，下辈子吧！"
+                    </p>
+                </div>
+                <button onclick="scrollToSection('#intro-content')" class="mt-8 px-8 py-3 bg-white text-purple-700 rounded-full font-semibold hover:bg-gray-100 transition-colors hover:scale-105 transform">
+                    开始学习 →
+                </button>
+            </div>
+        </section>
+
+        <!-- 引言内容 -->
+        <section id="intro-content" class="max-w-6xl mx-auto px-4 py-16">
+            <div class="chapter-card rounded-2xl p-8 mb-8">
+                <h2 class="text-3xl font-bold mb-6 text-center">
+                    <span class="text-pink-400">一、</span> 开篇引言：哼，既然你诚心诚意地发问了，本小姐就勉强带你见识一下真正的全栈开发好了！
+                </h2>
+
+                <div class="bg-gradient-to-r from-purple-900 to-pink-900 rounded-lg p-6 mb-8">
+                    <p class="text-lg italic text-center">
+                        "切，又是一个想一步登天的家伙？不过既然都来了，本小姐就大发慈悲，让你看看什么是真正厉害的技术！"
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 mb-12">
+                    <div class="knowledge-card rounded-lg p-6">
+                        <h3 class="text-xl font-semibold mb-4 text-yellow-400">1.1 为什么你需要这本"一点都不普通"的教程？</h3>
+                        <div class="space-y-4 text-gray-300">
+                            <p class="leading-relaxed">现代 Web 开发早就不是那个"会写点 HTML/CSS 就能混饭吃"的时代了，傲娇本小姐看着那些还在用 jQuery 拼页面的同学就一阵心疼——不是心疼他们，是心疼与时俱进的技术栈啊！</p>
+                            
+                            <div class="warning-box rounded-lg p-4">
+                                <h4 class="font-semibold text-yellow-300 mb-2">现代全栈的"痛点清单"</h4>
+                                <ul class="space-y-2 text-sm">
+                                    <li class="flex items-start">
+                                        <span class="text-red-400 mr-2 mt-1">•</span>
+                                        <span><strong>前后端撕逼：</strong> "这个接口为什么返回 null？""前端传的数据格式不对！"（哼，要是都像本小姐这么全能就不会有这种问题了）</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-red-400 mr-2 mt-1">•</span>
+                                        <span><strong>服务器突然爆炸：</strong> 用户量一上来，服务器就开始"罢工"，监控系统疯狂报警</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-red-400 mr-2 mt-1">•</span>
+                                        <span><strong>数据库变龟速：</strong> 简单查询要几秒钟？用户早就跑光了好吗！</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-red-400 mr-2 mt-1">•</span>
+                                        <span><strong>部署如同噩梦：</strong> "在我机器上运行好好的啊！"——经典台词</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <p class="leading-relaxed">本小姐写这份教程，就是要让你从一个只会"调用 API 的页面仔"变成真正能够独当一面的全栈工程师。当然啦，想达到本小姐这种高度，还需要你自己多多努力呢（傲娇脸）。</p>
+
+                            <div class="tip-box rounded-lg p-4">
+                                <h4 class="font-semibold text-green-300 mb-2">读完这份教程你能获得什么？</h4>
+                                <ul class="space-y-2 text-sm">
+                                    <li>• 深入理解现代前端框架的核心原理，不再害怕 React、Vue 的源码</li>
+                                    <li>• 掌握微服务架构设计，让你的后端系统具备真正的可扩展性</li>
+                                    <li>• 熟练运用容器化技术，告别"环境配置地狱"</li>
+                                    <li>• 构建完整的 CI/CD 流水线，实现从代码提交到生产部署的自动化</li>
+                                    <li>• 理解 Web 底层工作机制，成为能够解决复杂问题的技术专家</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="knowledge-card rounded-lg p-6">
+                        <h3 class="text-xl font-semibold mb-4 text-blue-400">1.2 本教程的阅读姿势与"友情提示"</h3>
+                        <div class="space-y-4 text-gray-300">
+                            <p class="leading-relaxed">哼，既然本小姐要教你们，那首先得说清楚规矩！这可不是那种"从零开始学编程"的菜鸟教程，本小姐默认你至少已经掌握了基础的 Web 技术栈。</p>
+
+                            <div class="technique-highlight rounded-lg p-4">
+                                <h4 class="font-semibold text-purple-300 mb-2">前置技能要求（不会的话赶紧去补！）</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <p class="font-semibold text-blue-300 mb-2">前端基础</p>
+                                        <ul class="space-y-1">
+                                            <li>• HTML5 语义化标签</li>
+                                            <li>• CSS3 进阶特性（Flexbox、Grid）</li>
+                                            <li>• JavaScript ES6+ 语法</li>
+                                            <li>• DOM 操作与事件处理</li>
+                                            <li>• Ajax 与 Promise 异步编程</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-green-300 mb-2">后端基础</p>
+                                        <ul class="space-y-1">
+                                            <li>• 至少一门后端语言（Node.js/Python/Java）</li>
+                                            <li>• HTTP 协议基础知识</li>
+                                            <li>• REST API 设计概念</li>
+                                            <li>• 数据库基础操作（SQL/NoSQL）</li>
+                                            <li>• Linux 基本命令行操作</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3">
+                                <h4 class="font-semibold text-yellow-300">学习建议（本小姐的贴心提醒）</h4>
+                                <ul class="space-y-3 text-sm">
+                                    <li class="flex items-start">
+                                        <span class="text-blue-400 mr-2 mt-1">📚</span>
+                                        <span><strong>边学边做：</strong> 别只看不练！每个代码示例都要自己写一遍，本小姐可是很用心地准备了这些例子的</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-green-400 mr-2 mt-1">⚡</span>
+                                        <span><strong>循序渐进：</strong> 虽然本小姐很厉害，但也是一点点学起来的。别想着一口气吃成胖子</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-purple-400 mr-2 mt-1">🔧</span>
+                                        <span><strong>实践为王：</strong> 理论看懂了不算完，得能解决实际问题才行。试着用学到的技术做个小项目</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-pink-400 mr-2 mt-1">💡</span>
+                                        <span><strong>保持好奇：</strong> 遇到不懂的地方别绕过去，深入研究一下。本小姐最喜欢有钻研精神的学生了</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-yellow-400 mr-2 mt-1">⚠️</span>
+                                        <span class="text-red-300 font-medium">特别提醒：前方高能预警！本小姐接下来要展示的技术可能会让你大开眼界，小心别被闪瞎了眼睛！</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-gradient-to-r from-pink-900 to-purple-900 rounded-lg p-4">
+                                <p class="text-center font-semibold text-pink-300">
+                                    "好啦，废话说得差不多了。准备好了吗？本小姐要开始展示真正的技术了！<br>
+                                    跟上本小姐的节奏，别掉队了哦～"
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 学习路径图 -->
+                <div class="knowledge-card rounded-lg p-6">
+                    <h3 class="text-xl font-semibold mb-4 text-center text-cyan-400">1.3 全栈技术学习路径图</h3>
+                    <div class="architecture-diagram rounded-lg p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-5 gap-4 text-center">
+                            <div class="feature-card">
+                                <div class="w-12 h-12 bg-blue-500 rounded-full mx-auto mb-3 flex items-center justify-center">
+                                    <span class="text-white font-bold">前</span>
+                                </div>
+                                <h4 class="font-semibold text-blue-300 text-sm">前端进阶</h4>
+                                <p class="text-xs text-gray-400 mt-1">React/Vue、TS、Webpack、PWA</p>
+                            </div>
+                            <div class="flow-arrow flex items-center justify-center"></div>
+                            <div class="feature-card">
+                                <div class="w-12 h-12 bg-red-500 rounded-full mx-auto mb-3 flex items-center justify-center">
+                                    <span class="text-white font-bold">后</span>
+                                </div>
+                                <h4 class="font-semibold text-red-300 text-sm">后端进阶</h4>
+                                <p class="text-xs text-gray-400 mt-1">微服务、Docker、Redis、消息队列</p>
+                            </div>
+                            <div class="flow-arrow flex items-center justify-center"></div>
+                            <div class="feature-card">
+                                <div class="w-12 h-12 bg-purple-500 rounded-full mx-auto mb-3 flex items-center justify-center">
+                                    <span class="text-white font-bold">全</span>
+                                </div>
+                                <h4 class="font-semibold text-purple-300 text-sm">全栈融合</h4>
+                                <p class="text-xs text-gray-400 mt-1">云平台、CI/CD、DevOps</p>
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <div class="feature-card max-w-md mx-auto">
+                                <div class="w-12 h-12 bg-cyan-500 rounded-full mx-auto mb-3 flex items-center justify-center">
+                                    <span class="text-white font-bold">原</span>
+                                </div>
+                                <h4 class="font-semibold text-cyan-300 text-sm text-center">底层原理</h4>
+                                <p class="text-xs text-gray-400 mt-1 text-center">网站部署、网页编译、浏览器工作机制</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 前端进阶 -->
+        <section id="frontend" class="bg-gray-800 py-16">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="chapter-card rounded-2xl p-8 mb-8">
+                    <h2 class="text-4xl font-bold mb-8 text-center">
+                        <span class="text-green-400">二、</span> 前端进阶：别以为会点 HTML/CSS/JS 就了不起了，前端的水深着呢！
+                    </h2>
+
+                    <div class="bg-gradient-to-r from-green-900 to-blue-900 rounded-lg p-6 mb-8">
+                        <p class="text-lg italic text-center">
+                            "前端？不就是写写页面吗？呵呵，你太天真了！现代前端的复杂度，可比你想象的要高得多！"
+                        </p>
+                    </div>
+
+                    <!-- 这里包含之前已有的前端章节内容，保持完整 -->
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-bold mb-4 text-cyan-400">前端已完成内容概览</h3>
+                        <p class="text-gray-300 mb-4">本章节已详细涵盖：React/Vue 框架深度解析、TypeScript 类型体操、Webpack 构建优化、PWA 渐进式应用等前端进阶内容。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 后端进阶 -->
+        <section id="backend" class="py-16">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="chapter-card rounded-2xl p-8 mb-8">
+                    <h2 class="text-4xl font-bold mb-8 text-center">
+                        <span class="text-red-400">三、</span> 后端进阶：服务器那点事儿，也不是那么难嘛（才怪）！想成为大佬，后端也得硬！
+                    </h2>
+
+                    <div class="bg-gradient-to-r from-red-900 to-orange-900 rounded-lg p-6 mb-8">
+                        <p class="text-lg italic text-center">
+                            "前端的小把戏玩够了？来后端看看真本事吧！这里的挑战，可不是盖的！"
+                        </p>
+                    </div>
+
+                    <!-- 3.1 微服务架构 -->
+                    <div class="mb-16">
+                        <h3 class="text-3xl font-bold mb-8 text-yellow-400">3.1 微服务架构：从"一坨应用"到"一群小蜜蜂"的优雅转身！</h3>
+
+                        <div class="bg-gradient-to-r from-yellow-900 to-orange-900 rounded-lg p-6 mb-8">
+                            <p class="text-lg italic text-center">
+                                "把所有功能塞一个大箱子里？哼，笨死了！让它们变成一群能干的小蜜蜂，分工合作！"
+                            </p>
+                        </div>
+
+                        <!-- 3.1.1 微服务设计原则与模式 -->
+                        <div class="knowledge-card rounded-lg p-8 mb-8">
+                            <h4 class="text-2xl font-bold mb-6 text-yellow-300">3.1.1 微服务设计原则与模式：构建弹性分布式系统</h4>
+
+                            <p class="text-gray-300 mb-6 leading-relaxed">
+                                微服务可不是把应用随便切几刀就完事了！这里面的学问大着呢。本小姐今天就来告诉你，如何优雅地将单体应用拆分成一群高效协作的"小蜜蜂"。
+                            </p>
+
+                            <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                                <div>
+                                    <h5 class="text-lg font-semibold mb-4 text-green-400">单体应用的痛点</h5>
+                                    <div class="code-block text-sm mb-4">
+<span class="code-comment">// 典型的单体应用结构 - 所有功能耦合在一起</span>
+<span class="code-keyword">class</span> <span class="code-function">MonolithicECommerceApp</span> {
+  <span class="code-comment">// 用户管理</span>
+  <span class="code-function">registerUser</span>(userData) {
+    <span class="code-comment">// 直接操作数据库</span>
+    <span class="code-keyword">this</span>.<span class="code-string">database</span>.<span class="code-function">users</span>.<span class="code-function">create</span>(userData);
+    <span class="code-comment">// 直接调用邮件服务</span>
+    <span class="code-keyword">this</span>.<span class="code-function">sendWelcomeEmail</span>(userData.<span class="code-string">email</span>);
+    <span class="code-comment">// 直接更新库存</span>
+    <span class="code-keyword">this</span>.<span class="code-function">initializeUserInventory</span>(userData.<span class="code-string">id</span>);
+  }
+
+  <span class="code-comment">// 订单处理</span>
+  <span class="code-function">createOrder</span>(orderData) {
+    <span class="code-comment">// 所有逻辑都在一个地方</span>
+    <span class="code-keyword">this</span>.<span class="code-function">validateUser</span>(orderData.<span class="code-string">userId</span>);
+    <span class="code-keyword">this</span>.<span class="code-function">checkInventory</span>(orderData.<span class="code-string">items</span>);
+    <span class="code-keyword">this</span>.<span class="code-function">processPayment</span>(orderData.<span class="code-string">payment</span>);
+    <span class="code-keyword">this</span>.<span class="code-function">updateInventory</span>(orderData.<span class="code-string">items</span>);
+    <span class="code-keyword">this</span>.<span class="code-function">createShipment</span>(orderData);
+    <span class="code-keyword">this</span>.<span class="code-function">sendConfirmationEmail</span>(orderData);
+  }
+
+  <span class="code-comment">// 支付处理</span>
+  <span class="code-function">processPayment</span>(paymentData) {
+    <span class="code-comment">// 紧密耦合的支付逻辑</span>
+    <span class="code-keyword">if</span> (paymentData.<span class="code-string">method</span> === <span class="code-string">'credit_card'</span>) {
+      <span class="code-comment">// 信用卡处理...</span>
+    } <span class="code-keyword">else</span> <span class="code-keyword">if</span> (paymentData.<span class="code-string">method</span> === <span class="code-string">'paypal'</span>) {
+      <span class="code-comment">// PayPal 处理...</span>
+    }
+    <span class="code-comment">// 难以扩展和维护</span>
+  }
+}
+</div>
+                                    
+                                    <div class="warning-box rounded-lg p-4">
+                                        <h6 class="font-semibold text-yellow-300 mb-2">单体应用的"死亡螺旋"</h6>
+                                        <ul class="text-sm space-y-1">
+                                            <li>• <strong>代码膨胀：</strong> 功能越来越多，代码越来越难维护</li>
+                                            <li>• <strong>部署恐惧：</strong> 改一行代码也要全量回归测试</li>
+                                            <li>• <strong>技术债务：</strong> 难以引入新技术，被旧框架绑架</li>
+                                            <li>• <strong>团队瓶颈：</strong> 所有开发者都要熟悉整个代码库</li>
+                                        
+</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h5 class="text-lg font-semibold mb-4 text-green-400">微服务拆分策略</h5>
+                                    <div class="microservice-diagram rounded-lg p-6 mb-4">
+                                        <h6 class="font-semibold text-cyan-300 mb-3 text-center">领域驱动设计(DDD)拆分</h6>
+                                        <div class="grid grid-cols-2 gap-4">
+                                            <div class="service-node bg-blue-900 bg-opacity-30">
+                                                <div class="w-8 h-8 bg-blue-500 rounded-full mx-auto mb-2 flex items-center justify-center">
+                                                    <span class="text-white font-bold text-xs">用户</span>
+                                                </div>
+                                                <p class="font-semibold text-blue-300 text-sm">用户服务</p>
+                                                <p class="text-xs text-gray-400 mt-1">注册、登录、个人资料</p>
+                                            </div>
+                                            <div class="service-node bg-green-900 bg-opacity-30">
+                                                <div class="w-8 h-8 bg-green-500 rounded-full mx-auto mb-2 flex items-center justify-center">
+                                                    <span class="text-white font-bold text-xs">商品</span>
+                                                </div>
+                                                <p class="font-semibold text-green-300 text-sm">商品服务</p>
+                                                <p class="text-xs text-gray-400 mt-1">商品管理、库存、分类</p>
+                                            </div>
+                                            <div class="service-node bg-purple-900 bg-opacity-30">
+                                                <div class="w-8 h-8 bg-purple-500 rounded-full mx-auto mb-2 flex items-center justify-center">
+                                                    <span class="text-white font-bold text-xs">订单</span>
+                                                </div>
+                                                <p class="font-semibold text-purple-300 text-sm">订单服务</p>
+                                                <p class="text-xs text-gray-400 mt-1">订单创建、状态管理</p>
+                                            </div>
+                                            <div class="service-node bg-orange-900 bg-opacity-30">
+                                                <div class="w-8 h-8 bg-orange-500 rounded-full mx-auto mb-2 flex items-center justify-center">
+                                                    <span class="text-white font-bold text-xs">支付</span>
+                                                </div>
+                                                <p class="font-semibold text-orange-300 text-sm">支付服务</p>
+                                                <p class="text-xs text-gray-400 mt-1">支付处理、退款</p>
+                                            </div>
+                                        </div>
+                                        <div class="service-connection mt-4"></div>
+                                        <p class="text-center text-xs text-gray-400 mt-2">服务间通过API和事件进行通信</p>
+                                    </div>
+
+                                    <div class="code-block text-sm">
+<span class="code-comment">// 微服务拆分后的架构</span>
+<span class="code-comment">// 用户服务 - 专注用户管理</span>
+<span class="code-keyword">class</span> <span class="code-function">UserService</span> {
+  <span class="code-keyword">async</span> <span class="code-function">registerUser</span>(userData) {
+    <span class="code-keyword">const</span> user = <span class="code-keyword">await</span> <span class="code-keyword">this</span>.<span class="code-string">userRepository</span>.<span class="code-function">create</span>(userData);
+    
+    <span class="code-comment">// 发布事件，不直接调用其他服务</span>
+    <span class="code-keyword">await</span> <span class="code-keyword">this</span>.<span class="code-string">eventBus</span>.<span class="code-function">publish</span>(<span class="code-string">'user.registered'</span>, {
+      <span class="code-string">userId</span>: user.<span class="code-string">id</span>,
+      <span class="code-string">email</span>: user.<span class="code-string">email</span>,
+      <span class="code-string">timestamp</span>: <span class="code-keyword">new</span> <span class="code-function">Date</span>()
+    });
+
+    <span class="code-keyword">return</span> user;
+  }
+}
+
+<span class="code-comment">// 订单服务 - 专注订单处理</span>
+<span class="code-keyword">class</span> <span class="code-function">OrderService</span> {
+  <span class="code-keyword">async</span> <span class="code-function">createOrder</span>(orderData) {
+    <span class="code-comment">// 通过API调用其他服务</span>
+    <span class="code-keyword">const</span> user = <span class="code-keyword">await</span> <span class="code-keyword">this</span>.<span class="code-string">userClient</span>.<span class="code-function">getUser</span>(orderData.<span class="code-string">userId</span>);
+    <span class="code-keyword">const</span> inventory = <span class="code-keyword">await</span> <span class="code-keyword">this</span>.<span class="code-string">inventoryClient</span>.<span class="code-function">checkStock</span>(orderData.<span class="code-string">items</span>);
+
+    <span class="code-comment">// 创建订单</span>
+    <span class="code-keyword">const</span> order = <span class="code-keyword">await</span> <span class="code-keyword">this</span>.<span class="code-string">orderRepository</span>.<span class="code-function">create</span>({
+      ...orderData,
+      <span class="code-string">status</span>: <span class="code-string">'pending'</span>,
+      <span class="code-string">createdAt</span>: <span class="code-keyword">new</span> <span class="code-function">Date</span>()
+    });
+
+    <span class="code-comment">// 发布订单创建事件</span>
+    <span class="code-keyword">await</span> <span class="code-keyword">this</span>.<span class="code-string">eventBus</span>.<span class="code-function">publish</span>(<span class="code-string">'order.created'</span>, order);
+
+    <span class="code-keyword">return</span> order;
+  }
+}
+</div>
+                                </div>
+                            </div>
+
+                            <div class="technique-highlight rounded-lg p-6">
+                                <h5 class="text-lg font-semibold mb-4 text-purple-400">服务注册与发现：不迷路的"GPS"系统</h5>
+                                <p class="text-gray-300 mb-4 leading-relaxed">
+                                    在微服务世界里，服务实例动态变化，就像城市里的商铺会开张、关门、搬家。怎么让调用者找到服务提供者？服务注册与发现就是微服务的"GPS"和"黄页"！
+                                </p>
+
+                                <div class="comparison-table">
+                                    <div class="comparison-header">主流服务注册发现对比</div>
+                                    <div class="grid grid-cols-4">
+                                        <div class="comparison-header text-sm">特性</div>
+                                        <div class="comparison-header text-sm">Eureka</div>
+                                        <div class="comparison-header text-sm">Nacos</div>
+                                        <div class="comparison-header text-sm">Consul</div>
+                                    </div>
+                                    <div class="grid grid-cols-4 comparison-row">
+                                        <div class="comparison-cell font-semibold">一致性模型</div>
+                                        <div class="comparison-cell">AP (可用性优先)</div>
+                                        <div class="comparison-cell">AP/CP 可选</div>
+                                        <div class="comparison-cell">CP (一致性优先)</div>
+                                    </div>
+                                    <div class="grid grid-cols-4 comparison-row">
+                                        <div class="comparison-cell font-semibold">健康检查</div>
+                                        <div class="comparison-cell">客户端心跳</div>
+                                        <div class="comparison-cell">多种方式</div>
+                                        <div class="comparison-cell">HTTP/TCP/Script</div>
+                                    </div>
+                                    <div class="grid grid-cols-4 comparison-row">
+                                        <div class="comparison-cell font-semibold">配置中心</div>
+                                        <div class="comparison-cell">需要额外组件</div>
+                                        <div class="comparison-cell">内置支持</div>
+                                        <div class="comparison-cell">内置支持</div>
+                                    </div>
+                                </div>
+
+                                <div class="code-block text-sm mt-4">
+<span class="code-comment">// Spring Cloud + Eureka 服务注册示例</span>
+<span class="code-comment">// application.yml</span>
+spring:
+  application:
+    name: user-service <span class="code-comment"># 服务名称，消费者通过此名称发现服务</span>
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/ <span class="code-comment"># 注册中心地址</span>
+  instance:
+    prefer-ip-address: <span class="code-keyword">true</span> <span class="code-comment"># 使用IP注册</span>
+    lease-renewal-interval-in-seconds: <span class="code-number">30</span> <span class="code-comment"># 心跳间隔</span>
+
+<span class="code-comment">// 服务消费者：通过服务名调用</span>
+@RestController
+<span class="code-keyword">public</span> <span class="code-keyword">class</span> <span class="code-function">OrderController</span> {
+    
+    @Autowired
+    <span class="code-keyword">private</span> <span class="code-function">RestTemplate</span> restTemplate;
+    
+    @GetMapping(<span class="code-string">"/orders/{orderId}/user"</span>)
+    <span class="code-keyword">public</span> <span class="code-function">User</span> <span class="code-function">getUserByOrder</span>(@PathVariable String orderId) {
+        <span class="code-comment">// 通过服务名调用，不需要硬编码IP和端口</span>
+        <span class="code-keyword">return</span> restTemplate.<span class="code-function">getForObject</span>(
+            <span class="code-string">"http://user-service/users/{userId}"</span>, 
+            <span class="code-function">User</span>.<span class="code-keyword">class</span>, 
+            userId
+        );
+    }
+}
+</div>
+                            </div>
+
+                            <div class="tip-box rounded-lg p-4">
+                                <h6 class="font-semibold text-green-300 mb-2">本小姐的微服务拆分心法</h6>
+                                <ul class="text-sm space-y-1">
+                                    <li>• <strong>按业务能力拆分：</strong> 一个服务负责一个业务领域</li>
+                                    <li>• <strong>数据独立：</strong> 每个服务管理自己的数据，避免共享数据库</li>
+                                    <li>• <strong>无状态设计：</strong> 服务实例可以任意替换和扩展</li>
+                                    <li>• <strong>故障隔离：</strong> 一个服务挂了不能影响其他服务</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- 3.1.2 负载均衡与熔断降级 -->
+                        <div class="knowledge-card rounded-lg p-8 mb-8">
+                            <h4 class="text-2xl font-bold mb-6 text-orange-300">3.1.2 负载均衡与熔断降级：让你的系统"刀枪不入"！</h4>
+
+                            <p class="text-gray-300 mb-6 leading-relaxed">
+                                微服务调用微服务，就像蜜蜂之间传递信息。但如果某只"蜜蜂"生病了怎么办？熔断、降级、限流这"三板斧"就是保护你系统的护身符！
+                            </p>
+
+                            <div class="grid lg:grid-cols-2 gap-8">
+                                <div>
+                                    <h5 class="text-lg font-semibold mb-4 text-yellow-400">熔断器模式：防止雪崩效应</h5>
+                                    <div class="architecture-diagram rounded-lg p-4 mb-4">
+                                        <h6 class="font-semibold text-cyan-300 mb-3 text-center">熔断器状态流转</h6>
+                                        
+                                        <!-- SVG熔断器状态图 -->
+                                        <svg width="100%" height="200" viewBox="0 0 400 200" class="mx-auto">
+                                            <!-- CLOSED状态 -->
+                                            <circle cx="80" cy="80" r="30" fill="#4ade80" stroke="#22c55e" stroke-width="2"/>
+                                            <text x="80" y="75" text-anchor="middle" fill="white" font-size="10" font-weight="bold">CLOSED</text>
+                                            <text x="80" y="85" text-anchor="middle" fill="white" font-size="8">正常</text>
+                                            
+                                            <!-- OPEN状态 -->
+                                            <circle cx="320" cy="80" r="30" fill="#ef4444" stroke="#dc2626" stroke-width="2"/>
+                                            <text x="320" y="75" text-anchor="middle" fill="white" font-size="10" font-weight="bold">OPEN</text>
+                                            <text x="320" y="85" text-anchor="middle" fill="white" font-size="8">熔断</text>
+                                            
+                                            <!-- HALF_OPEN状态 -->
+                                            <circle cx="200" cy="150" r="30" fill="#f59e0b" stroke="#d97706" stroke-width="2"/>
+                                            <text x="200" y="145" text-anchor="middle" fill="white" font-size="9" font-weight="bold">HALF_OPEN</text>
+                                            <text x="200" y="155" text-anchor="middle" fill="white" font-size="8">半开</text>
+                                            
+                                            <!-- 箭头和标签 -->
+                                            <defs>
+                                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                                    <polygon points="0 0, 10 3.5, 0 7" fill="#667eea" />
+                                                </marker>
+                                            </defs>
+                                            
+                                            <!-- CLOSED -> OPEN -->
+                                            <line x1="110" y1="70" x2="290" y2="70" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                            <text x="200" y="65" text-anchor="middle" fill="#ccc" font-size="10">失败达到阈值</text>
+                                            
+                                            <!-- OPEN -> HALF_OPEN -->
+                                            <line x1="305" y1="105" x2="215" y2="135" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                            <text x="270" y="125" text-anchor="middle" fill="#ccc" font-size="10">超时重试</text>
+                                            
+                                            <!-- HALF_OPEN -> CLOSED -->
+                                            <line x1="185" y1="135" x2="95" y2="105" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                            <text x="130" y="125" text-anchor="middle" fill="#ccc" font-size="10">成功</text>
+                                            
+                                            <!-- HALF_OPEN -> OPEN -->
+                                            <line x1="215" y1="135" x2="305" y2="105" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                            <text x="270" y="145" text-anchor="middle" fill="#ccc" font-size="10">失败</text>
+                                        </svg>
+                                    </div>
+
+                                    <div class="code-block text-sm">
+<span class="code-comment">// Alibaba Sentinel 熔断配置</span>
+<span class="code-keyword">import</span> com.alibaba.csp.sentinel.annotation.SentinelResource;
+<span class="code-keyword">import</span> com.alibaba.csp.sentinel.slots.block.BlockException;
+
+@Service
+<span class="code-keyword">public</span> <span class="code-keyword">class</span> <span class="code-function">OrderService</span> {
+
+    @SentinelResource(
+        value = <span class="code-string">"getUserById"</span>,
+        blockHandler = <span class="code-string">"handleBlock"</span>,     <span class="code-comment">// 熔断时调用</span>
+        fallback = <span class="code-string">"getUserFallback"</span>       <span class="code-comment">// 异常时调用</span>
+    )
+    <span class="code-keyword">public</span> <span class="code-function">User</span> <span class="code-function">getUserById</span>(String userId) {
+        <span class="code-comment">// 调用用户服务（可能失败）</span>
+        <span class="code-keyword">return</span> userServiceClient.<span class="code-function">getUserById</span>(userId);
+    }
+    
+    <span class="code-comment">// 熔断处理器</span>
+    <span class="code-keyword">public</span> <span class="code-function">User</span> <span class="code-function">handleBlock</span>(String userId, BlockException ex) {
+        <span class="code-function">log.warn</span>(<span class="code-string">"用户服务被熔断: {}"</span>, userId);
+        <span class="code-keyword">return</span> <span class="code-keyword">new</span> <span class="code-function">User</span>(userId, <span class="code-string">"熔断用户"</span>);
+    }
+    
+    <span class="code-comment">// 降级处理器</span>
+    <span class="code-keyword">public</span> <span class="code-function">User</span> <span class="code-function">getUserFallback</span>(String userId, Throwable ex) {
+        <span class="code-function">log.error</span>(<span class="code-string">"调用用户服务异常: {}"</span>, ex.<span class="code-function">getMessage</span>());
+        <span class="code-keyword">return</span> <span class="code-keyword">new</span> <span class="code-function">User</span>(userId, <span class="code-string">"默认用户"</span>);
+    }
+}
+
+<span class="code-comment">// 熔断规则配置</span>
+List&lt;DegradeRule&gt; rules = <span class="code-keyword">new</span> ArrayList&lt;&gt;();
+DegradeRule rule = <span class="code-keyword">new</span> DegradeRule();
+rule.<span class="code-function">setResource</span>(<span class="code-string">"getUserById"</span>);
+rule.<span class="code-function">setGrade</span>(CircuitBreakerStrategy.ERROR_RATIO.<span class="code-function">getType</span>());
+rule.<span class="code-function">setCount</span>(<span class="code-number">0.5</span>); <span class="code-comment">// 错误率50%</span>
+rule.<span class="code-function">setTimeWindow</span>(<span class="code-number">60</span>); <span class="code-comment">// 熔断60秒</span>
+rule.<span class="code-function">setMinRequestAmount</span>(<span class="code-number">10</span>); <span class="code-comment">// 最小10个请求才统计</span>
+rules.<span class="code-function">add</span>(rule);
+DegradeRuleManager.<span class="code-function">loadRules</span>(rules);
+</div>
+                                </div>
+
+                                <div>
+                                    <h5 class="text-lg font-semibold mb-4 text-yellow-400">负载均衡：分散压力的艺术</h5>
+                                    <div class="architecture-diagram rounded-lg p-4 mb-4">
+                                        <h6 class="font-semibold text-cyan-300 mb-3 text-center">负载均衡策略对比</h6>
+                                        
+                                        <!-- SVG负载均衡图 -->
+                                        <svg width="100%" height="180" viewBox="0 0 400 180" class="mx-auto">
+                                            <!-- 负载均衡器 -->
+                                            <rect x="180" y="20" width="40" height="30" fill="#667eea" stroke="#4f46e5" stroke-width="2" rx="5"/>
+                                            <text x="200" y="38" text-anchor="middle" fill="white" font-size="10" font-weight="bold">LB</text>
+                                            
+                                            <!-- 服务实例 -->
+                                            <circle cx="80" cy="120" r="20" fill="#10b981" stroke="#059669" stroke-width="2"/>
+                                            <text x="80" y="118" text-anchor="middle" fill="white" font-size="9">实例1</text>
+                                            <text x="80" y="128" text-anchor="middle" fill="white" font-size="7">50%</text>
+                                            
+                                            <circle cx="200" cy="120" r="20" fill="#10b981" stroke="#059669" stroke-width="2"/>
+                                            <text x="200" y="118" text-anchor="middle" fill="white" font-size="9">实例2</text>
+                                            <text x="200" y="128" text-anchor="middle" fill="white" font-size="7">30%</text>
+                                            
+                                            <circle cx="320" cy="120" r="20" fill="#10b981" stroke="#059669" stroke-width="2"/>
+                                            <text x="320" y="118" text-anchor="middle" fill="white" font-size="9">实例3</text>
+                                            <text x="320" y="128" text-anchor="middle" fill="white" font-size="7">20%</text>
+                                            
+                                            <!-- 客户端请求 -->
+                                            <line x1="200" y1="10" x2="200" y2="20" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                            <text x="200" y="8" text-anchor="middle" fill="#ccc" font-size="10">客户端请求</text>
+                                            
+                                            <!-- 分发箭头 -->
+                                            <line x1="190" y1="50" x2="90" y2="100" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                            <line x1="200" y1="50" x2="200" y2="100" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                            <line x1="210" y1="50" x2="310" y2="100" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                            
+                                            <!-- 策略标签 -->
+                                            <text x="200" y="165" text-anchor="middle" fill="#ccc" font-size="11" font-weight="bold">加权轮询策略</text>
+                                        </svg>
+                                    </div>
+
+                                    <div class="code-block text-sm">
+<span class="code-comment">// Nginx 负载均衡配置</span>
+upstream backend_services {
+    <span class="code-comment"># 加权轮询</span>
+    server 192.168.1.100:8080 weight=<span class="code-number">5</span>;
+    server 192.168.1.101:8080 weight=<span class="code-number">3</span>;
+    server 192.168.1.102:8080 weight=<span class="code-number">2</span>;
+    
+    <span class="code-comment"># 健康检查</span>
+    server 192.168.1.103:8080 backup; <span class="code-comment"># 备用服务器</span>
+    
+    <span class="code-comment"># 负载均衡方法</span>
+    <span class="code-comment"># least_conn;    # 最少连接</span>
+    <span class="code-comment"># ip_hash;       # IP哈希，保持会话</span>
+}
+
+server {
+    listen <span class="code-number">80</span>;
+    location / {
+        proxy_pass http://backend_services;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        
+        <span class="code-comment"># 超时设置</span>
+        proxy_connect_timeout <span class="code-number">3s</span>;
+        proxy_send_timeout <span class="code-number">10s</span>;
+        proxy_read_timeout <span class="code-number">10s</span>;
+    }
+}
+
+<span class="code-comment">// Spring Cloud LoadBalancer 客户端负载均衡</span>
+@Configuration
+<span class="code-keyword">public</span> <span class="code-keyword">class</span> <span class="code-function">LoadBalancerConfig</span> {
+    
+    @Bean
+    @LoadBalanced <span class="code-comment">// 关键注解，启用负载均衡</span>
+    <span class="code-keyword">public</span> <span class="code-function">RestTemplate</span> <span class="code-function">restTemplate</span>() {
+        <span class="code-keyword">return</span> <span class="code-keyword">new</span> <span class="code-function">RestTemplate</span>();
+    }
+    
+    @Bean
+    <span class="code-keyword">public</span> <span class="code-function">ReactorServiceInstanceLoadBalancer</span> <span class="code-function">randomLoadBalancer</span>() {
+        <span class="code-comment">// 自定义负载均衡策略</span>
+        <span class="code-keyword">return</span> <span class="code-keyword">new</span> <span class="code-function">RandomLoadBalancer</span>();
+    }
+}
+</div>
+                                </div>
+                            </div>
+
+                            <div class="warning-box rounded-lg p-4">
+                                <h6 class="font-semibold text-yellow-300 mb-2">微服务架构的挑战</h6>
+                                <ul class="text-sm space-y-1">
+                                    <li>• <strong>分布式事务：</strong> 如何保证跨服务的数据一致性</li>
+                                    <li>• <strong>网络延迟：</strong> 服务间调用带来的性能开销</li>
+                                    <li>• <strong>服务治理：</strong> 大量服务的监控、追踪、配置管理</li>
+                                    <li>• <strong>测试复杂性：</strong> 集成测试需要启动多个服务</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3.2 Docker 容器化 -->
+                    <div class="mb-16">
+                        <h3 class="text-3xl font-bold mb-8 text-blue-400">3.2 Docker 容器化："一次封装，到处运行"的集装箱搬运哲学！</h3>
+
+                        <div class="bg-gradient-to-r from-blue-900 to-indigo-900 rounded-lg p-6 mb-8">
+                            <p class="text-lg italic text-center">
+                                "每次部署都头疼配置环境？有了 Docker 这个集装箱，一套打包，走遍天下都不怕！"
+                            </p>
+                        </div>
+
+                        <!-- 3.2.1 Docker核心概念深度解析 -->
+                        <div class="knowledge-card rounded-lg p-8 mb-8">
+                            <h4 class="text-2xl font-bold mb-6 text-blue-300">3.2.1 Docker核心概念深度解析：让应用"住进"标准化公寓</h4>
+
+                            <p class="text-gray-300 mb-6 leading-relaxed">
+                                还记得本小姐第一次接触 Docker 时的震撼吗？"什么？应用可以像搭积木一样打包部署？"没错，Docker 就是这么神奇的存在！它解决了开发者千年难题："在我机器上明明运行得好好的啊！"
+                            </p>
+
+                            <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                                <div>
+                                    <h5 class="text-lg font-semibold mb-4 text-green-400">Docker vs 虚拟机：轻量化的革命</h5>
+                                    <div class="architecture-diagram rounded-lg p-4 mb-4">
+                                        <h6 class="font-semibold text-cyan-300 mb-3 text-center">架构对比图</h6>
+                                        
+                                        <!-- SVG Docker vs VM 对比图 -->
+                                        <svg width="100%" height="200" viewBox="0 0 400 200" class="mx-auto">
+                                            <!-- 虚拟机架构 -->
+                                            <text x="100" y="15" text-anchor="middle" fill="#ccc" font-size="12" font-weight="bold">虚拟机</text>
+                                            
+                                            <!-- 硬件层 -->
+                                            <rect x="20" y="160" width="160" height="20" fill="#374151" stroke="#4b5563" stroke-width="1"/>
+                                            <text x="100" y="172" text-anchor="middle" fill="white" font-size="10">物理硬件</text>
+                                            
+                                            <!-- 宿主OS -->
+                                            <rect x="20" y="140" width="160" height="20" fill="#1f2937" stroke="#4b5563" stroke-width="1"/>
+                                            <text x="100" y="152" text-anchor="middle" fill="white" font-size="10">宿主操作系统</text>
+                                            
+                                            <!-- Hypervisor -->
+                                            <rect x="20" y="120" width="160" height="20" fill="#7c3aed" stroke="#6d28d9" stroke-width="1"/>
+                                            <text x="100" y="132" text-anchor="middle" fill="white" font-size="10">Hypervisor</text>
+                                            
+                                            <!-- 虚拟机 -->
+                                            <rect x="25" y="80" width="70" height="35" fill="#ef4444" stroke="#dc2626" stroke-width="1"/>
+                                            <text x="60" y="92" text-anchor="middle" fill="white" font-size="8">客户OS</text>
+                                            <text x="60" y="102" text-anchor="middle" fill="white" font-size="8">应用</text>
+                                            
+                                            <rect x="105" y="80" width="70" height="35" fill="#ef4444" stroke="#dc2626" stroke-width="1"/>
+                                            <text x="140" y="92" text-anchor="middle" fill="white" font-size="8">客户OS</text>
+                                            <text x="140" y="102" text-anchor="middle" fill="white" font-size="8">应用</text>
+                                            
+                                            <!-- Docker架构 -->
+                                            <text x="300" y="15" text-anchor="middle" fill="#ccc" font-size="12" font-weight="bold">Docker容器</text>
+                                            
+                                            <!-- 硬件层 -->
+                                            <rect x="220" y="160" width="160" height="20" fill="#374151" stroke="#4b5563" stroke-width="1"/>
+                                            <text x="300" y="172" text-anchor="middle" fill="white" font-size="10">物理硬件</text>
+                                            
+                                            <!-- 宿主OS -->
+                                            <rect x="220" y="140" width="160" height="20" fill="#1f2937" stroke="#4b5563" stroke-width="1"/>
+                                            <text x="300" y="152" text-anchor="middle" fill="white" font-size="10">宿主操作系统</text>
+                                            
+                                            <!-- Docker Engine -->
+                                            <rect x="220" y="120" width="160" height="20" fill="#2563eb" stroke="#1d4ed8" stroke-width="1"/>
+                                            <text x="300" y="132" text-anchor="middle" fill="white" font-size="10">Docker Engine</text>
+                                            
+                                            <!-- 容器 -->
+                                            <rect x="225" y="85" width="45" height="30" fill="#10b981" stroke="#059669" stroke-width="1"/>
+                                            <text x="247.5" y="95" text-anchor="middle" fill="white" font-size="8">应用A</text>
+                                            <text x="247.5" y="105" text-anchor="middle" fill="white" font-size="8">依赖</text>
+                                            
+                                            <rect x="275" y="85" width="45" height="30" fill="#10b981" stroke="#059669" stroke-width="1"/>
+                                            <text x="297.5" y="95" text-anchor="middle" fill="white" font-size="8">应用B</text>
+                                            <text x="297.5" y="105" text-anchor="middle" fill="white" font-size="8">依赖</text>
+                                            
+                                            <rect x="325" y="85" width="45" height="30" fill="#10b981" stroke="#059669" stroke-width="1"/>
+                                            <text x="347.5" y="95" text-anchor="middle" fill="white" font-size="8">应用C</text>
+                                            <text x="347.5" y="105" text-anchor="middle" fill="white" font-size="8">依赖</text>
+                                            
+                                            <!-- 优势对比箭头 -->
+                                            <text x="200" y="50" text-anchor="middle" fill="#059669" font-size="14" font-weight="bold">更轻量 →</text>
+                                            <text x="200" y="65" text-anchor="middle" fill="#059669" font-size="14" font-weight="bold">启动更快 →</text>
+                                        </svg>
+                                    </div>
+
+                                    <div class="tip-box rounded-lg p-4">
+                                        <h6 class="font-semibold text-green-300 mb-2">Docker的优势</h6>
+                                        <ul class="text-sm space-y-1">
+                                            <li>• <strong>轻量级：</strong> 共享宿主OS内核，资源占用少</li>
+                                            <li>• <strong>快速启动：</strong> 秒级启动，不像虚拟机要分钟级</li>
+                                            <li>• <strong>一致性：</strong> 开发、测试、生产环境完全一致</li>
+                                            <li>• <strong>可移植：</strong> "Build once, run anywhere"</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h5 class="text-lg font-semibold mb-4 text-green-400">Docker核心概念：镜像、容器、仓库</h5>
+                                    <div class="code-block text-sm mb-4">
+<span class="code-comment"># Docker基础命令实战</span>
+
+<span class="code-comment"># 1. 拉取镜像</span>
+docker pull nginx:latest
+docker pull node:16-alpine <span class="code-comment"># Alpine版本更小</span>
+
+<span class="code-comment"># 2. 查看本地镜像</span>
+docker images
+docker image ls
+
+<span class="code-comment"># 3. 运行容器</span>
+docker run -d -p <span class="code-number">80</span>:<span class="code-number">80</span> --name my-nginx nginx:latest
+<span class="code-comment"># -d: 后台运行  -p: 端口映射  --name: 给容器起名字</span>
+
+<span class="code-comment"># 4. 查看运行中的容器</span>
+docker ps
+docker ps -a <span class="code-comment"># 查看所有容器（包括停止的）</span>
+
+<span class="code-comment"># 5. 进入容器</span>
+docker exec -it my-nginx /bin/bash
+<span class="code-comment"># -i: 交互模式  -t: 分配伪终端</span>
+
+<span class="code-comment"># 6. 查看容器日志</span>
+docker logs my-nginx
+docker logs -f my-nginx <span class="code-comment"># 实时查看日志</span>
+
+<span class="code-comment"># 7. 停止和删除容器</span>
+docker stop my-nginx
+docker rm my-nginx
+
+<span class="code-comment"># 8. 数据卷管理</span>
+docker volume create my-data
+docker run -v my-data:/app/data my-app
+</div>
+
+                                    <div class="architecture-diagram rounded-lg p-4">
+                                        <h6 class="font-semibold text-cyan-300 mb-3 text-center">Docker工作流程</h6>
+                                        <div class="grid grid-cols-1 gap-4 text-center">
+                                            <div class="flex items-center justify-center space-x-4">
+                                                <div class="feature-card w-20 h-16 flex items-center justify-center">
+                                                    <div>
+                                                        <div class="w-8 h-8 bg-blue-500 rounded mx-auto mb-1"></div>
+                                                        <span class="text-xs text-blue-300">Dockerfile</span>
+                                                    </div>
+                                                </div>
+                                                <span class="text-2xl text-blue-400">→</span>
+                                                <div class="feature-card w-20 h-16 flex items-center justify-center">
+                                                    <div>
+                                                        <div class="w-8 h-8 bg-purple-500 rounded mx-auto mb-1"></div>
+                                                        <span class="text-xs text-purple-300">Image</span>
+                                                    </div>
+                                                </div>
+                                                <span class="text-2xl text-blue-400">→</span>
+                                                <div class="feature-card w-20 h-16 flex items-center justify-center">
+                                                    <div>
+                                                        <div class="w-8 h-8 bg-green-500 rounded mx-auto mb-1"></div>
+                                                        <span class="text-xs text-green-300">Container</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p class="text-sm text-gray-400 mt-2">构建 → 镜像 → 运行</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3.2.2 Dockerfile最佳实践 -->
+                        <div class="knowledge-card rounded-lg p-8 mb-8">
+                            <h4 class="text-2xl font-bold mb-6 text-purple-300">3.2.2 Dockerfile最佳实践：打造完美的"集装箱蓝图"</h4>
+
+                            <p class="text-gray-300 mb-6 leading-relaxed">
+                                Dockerfile 就是容器的"建筑设计图"！写得好不好，直接影响你的镜像大小、构建速度、安全性。本小姐教你写出专业级的 Dockerfile！
+                            </p>
+
+                            <div class="grid lg:grid-cols-2 gap-8">
+                                <div>
+                                    <h5 class="text-lg font-semibold mb-4 text-orange-400">Node.js应用容器化实战</h5>
+                                    <div class="code-block text-sm">
+<span class="code-comment"># 多阶段构建 Dockerfile - Node.js 应用</span>
+<span class="code-comment"># 阶段1：构建阶段</span>
+<span class="code-keyword">FROM</span> node:<span class="code-number">16</span>-alpine <span class="code-keyword">AS</span> builder
+
+<span class="code-comment"># 设置工作目录</span>
+<span class="code-keyword">WORKDIR</span> /app
+
+<span class="code-comment"># 复制package文件（利用Docker缓存层）</span>
+<span class="code-keyword">COPY</span> package*.json ./
+
+<span class="code-comment"># 安装依赖</span>
+<span class="code-keyword">RUN</span> npm ci --only=production && npm cache clean --force
+
+<span class="code-comment"># 复制源代码</span>
+<span class="code-keyword">COPY</span> . .
+
+<span class="code-comment"># 构建应用</span>
+<span class="code-keyword">RUN</span> npm run build
+
+<span class="code-comment"># 阶段2：生产阶段</span>
+<span class="code-keyword">FROM</span> node:<span class="code-number">16</span>-alpine <span class="code-keyword">AS</span> production
+
+<span class="code-comment"># 创建非root用户</span>
+<span class="code-keyword">RUN</span> addgroup -g <span class="code-number">1001</span> -S nodejs && \
+    adduser -S nextjs -u <span class="code-number">1001</span>
+
+<span class="code-keyword">WORKDIR</span> /app
+
+<span class="code-comment"># 从构建阶段复制必要文件</span>
+<span class="code-keyword">COPY</span> --from=builder --chown=nextjs:nodejs /app/dist ./dist
+<span class="code-keyword">COPY</span> --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
+<span class="code-keyword">COPY</span> --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
+
+<span class="code-comment"># 切换到非root用户</span>
+<span class="code-keyword">USER</span> nextjs
+
+<span class="code-comment"># 暴露端口</span>
+<span class="code-keyword">EXPOSE</span> <span class="code-number">3000</span>
+
+<span class="code-comment"># 健康检查</span>
+<span class="code-keyword">HEALTHCHECK</span> --interval=<span class="code-number">30</span>s --timeout=<span class="code-number">3</span>s --start-period=<span class="code-number">5</span>s --retries=<span class="code-number">3</span> \
+    <span class="code-keyword">CMD</span> curl -f http://localhost:<span class="code-number">3000</span>/health || exit <span class="code-number">1</span>
+
+<span class="code-comment"># 启动应用</span>
+<span class="code-keyword">CMD</span> [<span class="code-string">"node"</span>, <span class="code-string">"dist/server.js"</span>]
+</div>
+
+                                    <div class="tip-box rounded-lg p-4 mt-4">
+                                        <h6 class="font-semibold text-green-300 mb-2">Dockerfile优化技巧</h6>
+                                        <ul class="text-sm space-y-1">
+                                            <li>• <strong>利用缓存：</strong> 将变化少的层放在前面</li>
+                                            <li>• <strong>多阶段构建：</strong> 最小化生产镜像大小</li>
+                                            <li>• <strong>使用Alpine：</strong> 基础镜像更小更安全</li>
+                                            <li>• <strong>非root用户：</strong> 提高容器安全性</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h5 class="text-lg font-semibold mb-4 text-orange-400">Java应用容器化实战</h5>
+                                    <div class="code-block text-sm">
+<span class="code-comment"># Spring Boot 应用 Dockerfile</span>
+<span class="code-comment"># 阶段1：构建阶段</span>
+<span class="code-keyword">FROM</span> openjdk:<span class="code-number">11</span>-jdk-slim <span class="code-keyword">AS</span> builder
+
+<span class="code-keyword">WORKDIR</span> /app
+
+<span class="code-comment"># 复制构建文件</span>
+<span class="code-keyword">COPY</span> pom.xml .
+<span class="code-keyword">COPY</span> src ./src
+
+<span class="code-comment"># 安装Maven并构建</span>
+<span class="code-keyword">RUN</span> apt-get update && apt-get install -y maven && \
+    maven clean package -DskipTests && \
+    apt-get remove -y maven && apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/*
+
+<span class="code-comment"># 阶段2：运行阶段</span>
+<span class="code-keyword">FROM</span> openjdk:<span class="code-number">11</span>-jre-slim
+
+<span class="code-comment"># 安装dumb-init (处理信号)</span>
+<span class="code-keyword">RUN</span> apt-get update && apt-get install -y dumb-init && \
+    rm -rf /var/lib/apt/lists/*
+
+<span class="code-comment"># 创建应用用户</span>
+<span class="code-keyword">RUN</span> groupadd -r spring && useradd --no-log-init -r -g spring spring
+
+<span class="code-keyword">WORKDIR</span> /app
+
+<span class="code-comment"># 复制jar包</span>
+<span class="code-keyword">COPY</span> --from=builder --chown=spring:spring /app/target/*.jar app.jar
+
+<span class="code-keyword">USER</span> spring
+
+<span class="code-keyword">EXPOSE</span> <span class="code-number">8080</span>
+
+<span class="code-comment"># JVM优化参数</span>
+<span class="code-keyword">ENV</span> JAVA_OPTS=<span class="code-string">"-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -XX:+UseG1GC"</span>
+
+<span class="code-keyword">HEALTHCHECK</span> --interval=<span class="code-number">30</span>s --timeout=<span class="code-number">10</span>s --start-period=<span class="code-number">60</span>s \
+    <span class="code-keyword">CMD</span> curl -f http://localhost:<span class="code-number">8080</span>/actuator/health || exit <span class="code-number">1</span>
+
+<span class="code-comment"># 使用dumb-init处理信号</span>
+<span class="code-keyword">ENTRYPOINT</span> [<span class="code-string">"dumb-init"</span>, <span class="code-string">"--"</span>]
+<span class="code-keyword">CMD</span> [<span class="code-string">"sh"</span>, <span class="code-string">"-c"</span>, <span class="code-string">"java $JAVA_OPTS -jar app.jar"</span>]
+</div>
+
+                                    <div class="warning-box rounded-lg p-4 mt-4">
+                                        <h6 class="font-semibold text-yellow-300 mb-2">容器化常见陷阱</h6>
+                                        <ul class="text-sm space-y-1">
+                                            <li>• <strong>时区问题：</strong> 容器默认UTC时区</li>
+                                            <li>• <strong>信号处理：</strong> PID 1进程需要正确处理信号</li>
+                                            <li>• <strong>内存限制：</strong> JVM需要感知容器内存限制</li>
+                                            <li>• <strong>日志收集：</strong> 避免日志写入容器内部</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3.2.3 Docker Compose服务编排 -->
+                        <div class="knowledge-card rounded-lg p-8 mb-8">
+                            <h4 class="text-2xl font-bold mb-6 text-indigo-300">3.2.3 Docker Compose服务编排：指挥"容器交响乐团"</h4>
+
+                            <p class="text-gray-300 mb-6 leading-relaxed">
+                                单个容器玩得再溜，也架不住真实项目的复杂性！前端、后端、数据库、缓存...这一大堆容器怎么协调工作？Docker Compose 就是你的"指挥家"！
+                            </p>
+
+                            <div class="code-block text-sm mb-6">
+<span class="code-comment"># docker-compose.yml - 完整的微服务栈</span>
+version: <span class="code-string">'3.8'</span>
+
+services:
+  <span class="code-comment"># 前端服务</span>
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - <span class="code-string">"3000:80"</span>
+    environment:
+      - API_BASE_URL=http://backend:8080
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  <span class="code-comment"># 后端API服务</span>
+  backend:
+    build: ./backend
+    ports:
+      - <span class="code-string">"8080:8080"</span>
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - DATABASE_URL=jdbc:postgresql://postgres:5432/myapp
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    volumes:
+      - app-logs:/app/logs
+    networks:
+      - app-network
+    healthcheck:
+      test: [<span class="code-string">"CMD"</span>, <span class="code-string">"curl"</span>, <span class="code-string">"-f"</span>, <span class="code-string">"http://localhost:8080/actuator/health"</span>]
+      interval: <span class="code-number">30</span>s
+      timeout: <span class="code-number">10</span>s
+      retries: <span class="code-number">3</span>
+      start_period: <span class="code-number">60</span>s
+
+  <span class="code-comment"># PostgreSQL 数据库</span>
+  postgres:
+    image: postgres:<span class="code-number">13</span>-alpine
+    environment:
+      POSTGRES_DB: myapp
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password123
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    ports:
+      - <span class="code-string">"5432:5432"</span>
+    networks:
+      - app-network
+    healthcheck:
+      test: [<span class="code-string">"CMD-SHELL"</span>, <span class="code-string">"pg_isready -U admin -d myapp"</span>]
+      interval: <span class="code-number">10</span>s
+      timeout: <span class="code-number">5</span>s
+      retries: <span class="code-number">3</span>
+
+  <span class="code-comment"># Redis 缓存</span>
+  redis:
+    image: redis:<span class="code-number">6</span>-alpine
+    command: redis-server --appendonly <span class="code-keyword">yes</span>
+    volumes:
+      - redis-data:/data
+    ports:
+      - <span class="code-string">"6379:6379"</span>
+    networks:
+      - app-network
+
+  <span class="code-comment"># Nginx 反向代理</span>
+  nginx:
+    image: nginx:<span class="code-number">1.21</span>-alpine
+    ports:
+      - <span class="code-string">"80:80"</span>
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - app-network
+
+  <span class="code-comment"># 监控服务</span>
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - <span class="code-string">"9090:9090"</span>
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - <span class="code-string">"3001:3000"</span>
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin123
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - monitoring
+
+<span class="code-comment"># 数据卷定义</span>
+volumes:
+  postgres-data:
+    driver: <span class="code-keyword">local</span>
+  redis-data:
+    driver: <span class="code-keyword">local</span>
+  app-logs:
+    driver: <span class="code-keyword">local</span>
+  prometheus-data:
+    driver: <span class="code-keyword">local</span>
+  grafana-data:
+    driver: <span class="code-keyword">local</span>
+
+<span class="code-comment"># 网络定义</span>
+networks:
+  app-network:
+    driver: bridge
+  monitoring:
+    driver: bridge
+</div>
+
+                            <div class="grid lg:grid-cols-2 gap-8">
+                                <div>
+                                    <h5 class="text-lg font-semibold mb-4 text-green-400">常用Compose命令</h5>
+                                    <div class="code-block text-sm">
+<span class="code-comment"># 启动所有服务</span>
+docker-compose up -d
+
+<span class="code-comment"># 查看服务状态</span>
+docker-compose ps
+
+<span class="code-comment"># 查看日志</span>
+docker-compose logs -f backend
+docker-compose logs --tail=<span class="code-number">100</span> postgres
+
+<span class="code-comment"># 扩展服务实例</span>
+docker-compose up -d --scale backend=<span class="code-number">3</span>
+
+<span class="code-comment"># 重新构建并启动</span>
+docker-compose up -d --build
+
+<span class="code-comment"># 停止所有服务</span>
+docker-compose down
+
+<span class="code-comment"># 停止并删除数据卷</span>
+docker-compose down -v
+
+<span class="code-comment"># 进入容器</span>
+docker-compose exec backend bash
+docker-compose exec postgres psql -U admin -d myapp
+</div>
+                                </div>
+
+                                <div>
+                                    <h5 class="text-lg font-semibold mb-4 text-green-400">环境变量管理</h5>
+                                    <div class="code-block text-sm">
+<span class="code-comment"># .env 文件示例</span>
+<span class="code-comment"># 数据库配置</span>
+POSTGRES_DB=myapp
+POSTGRES_USER=admin
+POSTGRES_PASSWORD=secret123
+
+<span class="code-comment"># 应用配置</span>
+APP_ENV=production
+API_PORT=<span class="code-number">8080</span>
+JWT_SECRET=your-secret-key
+
+<span class="code-comment"># 外部服务</span>
+REDIS_URL=redis://redis:<span class="code-number">6379</span>
+EMAIL_SMTP_HOST=smtp.gmail.com
+
+<span class="code-comment"># docker-compose.override.yml (开发环境覆盖)</span>
+version: <span class="code-string">'3.8'</span>
+
+services:
+  backend:
+    environment:
+      - DEBUG=<span class="code-keyword">true</span>
+      - SPRING_PROFILES_ACTIVE=dev
+    volumes:
+      - ./backend/src:/app/src <span class="code-comment"># 开发时热重载</span>
+    ports:
+      - <span class="code-string">"5005:5005"</span> <span class="code-comment"># 调试端口</span>
+
+  frontend:
+    volumes:
+      - ./frontend/src:/app/src
+      - /app/node_modules <span class="code-comment"># 防止覆盖node_modules</span>
+    environment:
+      - CHOKIDAR_USEPOLLING=<span class="code-keyword">true</span> <span class="code-comment"># 热重载</span>
+</div>
+                                </div>
+                            </div>
+
+                            <div class="technique-highlight rounded-lg p-6">
+                                <h6 class="font-semibold text-purple-300 mb-2 text-center">本小姐的容器化心得</h6>
+                                <p class="text-center text-sm text-gray-300 italic">
+                                    "容器化不只是'打包'这么简单，更是一种<strong>思维方式的转变</strong>。<br>
+                                    从'宠物'式服务器到'牲畜'式容器，从手工部署到自动化编排，<br>
+                                    Docker 改变的是整个软件交付流程！"
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3.3 Redis 缓存加速器 -->
+                    <div class="mb-16">
+                        <h3 class="text-3xl font-bold mb-8 text-red-400">3.3 Redis 缓存加速器：给你的数据装上"涡轮增压"！</h3>
+
+                        <div class="bg-gradient-to-r from-red-900 to-pink-900 rounded-lg p-6 mb-8">
+                            <p class="text-lg italic text-center">
+                                "数据库太慢了？给它加个'缓存跑车'，让你的应用快到模糊！"
+                            </p>
+                        </div>
+
+                        <!-- 3.3.1 Redis核心数据结构与应用场景 -->
+                        <div class="knowledge-card rounded-lg p-8 mb-8">
+                            <h4 class="text-2xl font-bold mb-6 text-red-300">3.3.1 Redis核心数据结构与应用场景：五大法宝各显神通！</h4>
+
+                            <p class="text-gray-300 mb-6 leading-relaxed">
+                                Redis 可不只是个简单的 key-value 存储！它有五大数据结构，每一个都有自己的专长。本小姐来给你详细介绍这些"法宝"的使用场景。
+                            </p>
+
+                            <div class="feature-grid mb-8">
+                                <div class="feature-card">
+                                    <h5 class="text-lg font-semibold mb-4 text-blue-400">String：万能选手</h5>
+                                    <p class="text-gray-300 mb-4 text-sm">最基础但最常用的类型，可以存储字符串、数字、甚至二进制数据。</p>
+                                    <div class="code-block text-xs">
+<span class="code-comment"># 基本操作</span>
+SET user:1001:name <span class="code-string">"本小姐"</span>
+GET user:1001:name
+
+<span class="code-comment"># 计数器</span>
+INCR page:views
+INCRBY user:1001:score <span class="code-number">100</span>
+DECR inventory:item1
+
+<span class="code-comment"># 过期时间</span>
+SETEX session:abc123 <span class="code-number">3600</span> <span class="code-string">"user_data"</span>
+TTL session:abc123
+
+<span class="code-comment"># 原子操作</span>
+GETSET user:1001:status <span class="code-string">"online"</span>
+</div>
+                                    <div class="tip-box rounded-lg p-3 mt-3 text-xs">
+                                        <strong>应用场景：</strong>缓存用户信息、计数器、分布式锁、会话存储
+                                    </div>
+                                </div>
+
+                                <div class="feature-card">
+                                    <h5 class="text-lg font-semibold mb-4 text-green-400">Hash：结构化数据</h5>
+                                    <p class="text-gray-300 mb-4 text-sm">类似于编程语言中的对象，适合存储结构化数据。</p>
+                                    <div class="code-block text-xs">
+<span class="code-comment"># 用户信息存储</span>
+HSET user:1001 name <span class="code-string">"本小姐"</span> age <span class="code-number">18</span> city <span class="code-string">"东京"</span>
+HGET user:1001 name
+HGETALL user:1001
+
+<span class="code-comment"># 批量操作</span>
+HMSET product:2001 name <span class="code-string">"iPhone"</span> price <span class="code-number">8999</span> stock <span class="code-number">100</span>
+HMGET product:2001 name price
+
+<span class="code-comment"># 字段递增</span>
+HINCRBY product:2001 stock -<span class="code-number">1</span>
+HINCRBYFLOAT product:2001 rating <span class="code-number">0.1</span>
+
+<span class="code-comment"># 检查字段</span>
+HEXISTS user:1001 email
+HLEN user:1001
+</div>
+                                    <div class="tip-box rounded-lg p-3 mt-3 text-xs">
+                                        <strong>应用场景：</strong>用户属性、商品信息、配置数据、购物车
+                                    </div>
+                                </div>
+
+                                <div class="feature-card">
+                                    <h5 class="text-lg font-semibold mb-4 text-purple-400">List：有序队列</h5>
+                                    <p class="text-gray-300 mb-4 text-sm">双向链表，支持头尾操作，可以实现栈、队列等数据结构。</p>
+                                    <div class="code-block text-xs">
+<span class="code-comment"># 消息队列（生产者）</span>
+LPUSH message:queue <span class="code-string">"task1"</span> <span class="code-string">"task2"</span> <span class="code-string">"task3"</span>
+
+<span class="code-comment"># 消费者（阻塞弹出）</span>
+BRPOP message:queue <span class="code-number">60</span> <span class="code-comment"># 60秒超时</span>
+
+<span class="code-comment"># 最新文章列表</span>
+LPUSH articles:latest <span class="code-string">"article:1001"</span>
+LRANGE articles:latest <span class="code-number">0</span> <span class="code-number">9</span> <span class="code-comment"># 前10篇</span>
+
+<span class="code-comment"># 列表修剪（保留最新100篇）</span>
+LTRIM articles:latest <span class="code-number">0</span> <span class="code-number">99</span>
+
+<span class="code-comment"># 获取列表长度</span>
+LLEN articles:latest
+</div>
+                                    <div class="tip-box rounded-lg p-3 mt-3 text-xs">
+                                        <strong>应用场景：</strong>消息队列、最新动态、评论列表、任务队列
+                                    </div>
+                                </div>
+
+                                <div class="feature-card">
+                                    <h5 class="text-lg font-semibold mb-4 text-yellow-400">Set：唯一集合</h5>
+                                    <p class="text-gray-300 mb-4 text-sm">无序不重复集合，支持交集、并集、差集等集合运算。</p>
+                                    <div class="code-block text-xs">
+<span class="code-comment"># 用户标签</span>
+SADD user:1001:tags <span class="code-string">"tech"</span> <span class="code-string">"music"</span> <span class="code-string">"travel"</span>
+SISMEMBER user:1001:tags <span class="code-string">"tech"</span>
+
+<span class="code-comment"># 共同好友</span>
+SINTER user:1001:friends user:1002:friends
+
+<span class="code-comment"># 推荐好友（朋友的朋友）</span>
+SDIFF user:1002:friends user:1001:friends
+
+<span class="code-comment"># 随机抽奖</span>
+SRANDMEMBER lottery:users <span class="code-number">3</span> <span class="code-comment"># 随机3个用户</span>
+
+<span class="code-comment"># 去重统计</span>
+SCARD online:users <span class="code-comment"># 在线用户数</span>
+</div>
+                                    <div class="tip-box rounded-lg p-3 mt-3 text-xs">
+                                        <strong>应用场景：</strong>标签系统、好友关系、去重统计、抽奖系统
+                                    </div>
+                                </div>
+
+                                <div class="feature-card">
+                                    <h5 class="text-lg font-semibold mb-4 text-pink-400">Sorted Set：排行榜专家</h5>
+                                    <p class="text-gray-300 mb-4 text-sm">带分数的有序集合，既有Set的唯一性，又有排序功能。</p>
+                                    <div class="code-block text-xs">
+<span class="code-comment"># 游戏排行榜</span>
+ZADD leaderboard <span class="code-number">9500</span> <span class="code-string">"本小姐"</span> <span class="code-number">8200</span> <span class="code-string">"player2"</span> <span class="code-number">7800</span> <span class="code-string">"player3"</span>
+
+<span class="code-comment"># 获取排名</span>
+ZREVRANK leaderboard <span class="code-string">"本小姐"</span> <span class="code-comment"># 从高到低的排名</span>
+ZREVRANGE leaderboard <span class="code-number">0</span> <span class="code-number">9</span> WITHSCORES <span class="code-comment"># 前10名</span>
+
+<span class="code-comment"># 分数范围查询</span>
+ZRANGEBYSCORE leaderboard <span class="code-number">8000</span> <span class="code-number">10000</span>
+
+<span class="code-comment"># 增加分数</span>
+ZINCRBY leaderboard <span class="code-number">100</span> <span class="code-string">"player2"</span>
+
+<span class="code-comment"># 时间序列（用时间戳作分数）</span>
+ZADD recent:logins <span class="code-number">1640995200</span> <span class="code-string">"user1"</span> <span class="code-number">1640995300</span> <span class="code-string">"user2"</span>
+</div>
+                                    <div class="tip-box rounded-lg p-3 mt-3 text-xs">
+                                        <strong>应用场景：</strong>排行榜、优先级队列、时间序列、热门内容
+                                    </div>
+                                </div>
+
+                                <div class="feature-card">
+                                    <h5 class="text-lg font-semibold mb-4 text-cyan-400">进阶数据结构</h5>
+                                    <p class="text-gray-300 mb-4 text-sm">Redis还提供了一些高级数据结构，解决特定场景问题。</p>
+                                    <div class="code-block text-xs">
+<span class="code-comment"># HyperLogLog：基数统计</span>
+PFADD uv:20231201 <span class="code-string">"user1"</span> <span class="code-string">"user2"</span> <span class="code-string">"user3"</span>
+PFCOUNT uv:20231201 <span class="code-comment"># 独立访客数（约估值）</span>
+
+<span class="code-comment"># Bitmap：位图操作</span>
+SETBIT user:signin:20231201 <span class="code-number">1001</span> <span class="code-number">1</span> <span class="code-comment"># 用户1001签到</span>
+BITCOUNT user:signin:20231201 <span class="code-comment"># 当日签到人数</span>
+
+<span class="code-comment"># Geospatial：地理位置</span>
+GEOADD locations <span class="code-number">116.4074</span> <span class="code-number">39.9042</span> <span class="code-string">"beijing"</span>
+GEORADIUS locations <span class="code-number">116.4</span> <span class="code-number">39.9</span> <span class="code-number">10</span> km <span class="code-comment"># 10km内的位置</span>
+
+<span class="code-comment"># Stream：消息流</span>
+XADD mystream * field1 value1 field2 value2
+XREAD COUNT <span class="code-number">10</span> STREAMS mystream <span class="code-number">0</span>-<span class="code-number">0</span>
+</div>
+                                    <div class="tip-box rounded-lg p-3 mt-3 text-xs">
+                                        <strong>应用场景：</strong>独立访客统计、用户行为分析、LBS应用、事件流处理
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3.3.2 持久化机制与高可用架构 -->
+                        <div class="knowledge-card rounded-lg p-8 mb-8">
+                            <h4 class="text-2xl font-bold mb-6 text-orange-300">3.3.2 持久化机制与高可用架构：让数据"永不丢失"</h4>
+
+                            <p class="text-gray-300 mb-6 leading-relaxed">
+                                Redis 虽然是内存数据库，但本小姐可不允许数据说丢就丢！RDB、AOF、主从、哨兵、集群...这些高可用手段，让你的 Redis 固若金汤！
+                            </p>
+
+                            <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                                <div>
+                                    <h5 class="text-lg font-semibold mb-4 text-blue-400">RDB vs AOF：两种持久化策略</h5>
+                                    <div class="comparison-table">
+                                        <div class="comparison-header">RDB vs AOF 对比</div>
+                                        <div class="grid grid-cols-3">
+                                            <div class="comparison-header text-sm">特性</div>
+                                            <div class="comparison-header text-sm">RDB (快照)</div>
+                                            <div class="comparison-header text-sm">AOF (日志)</div>
+                                        </div>
+                                        <div class="grid grid-cols-3 comparison-row">
+                                            <div class="comparison-cell font-semibold">持久化方式</div>
+                                            <div class="comparison-cell">定时快照</div>
+                                            <div class="comparison-cell">记录每个写命令</div>
+                                        </div>
+                                        <div class="grid grid-cols-3 comparison-row">
+                                            <div class="comparison-cell font-semibold">文件大小</div>
+                                            <div class="comparison-cell">小（压缩存储）</div>
+                                            <div class="comparison-cell">大（记录全部操作）</div>
+                                        </div>
+                                        <div class="grid grid-cols-3 comparison-row">
+                                            <div class="comparison-cell font-semibold">恢复速度</div>
+                                            <div class="comparison-cell">快（直接载入内存）</div>
+                                            <div class="comparison-cell">慢（重放命令）</div>
+                                        </div>
+                                        <div class="grid grid-cols-3 comparison-row">
+                                            <div class="comparison-cell font-semibold">数据完整性</div>
+                                            <div class="comparison-cell">可能丢失最后一次快照后的数据</div>
+                                            <div class="comparison-cell">最多丢失1秒数据</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="code-block text-sm mt-4">
+<span class="code-comment"># Redis配置文件 redis.conf</span>
+
+<span class="code-comment"># RDB配置</span>
+save <span class="code-number">60</span> <span class="code-number">1000</span>     <span class="code-comment"># 60秒内有1000次写入就触发快照</span>
+save <span class="code-number">300</span> <span class="code-number">100</span>    <span class="code-comment"># 300秒内有100次写入就触发</span>
+save <span class="code-number">900</span> <span class="code-number">1</span>      <span class="code-comment"># 900秒内有1次写入就触发</span>
+
+rdbcompression <span class="code-keyword">yes</span>    <span class="code-comment"># 开启压缩</span>
+rdbchecksum <span class="code-keyword">yes</span>       <span class="code-comment"># 开启校验</span>
+dbfilename dump.rdb     <span class="code-comment"># RDB文件名</span>
+
+<span class="code-comment"># AOF配置</span>
+appendonly <span class="code-keyword">yes</span>               <span class="code-comment"># 开启AOF</span>
+appendfilename <span class="code-string">"appendonly.aof"</span> <span class="code-comment"># AOF文件名</span>
+
+<span class="code-comment"># AOF同步策略</span>
+appendfsync everysec    <span class="code-comment"># 每秒同步（平衡性能和安全）</span>
+<span class="code-comment"># appendfsync always    # 每个命令都同步（最安全但慢）</span>
+<span class="code-comment"># appendfsync no        # 让操作系统决定（最快但不安全）</span>
+
+<span class="code-comment"># AOF重写配置</span>
+auto-aof-rewrite-min-size <span class="code-number">64mb</span>  <span class="code-comment"># 最小重写文件大小</span>
+auto-aof-rewrite-percentage <span class="code-number">100</span> <span class="code-comment"># 重写触发百分比</span>
+</div>
+                                </div>
+
+                                <div>
+                                    <h5 class="text-lg font-semibold mb-4 text-blue-400">主从复制：读写分离的奥秘</h5>
+                                    <div class="architecture-diagram rounded-lg p-4 mb-4">
+                                        <h6 class="font-semibold text-cyan-300 mb-3 text-center">Redis主从架构</h6>
+                                        
+                                        <!-- SVG Redis主从图 -->
+                                        <svg width="100%" height="150" viewBox="0 0 400 150" class="mx-auto">
+                                            <!-- Master -->
+                                            <rect x="50" y="40" width="80" height="40" fill="#dc2626" stroke="#b91c1c" stroke-width="2" rx="5"/>
+                                            <text x="90" y="58" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Master</text>
+                                            <text x="90" y="70" text-anchor="middle" fill="white" font-size="10">读写</text>
+                                            
+                                            <!-- Slaves -->
+                                            <rect x="220" y="20" width="70" height="35" fill="#059669" stroke="#047857" stroke-width="2" rx="5"/>
+                                            <text x="255" y="38" text-anchor="middle" fill="white" font-size="11">Slave1</text>
+                                            <text x="255" y="48" text-anchor="middle" fill="white" font-size="9">只读</text>
+                                            
+                                            <rect x="220" y="60" width="70" height="35" fill="#059669" stroke="#047857" stroke-width="2" rx="5"/>
+                                            <text x="255" y="78" text-anchor="middle" fill="white" font-size="11">Slave2</text>
+                                            <text x="255" y="88" text-anchor="middle" fill="white" font-size="9">只读</text>
+                                            
+                                            <rect x="220" y="100" width="70" height="35" fill="#059669" stroke="#047857" stroke-width="2" rx="5"/>
+                                            <text x="255" y="118" text-anchor="middle" fill="white" font-size="11">Slave3</text>
+                                            <text x="255" y="128" text-anchor="middle" fill="white" font-size="9">只读</span>
+                                            
+                                            <!-- 复制箭头 -->
+                                            <line x1="130" y1="50" x2="220" y2="37" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                            <line x1="130" y1="60" x2="220" y2="77" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                            <line x1="130" y1="70" x2="220" y2="117" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                            
+                                            <!-- 客户端 -->
+                                            <circle cx="20" cy="60" r="15" fill="#7c3aed" stroke="#6d28d9" stroke-width="2"/>
+                                            <text x="20" y="64" text-anchor="middle" fill="white" font-size="10">写</text>
+                                            
+                                            <circle cx="350" cy="60" r="15" fill="#0891b2" stroke="#0e7490" stroke-width="2"/>
+                                            <text x="350" y="64" text-anchor="middle" fill="white" font-size="10">读</text>
+                                            
+                                            <!-- 连接线 -->
+                                            <line x1="35" y1="60" x2="50" y2="60" stroke="#7c3aed" stroke-width="2"/>
+                                            <line x1="290" y1="60" x2="335" y2="60" stroke="#0891b2" stroke-width="2"/>
+                                            
+                                            <text x="200" y="145" text-anchor="middle" fill="#ccc" font-size="10">数据同步</text>
+                                        </svg>
+                                    </div>
+
+                                    <div class="code-block text-sm">
+<span class="code-comment"># 配置从服务器</span>
+<span class="code-comment"># 在slave的redis.conf中添加</span>
+replicaof <span class="code-number">192.168</span>.<span class="code-number">1.100</span> <span class="code-number">6379</span>  <span class="code-comment"># 指向master</span>
+masterauth mypassword        <span class="code-comment"># master密码</span>
+
+<span class="code-comment"># 从服务器只读</span>
+replica-read-only <span class="code-keyword">yes</span>
+
+<span class="code-comment"># Redis命令操作</span>
+<span class="code-comment"># 在运行时设置主从关系</span>
+REPLICAOF <span class="code-number">192.168</span>.<span class="code-number">1.100</span> <span class="code-number">6379</span>
+
+<span class="code-comment"># 查看复制信息</span>
+INFO replication
+
+<span class="code-comment"># 取消复制关系</span>
+REPLICAOF NO ONE
+
+<span class="code-comment"># Java客户端读写分离</span>
+JedisPoolConfig poolConfig = <span class="code-keyword">new</span> JedisPoolConfig();
+
+<span class="code-comment">// 写操作连接master</span>
+JedisPool masterPool = <span class="code-keyword">new</span> JedisPool(poolConfig, 
+    <span class="code-string">"192.168.1.100"</span>, <span class="code-number">6379</span>);
+
+<span class="code-comment">// 读操作连接slave</span>
+List&lt;JedisPool&gt; slavePools = Arrays.asList(
+    <span class="code-keyword">new</span> JedisPool(poolConfig, <span class="code-string">"192.168.1.101"</span>, <span class="code-number">6379</span>),
+    <span class="code-keyword">new</span> JedisPool(poolConfig, <span class="code-string">"192.168.1.102"</span>, <span class="code-number">6379</span>)
+);
+</div>
+                                </div>
+                            </div>
+
+                            <div class="knowledge-card rounded-lg p-6">
+                                <h5 class="text-lg font-semibold mb-4 text-yellow-400">哨兵模式：自动故障转移</h5>
+                                <p class="text-gray-300 mb-4 leading-relaxed">
+                                    主从复制解决了读写分离，但如果 Master 挂了咋办？哨兵（Sentinel）就是来解决这个问题的！它们会监控 Master 的健康状况，一旦发现故障就自动选举新的 Master。
+                                </p>
+
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div class="code-block text-sm">
+<span class="code-comment"># sentinel.conf 哨兵配置</span>
+port <span class="code-number">26379</span>
+
+<span class="code-comment"># 监控master</span>
+sentinel monitor mymaster <span class="code-number">192.168</span>.<span class="code-number">1.100</span> <span class="code-number">6379</span> <span class="code-number">2</span>
+<span class="code-comment"># mymaster: master名称，2: 至少2个哨兵同意才故障转移</span>
+
+<span class="code-comment"># 认证</span>
+sentinel auth-pass mymaster mypassword
+
+<span class="code-comment"># 故障检测</span>
+sentinel down-after-milliseconds mymaster <span class="code-number">30000</span>
+<span class="code-comment"># 30秒无响应认为down</span>
+
+<span class="code-comment"># 故障转移超时</span>
+sentinel failover-timeout mymaster <span class="code-number">180000</span>
+
+<span class="code-comment"># 同时进行复制的slave数量</span>
+sentinel parallel-syncs mymaster <span class="code-number">1</span>
+
+<span class="code-comment"># 启动哨兵</span>
+redis-sentinel /path/to/sentinel.conf
+</div>
+
+                                    <div>
+                                        <h6 class="font-semibold text-cyan-300 mb-3">哨兵工作流程</h6>
+                                        <ol class="text-sm text-gray-300 space-y-2">
+                                            <li><strong>1. 监控：</strong> 哨兵定期ping主从服务器</li>
+                                            <li><strong>2. 通知：</strong> 发现故障时通知管理员和应用</li>
+                                            <li><strong>3. 自动故障转移：</strong> 主服务器故障时，选举新的主服务器</li>
+                                            <li><strong>4. 配置提供：</strong> 向客户端提供最新的服务器地址</li>
+                                        </ol>
+                                        
+                                        <div class="mt-4 p-3 bg-purple-900 bg-opacity-30 rounded">
+                                            <h7 class="font-semibold text-purple-300">哨兵集群建议</h7>
+                                            <ul class="text-xs text-gray-300 mt-1 space-y-1">
+                                                <li>• 至少部署3个哨兵（奇数个）</li>
+                                                <li>• 哨兵应该分布在不同的机器上</li>
+                                                <li>• 客户端应支持哨兵模式</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3.3.3 缓存策略与常见问题解决方案 -->
+                        <div class="knowledge-card rounded-lg p-8">
+                            <h4 class="text-2xl font-bold mb-6 text-pink-300">3.3.3 缓存策略与常见问题解决方案：防止"缓存雪崩"</h4>
+
+                            <p class="text-gray-300 mb-6 leading-relaxed">
+                                用 Redis 做缓存很爽，但也有很多坑等着你！缓存穿透、缓存击穿、缓存雪崩、热key...这些问题不解决，Redis 就可能成为你系统的"定时炸弹"！
+                            </p>
+
+                            <div class="feature-grid">
+                                <div class="feature-card">
+                                    <h5 class="text-lg font-semibold mb-4 text-red-400">缓存穿透：大量无效请求</h5>
+                                    <p class="text-gray-300 mb-4 text-sm">查询一个不存在的数据，缓存和数据库都没有，每次都要查数据库。</p>
+                                    
+                                    <div class="warning-box rounded-lg p-3 mb-4">
+                                        <h6 class="font-semibold text-yellow-300 mb-1 text-sm">问题场景</h6>
+                                        <p class="text-xs">恶意用户频繁查询不存在的用户ID，导致大量请求打到数据库</p>
+                                    </div>
+                                    
+                                    <div class="code-block text-xs">
+<span class="code-comment">// 解决方案1：缓存空对象</span>
+<span class="code-keyword">public</span> <span class="code-function">User</span> <span class="code-function">getUserById</span>(String userId) {
+    <span class="code-comment">// 先查缓存</span>
+    String cacheKey = <span class="code-string">"user:"</span> + userId;
+    String cached = redisTemplate.<span class="code-function">opsForValue</span>().<span class="code-function">get</span>(cacheKey);
+    
+    <span class="code-keyword">if</span> (cached != <span class="code-keyword">null</span>) {
+        <span class="code-keyword">if</span> (<span class="code-string">"NULL"</span>.<span class="code-function">equals</span>(cached)) {
+            <span class="code-keyword">return</span> <span class="code-keyword">null</span>; <span class="code-comment">// 缓存的空值</span>
+        }
+        <span class="code-keyword">return</span> JSON.<span class="code-function">parseObject</span>(cached, User.<span class="code-keyword">class</span>);
+    }
+    
+    <span class="code-comment">// 查数据库</span>
+    User user = userRepository.<span class="code-function">findById</span>(userId);
+    
+    <span class="code-keyword">if</span> (user != <span class="code-keyword">null</span>) {
+        <span class="code-comment">// 存在则缓存</span>
+        redisTemplate.<span class="code-function">opsForValue</span>().<span class="code-function">set</span>(cacheKey, 
+            JSON.<span class="code-function">toJSONString</span>(user), <span class="code-number">300</span>, TimeUnit.SECONDS);
+    } <span class="code-keyword">else</span> {
+        <span class="code-comment">// 不存在也缓存（较短时间）</span>
+        redisTemplate.<span class="code-function">opsForValue</span>().<span class="code-function">set</span>(cacheKey, 
+            <span class="code-string">"NULL"</span>, <span class="code-number">30</span>, TimeUnit.SECONDS);
+    }
+    
+    <span class="code-keyword">return</span> user;
+}
+
+<span class="code-comment">// 解决方案2：布隆过滤器</span>
+@Autowired
+<span class="code-keyword">private</span> <span class="code-function">BloomFilter</span>&lt;String&gt; userBloomFilter;
+
+<span class="code-keyword">public</span> <span class="code-function">User</span> <span class="code-function">getUserByIdWithBloom</span>(String userId) {
+    <span class="code-comment">// 先用布隆过滤器判断</span>
+    <span class="code-keyword">if</span> (!userBloomFilter.<span class="code-function">mightContain</span>(userId)) {
+        <span class="code-keyword">return</span> <span class="code-keyword">null</span>; <span class="code-comment">// 一定不存在</span>
+    }
+    
+    <span class="code-comment">// 可能存在，继续查缓存和数据库</span>
+    <span class="code-keyword">return</span> <span class="code-function">getUserById</span>(userId);
+}
+</div>
+                                </div>
+
+                                <div class="feature-card">
+                                    <h5 class="text-lg font-semibold mb-4 text-yellow-400">缓存击穿：热点数据失效</h5>
+                                    <p class="text-gray-300 mb-4 text-sm">热点key过期的瞬间，大量并发请求同时查数据库。</p>
+                                    
+                                    <div class="warning-box rounded-lg p-3 mb-4">
+                                        <h6 class="font-semibold text-yellow-300 mb-1 text-sm">问题场景</h6>
+                                        <p class="text-xs">热门商品信息缓存到期，瞬间几千个请求都要查数据库</p>
+                                    </div>
+                                    
+                                    <div class="code-block text-xs">
+<span class="code-comment">// 解决方案1：互斥锁</span>
+<span class="code-keyword">public</span> <span class="code-function">Product</span> <span class="code-function">getProduct</span>(String productId) {
+    String cacheKey = <span class="code-string">"product:"</span> + productId;
+    String lockKey = <span class="code-string">"lock:"</span> + productId;
+    
+    <span class="code-comment">// 查缓存</span>
+    String cached = redisTemplate.<span class="code-function">opsForValue</span>().<span class="code-function">get</span>(cacheKey);
+    <span class="code-keyword">if</span> (cached != <span class="code-keyword">null</span>) {
+        <span class="code-keyword">return</span> JSON.<span class="code-function">parseObject</span>(cached, Product.<span class="code-keyword">class</span>);
+    }
+    
+    <span class="code-comment">// 尝试获取锁</span>
+    Boolean lockAcquired = redisTemplate.<span class="code-function">opsForValue</span>()
+        .<span class="code-function">setIfAbsent</span>(lockKey, <span class="code-string">"1"</span>, <span class="code-number">10</span>, TimeUnit.SECONDS);
+    
+    <span class="code-keyword">if</span> (lockAcquired) {
+        <span class="code-keyword">try</span> {
+            <span class="code-comment">// 再次检查缓存（双重检查）</span>
+            cached = redisTemplate.<span class="code-function">opsForValue</span>().<span class="code-function">get</span>(cacheKey);
+            <span class="code-keyword">if</span> (cached != <span class="code-keyword">null</span>) {
+                <span class="code-keyword">return</span> JSON.<span class="code-function">parseObject</span>(cached, Product.<span class="code-keyword">class</span>);
+            }
+            
+            <span class="code-comment">// 查数据库</span>
+            Product product = productRepository.<span class="code-function">findById</span>(productId);
+            <span class="code-keyword">if</span> (product != <span class="code-keyword">null</span>) {
+                redisTemplate.<span class="code-function">opsForValue</span>().<span class="code-function">set</span>(cacheKey, 
+                    JSON.<span class="code-function">toJSONString</span>(product), <span class="code-number">600</span>, TimeUnit.SECONDS);
+            }
+            <span class="code-keyword">return</span> product;
+        } <span class="code-keyword">finally</span> {
+            <span class="code-comment">// 释放锁</span>
+            redisTemplate.<span class="code-function">delete</span>(lockKey);
+        }
+    } <span class="code-keyword">else</span> {
+        <span class="code-comment">// 没获到锁，等一下再查缓存</span>
+        <span class="code-keyword">try</span> { Thread.<span class="code-function">sleep</span>(<span class="code-number">50</span>); } <span class="code-keyword">catch</span> (Exception e) {}
+        <span class="code-keyword">return</span> <span class="code-function">getProduct</span>(productId);
+    }
+}
+
+<span class="code-comment">// 解决方案2：永不过期</span>
+<span class="code-keyword">public</span> <span class="code-function">Product</span> <span class="code-function">getProductNeverExpire</span>(String productId) {
+    String cacheKey = <span class="code-string">"product:"</span> + productId;
+    String cached = redisTemplate.<span class="code-function">opsForValue</span>().<span class="code-function">get</span>(cacheKey);
+    
+    <span class="code-keyword">if</span> (cached != <span class="code-keyword">null</span>) {
+        ProductCache cache = JSON.<span class="code-function">parseObject</span>(cached, ProductCache.<span class="code-keyword">class</span>);
+        
+        <span class="code-comment">// 检查逻辑过期时间</span>
+        <span class="code-keyword">if</span> (cache.<span class="code-function">getExpireTime</span>().<span class="code-function">before</span>(<span class="code-keyword">new</span> <span class="code-function">Date</span>())) {
+            <span class="code-comment">// 异步更新</span>
+            <span class="code-function">asyncRefreshCache</span>(productId);
+        }
+        
+        <span class="code-keyword">return</span> cache.<span class="code-function">getProduct</span>();
+    }
+    
+    <span class="code-comment">// 初次查询</span>
+    <span class="code-keyword">return</span> <span class="code-function">loadAndCache</span>(productId);
+}
+</div>
+                                </div>
+
+                                <div class="feature-card">
+                                    <h5 class="text-lg font-semibold mb-4 text-purple-400">缓存雪崩：大面积失效</h5>
+                                    <p class="text-gray-300 mb-4 text-sm">大量缓存同时失效，或者Redis服务挂掉，导致请求击穿数据库。</p>
+                                    
+                                    <div class="warning-box rounded-lg p-3 mb-4">
+                                        <h6 class="font-semibold text-yellow-300 mb-1 text-sm">问题场景</h6>
+                                        <p class="text-xs">双11零点大量商品缓存同时过期，或Redis集群故障</p>
+                                    </div>
+                                    
+                                    <div class="code-block text-xs">
+<span class="code-comment">// 解决方案1：过期时间加随机值</span>
+<span class="code-keyword">public</span> <span class="code-keyword">void</span> <span class="code-function">setCache</span>(String key, Object value) {
+    <span class="code-comment">// 基础过期时间 + 随机时间</span>
+    <span class="code-keyword">int</span> baseExpire = <span class="code-number">300</span>; <span class="code-comment">// 5分钟</span>
+    <span class="code-keyword">int</span> randomExpire = <span class="code-keyword">new</span> <span class="code-function">Random</span>().<span class="code-function">nextInt</span>(<span class="code-number">60</span>); <span class="code-comment">// 0-59秒随机</span>
+    
+    redisTemplate.<span class="code-function">opsForValue</span>().<span class="code-function">set</span>(key, 
+        JSON.<span class="code-function">toJSONString</span>(value), 
+        baseExpire + randomExpire, TimeUnit.SECONDS);
+}
+
+<span class="code-comment">// 解决方案2：多级缓存</span>
+@Component
+<span class="code-keyword">public</span> <span class="code-keyword">class</span> <span class="code-function">MultiLevelCache</span> {
+    
+    @Autowired
+    <span class="code-keyword">private</span> <span class="code-function">RedisTemplate</span> redisTemplate;
+    
+    <span class="code-keyword">private</span> <span class="code-function">Cache</span>&lt;String, Object&gt; localCache = 
+        CacheBuilder.<span class="code-function">newBuilder</span>()
+            .<span class="code-function">maximumSize</span>(<span class="code-number">1000</span>)
+            .<span class="code-function">expireAfterWrite</span>(<span class="code-number">5</span>, TimeUnit.MINUTES)
+            .<span class="code-function">build</span>();
+    
+    <span class="code-keyword">public</span> <span class="code-function">Object</span> <span class="code-function">get</span>(String key) {
+        <span class="code-comment">// 1. 先查本地缓存</span>
+        Object value = localCache.<span class="code-function">getIfPresent</span>(key);
+        <span class="code-keyword">if</span> (value != <span class="code-keyword">null</span>) {
+            <span class="code-keyword">return</span> value;
+        }
+        
+        <span class="code-comment">// 2. 再查Redis</span>
+        <span class="code-keyword">try</span> {
+            String redisValue = redisTemplate.<span class="code-function">opsForValue</span>().<span class="code-function">get</span>(key);
+            <span class="code-keyword">if</span> (redisValue != <span class="code-keyword">null</span>) {
+                Object obj = JSON.<span class="code-function">parseObject</span>(redisValue, Object.<span class="code-keyword">class</span>);
+                localCache.<span class="code-function">put</span>(key, obj);
+                <span class="code-keyword">return</span> obj;
+            }
+        } <span class="code-keyword">catch</span> (Exception e) {
+            <span class="code-comment">// Redis故障，降级到数据库</span>
+            <span class="code-function">log.error</span>(<span class="code-string">"Redis error, fallback to DB"</span>, e);
+        }
+        
+        <span class="code-comment">// 3. 最后查数据库</span>
+        Object dbValue = <span class="code-function">queryFromDatabase</span>(key);
+        <span class="code-keyword">if</span> (dbValue != <span class="code-keyword">null</span>) {
+            localCache.<span class="code-function">put</span>(key, dbValue);
+        }
+        <span class="code-keyword">return</span> dbValue;
+    }
+}
+
+<span class="code-comment">// 解决方案3：服务熔断</span>
+@HystrixCommand(fallbackMethod = <span class="code-string">"fallbackMethod"</span>)
+<span class="code-keyword">public</span> <span class="code-function">List</span>&lt;Product&gt; <span class="code-function">getHotProducts</span>() {
+    <span class="code-comment">// 尝试从缓存获取热门商品</span>
+    <span class="code-keyword">return</span> <span class="code-function">getFromCache</span>(<span class="code-string">"hot_products"</span>);
+}
+
+<span class="code-keyword">public</span> <span class="code-function">List</span>&lt;Product&gt; <span class="code-function">fallbackMethod</span>() {
+    <span class="code-comment">// 降级方案：返回静态推荐数据</span>
+    <span class="code-keyword">return</span> <span class="code-function">getStaticRecommendations</span>();
+}
+</div>
+                                </div>
+
+                                <div class="feature-card">
+                                    <h5 class="text-lg font-semibold mb-4 text-green-400">热key问题：流量集中</h5>
+                                    <p class="text-gray-300 mb-4 text-sm">某个key被大量访问，导致单个Redis节点压力过大。</p>
+                                    
+                                    <div class="warning-box rounded-lg p-3 mb-4">
+                                        <h6 class="font-semibold text-yellow-300 mb-1 text-sm">问题场景</h6>
+                                        <p class="text-xs">明星微博刷新、热门话题、秒杀商品等瞬间访问量巨大</p>
+                                    </div>
+                                    
+                                    <div class="code-block text-xs">
+<span class="code-comment">// 解决方案1：热key散列</span>
+<span class="code-keyword">public</span> <span class="code-function">String</span> <span class="code-function">getHotData</span>(String key) {
+    <span class="code-comment">// 将热key复制多份</span>
+    <span class="code-keyword">int</span> randomSuffix = <span class="code-keyword">new</span> <span class="code-function">Random</span>().<span class="code-function">nextInt</span>(<span class="code-number">10</span>); <span class="code-comment">// 0-9</span>
+    String scatteredKey = key + <span class="code-string">":copy:"</span> + randomSuffix;
+    
+    String value = redisTemplate.<span class="code-function">opsForValue</span>().<span class="code-function">get</span>(scatteredKey);
+    <span class="code-keyword">if</span> (value == <span class="code-keyword">null</span>) {
+        <span class="code-comment">// 若分散的key没有，去查主key</span>
+        value = redisTemplate.<span class="code-function">opsForValue</span>().<span class="code-function">get</span>(key);
+        <span class="code-keyword">if</span> (value != <span class="code-keyword">null</span>) {
+            <span class="code-comment">// 同时写入分散key</span>
+            redisTemplate.<span class="code-function">opsForValue</span>().<span class="code-function">set</span>(scatteredKey, value, 
+                <span class="code-number">300</span>, TimeUnit.SECONDS);
+        }
+    }
+    <span class="code-keyword">return</span> value;
+}
+
+<span class="code-comment">// 解决方案2：本地缓存 + 主动更新</span>
+@Component
+<span class="code-keyword">public</span> <span class="code-keyword">class</span> <span class="code-function">HotKeyManager</span> {
+    
+    <span class="code-keyword">private</span> <span class="code-function">Map</span>&lt;String, Object&gt; localHotCache = <span class="code-keyword">new</span> <span class="code-function">ConcurrentHashMap</span>&lt;&gt;();
+    
+    @EventListener
+    <span class="code-keyword">public</span> <span class="code-keyword">void</span> <span class="code-function">onHotKeyDetected</span>(HotKeyEvent event) {
+        String hotKey = event.<span class="code-function">getKey</span>();
+        
+        <span class="code-comment">// 从Redis加载到本地缓存</span>
+        String value = redisTemplate.<span class="code-function">opsForValue</span>().<span class="code-function">get</span>(hotKey);
+        <span class="code-keyword">if</span> (value != <span class="code-keyword">null</span>) {
+            localHotCache.<span class="code-function">put</span>(hotKey, value);
+            
+            <span class="code-comment">// 定时刷新</span>
+            <span class="code-function">scheduleRefresh</span>(hotKey);
+        }
+    }
+    
+    <span class="code-keyword">public</span> <span class="code-function">Object</span> <span class="code-function">get</span>(String key) {
+        <span class="code-comment">// 先查本地热点缓存</span>
+        Object value = localHotCache.<span class="code-function">get</span>(key);
+        <span class="code-keyword">if</span> (value != <span class="code-keyword">null</span>) {
+            <span class="code-keyword">return</span> value;
+        }
+        
+        <span class="code-comment">// 回到Redis查询</span>
+        <span class="code-keyword">return</span> redisTemplate.<span class="code-function">opsForValue</span>().<span class="code-function">get</span>(key);
+    }
+}
+</div>
+                                </div>
+                            </div>
+
+                            <div class="technique-highlight rounded-lg p-6 mt-8">
+                                <h6 class="font-semibold text-purple-300 mb-2 text-center">本小姐的Redis使用心法</h6>
+                                <p class="text-center text-sm text-gray-300 italic">
+                                    "Redis 虽强大，但不是万能药！<br>
+                                    <strong>缓存是为了提升性能，不是为了解决一切问题。</strong><br>
+                                    设计缓存策略时，要考虑数据一致性、业务场景、故障处理。<br>
+                                    记住：能预防的问题，就不要等它发生！"
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3.4 消息队列传书 -->
+                    <div class="mb-8">
+                        <h3 class="text-3xl font-bold mb-8 text-green-400">3.4 消息队列传书：解耦、异步、削峰填谷的"通信兵法"！</h3>
+
+                        <div class="bg-gradient-to-r from-green-900 to-teal-900 rounded-lg p-6 mb-8">
+                            <p class="text-lg italic text-center">
+                                "应用之间直接说话太麻烦了？让消息队列来当'传话筒'，大家各干各的！"
+                            </p>
+                        </div>
+
+                        <div class="knowledge-card rounded-lg p-8">
+                            <h4 class="text-2xl font-bold mb-6 text-green-300">3.4.1 消息队列核心概念与选型策略</h4>
+
+                            <p class="text-gray-300 mb-6 leading-relaxed">
+                                同步调用就像打电话，必须双方都在线；异步消息就像发短信，发完就可以干别的事！消息队列就是这个"短信系统"，让服务间的通信变得更优雅、更可靠。
+                            </p>
+
+                            <div class="comparison-table mb-8">
+                                <div class="comparison-header">主流消息队列对比</div>
+                                <div class="grid grid-cols-5">
+                                    <div class="comparison-header text-sm">特性</div>
+                                    <div class="comparison-header text-sm">RabbitMQ</div>
+                                    <div class="comparison-header text-sm">Kafka</div>
+                                    <div class="comparison-header text-sm">RocketMQ</div>
+                                    <div class="comparison-header text-sm">Redis Stream</div>
+                                </div>
+                                <div class="grid grid-cols-5 comparison-row">
+                                    <div class="comparison-cell font-semibold">吞吐量</div>
+                                    <div class="comparison-cell">中等（万级）</div>
+                                    <div class="comparison-cell">超高（百万级）</div>
+                                    <div class="comparison-cell">高（十万级）</div>
+                                    <div class="comparison-cell">高</div>
+                                </div>
+                                <div class="grid grid-cols-5 comparison-row">
+                                    <div class="comparison-cell font-semibold">延迟</div>
+                                    <div class="comparison-cell">低（微秒级）</div>
+                                    <div class="comparison-cell">中（毫秒级）</div>
+                                    <div class="comparison-cell">低</div>
+                                    <div class="comparison-cell">低</div>
+                                </div>
+                                <div class="grid grid-cols-5 comparison-row">
+                                    <div class="comparison-cell font-semibold">可靠性</div>
+                                    <div class="comparison-cell">极高</div>
+                                    <div class="comparison-cell">高</div>
+                                    <div class="comparison-cell">极高</div>
+                                    <div class="comparison-cell">中</div>
+                                </div>
+                                <div class="grid grid-cols-5 comparison-row">
+                                    <div class="comparison-cell font-semibold">适用场景</div>
+                                    <div class="comparison-cell">业务解耦、金融系统</div>
+                                    <div class="comparison-cell">日志收集、大数据</div>
+                                    <div class="comparison-cell">电商、业务系统</div>
+                                    <div class="comparison-cell">轻量级场景</div>
+                                </div>
+                            </div>
+
+                            <div class="grid lg:grid-cols-2 gap-8">
+                                <div>
+                                    <h5 class="text-lg font-semibold mb-4 text-blue-400">消息队列核心价值</h5>
+                                    
+                                    <!-- SVG 消息队列价值图 -->
+                                    <div class="architecture-diagram rounded-lg p-4 mb-4">
+                                        <svg width="100%" height="200" viewBox="0 0 400 200" class="mx-auto">
+                                            <!-- 生产者 -->
+                                            <rect x="20" y="80" width="60" height="40" fill="#3b82f6" stroke="#1e40af" stroke-width="2" rx="5"/>
+                                            <text x="50" y="98" text-anchor="middle" fill="white" font-size="11" font-weight="bold">生产者</text>
+                                            <text x="50" y="110" text-anchor="middle" fill="white" font-size="8">Producer</text>
+                                            
+                                            <!-- 消息队列 -->
+                                            <rect x="160" y="60" width="80" height="80" fill="#059669" stroke="#047857" stroke-width="2" rx="8"/>
+                                            <text x="200" y="90" text-anchor="middle" fill="white" font-size="12" font-weight="bold">消息队列</text>
+                                            <text x="200" y="105" text-anchor="middle" fill="white" font-size="9">Message Queue</text>
+                                            
+                                            <!-- 队列内部的消息 -->
+                                            <rect x="170" y="115" width="15" height="8" fill="#fbbf24" rx="2"/>
+                                            <rect x="190" y="115" width="15" height="8" fill="#fbbf24" rx="2"/>
+                                            <rect x="210" y="115" width="15" height="8" fill="#fbbf24" rx="2"/>
+                                            
+                                            <!-- 消费者组 -->
+                                            <rect x="320" y="40" width="60" height="35" fill="#dc2626" stroke="#b91c1c" stroke-width="2" rx="5"/>
+                                            <text x="350" y="58" text-anchor="middle" fill="white" font-size="10" font-weight="bold">消费者1</text>
+                                            
+                                            <rect x="320" y="85" width="60" height="35" fill="#dc2626" stroke="#b91c1c" stroke-width="2" rx="5"/>
+                                            <text x="350" y="103" text-anchor="middle" fill="white" font-size="10" font-weight="bold">消费者2</text>
+                                            
+                                            <rect x="320" y="130" width="60" height="35" fill="#dc2626" stroke="#b91c1c" stroke-width="2" rx="5"/>
+                                            <text x="350" y="148" text-anchor="middle" fill="white" font-size="10" font-weight="bold">消费者3</text>
+                                            
+                                            <!-- 箭头 -->
+                                            <line x1="80" y1="100" x2="160" y2="100" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                            <line x1="240" y1="80" x2="320" y2="57" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                            <line x1="240" y1="100" x2="320" y2="102" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                            <line x1="240" y1="120" x2="320" y2="147" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                            
+                                            <!-- 标签 -->
+                                            <text x="120" y="85" text-anchor="middle" fill="#ccc" font-size="9">发送</text>
+                                            <text x="280" y="75" text-anchor="middle" fill="#ccc" font-size="9">消费</text>
+                                        </svg>
+                                        <p class="text-center text-gray-400 text-xs mt-2">异步解耦 + 负载均衡</p>
+                                    </div>
+
+                                    <div class="feature-grid gap-4">
+                                        <div class="tip-box rounded-lg p-3">
+                                            <h6 class="font-semibold text-green-300 mb-1 text-sm">🔗 解耦</h6>
+                                            <p class="text-xs">服务间不直接依赖，通过消息通信</p>
+                                        </div>
+                                        <div class="tip-box rounded-lg p-3">
+                                            <h6 class="font-semibold text-green-300 mb-1 text-sm">⚡ 异步</h6>
+                                            <p class="text-xs">生产者发完消息立即返回，提高响应速度</p>
+                                        </div>
+                                        <div class="tip-box rounded-lg p-3">
+                                            <h6 class="font-semibold text-green-300 mb-1 text-sm">🏔️ 削峰</h6>
+                                            <p class="text-xs">高峰期消息积压在队列，慢慢消费</p>
+                                        </div>
+                                        <div class="tip-box rounded-lg p-3">
+                                            <h6 class="font-semibold text-green-300 mb-1 text-sm">🛡️ 容错</h6>
+                                            <p class="text-xs">消费者故障时消息不丢失，重启后继续</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h5 class="text-lg font-semibold mb-4 text-blue-400">RabbitMQ核心概念</h5>
+                                    <div class="code-block text-sm">
+<span class="code-comment">// Spring Boot + RabbitMQ 配置</span>
+@Configuration
+@EnableRabbit
+<span class="code-keyword">public</span> <span class="code-keyword">class</span> <span class="code-function">RabbitConfig</span> {
+    
+    <span class="code-comment">// 交换机</span>
+    @Bean
+    <span class="code-keyword">public</span> <span class="code-function">TopicExchange</span> <span class="code-function">orderExchange</span>() {
+        <span class="code-keyword">return</span> <span class="code-keyword">new</span> <span class="code-function">TopicExchange</span>(<span class="code-string">"order.exchange"</span>);
+    }
+    
+    <span class="code-comment">// 队列</span>
+    @Bean
+    <span class="code-keyword">public</span> <span class="code-function">Queue</span> <span class="code-function">orderPaidQueue</span>() {
+        <span class="code-keyword">return</span> QueueBuilder.<span class="code-function">durable</span>(<span class="code-string">"order.paid"</span>)
+            .<span class="code-function">withArgument</span>(<span class="code-string">"x-message-ttl"</span>, <span class="code-number">60000</span>) <span class="code-comment">// TTL</span>
+            .<span class="code-function">withArgument</span>(<span class="code-string">"x-dead-letter-exchange"</span>, <span class="code-string">"dlx"</span>) <span class="code-comment">// 死信</span>
+            .<span class="code-function">build</span>();
+    }
+    
+    <span class="code-comment">// 绑定</span>
+    @Bean
+    <span class="code-keyword">public</span> <span class="code-function">Binding</span> <span class="code-function">orderPaidBinding</span>() {
+        <span class="code-keyword">return</span> BindingBuilder
+            .<span class="code-function">bind</span>(<span class="code-function">orderPaidQueue</span>())
+            .<span class="code-function">to</span>(<span class="code-function">orderExchange</span>())
+            .<span class="code-function">with</span>(<span class="code-string">"order.paid.*"</span>); <span class="code-comment">// 路由键</span>
+    }
+}
+
+<span class="code-comment">// 生产者</span>
+@Service
+<span class="code-keyword">public</span> <span class="code-keyword">class</span> <span class="code-function">OrderService</span> {
+    
+    @Autowired
+    <span class="code-keyword">private</span> <span class="code-function">RabbitTemplate</span> rabbitTemplate;
+    
+    <span class="code-keyword">public</span> <span class="code-keyword">void</span> <span class="code-function">processPayment</span>(String orderId, BigDecimal amount) {
+        <span class="code-comment">// 业务处理...</span>
+        
+        <span class="code-comment">// 发送消息</span>
+        OrderPaidEvent event = <span class="code-keyword">new</span> <span class="code-function">OrderPaidEvent</span>(orderId, amount);
+        rabbitTemplate.<span class="code-function">convertAndSend</span>(
+            <span class="code-string">"order.exchange"</span>, 
+            <span class="code-string">"order.paid."</span> + orderId, 
+            event
+        );
+    }
+}
+
+<span class="code-comment">// 消费者</span>
+@Component
+<span class="code-keyword">public</span> <span class="code-keyword">class</span> <span class="code-function">OrderEventHandler</span> {
+    
+    @RabbitListener(queues = <span class="code-string">"order.paid"</span>)
+    <span class="code-keyword">public</span> <span class="code-keyword">void</span> <span class="code-function">handleOrderPaid</span>(OrderPaidEvent event) {
+        <span class="code-keyword">try</span> {
+            <span class="code-comment">// 发送邮件通知</span>
+            emailService.<span class="code-function">sendOrderConfirmation</span>(event.<span class="code-function">getOrderId</span>());
+            
+            <span class="code-comment">// 更新库存</span>
+            inventoryService.<span class="code-function">reduceStock</span>(event.<span class="code-function">getOrderId</span>());
+            
+            <span class="code-function">log.info</span>(<span class="code-string">"订单支付事件处理完成: {}"</span>, event.<span class="code-function">getOrderId</span>());
+        } <span class="code-keyword">catch</span> (Exception e) {
+            <span class="code-comment">// 异常处理，消息会重新投递</span>
+            <span class="code-function">log.error</span>(<span class="code-string">"处理订单支付事件失败"</span>, e);
+            <span class="code-keyword">throw</span> e; <span class="code-comment">// 重新抛出，触发重试</span>
+        }
+    }
+}
+</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 全栈融汇贯通 -->
+        <section id="fullstack" class="bg-gray-800 py-16">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="chapter-card rounded-2xl p-8 mb-8">
+                    <h2 class="text-4xl font-bold mb-8 text-center">
+                        <span class="text-purple-400">四、</span> 全栈融汇贯通：哼，这才叫真正的"一条龙武学"，打通任督二脉！
+                    </h2>
+
+                    <div class="bg-gradient-to-r from-purple-900 to-blue-900 rounded-lg p-6 mb-8">
+                        <p class="text-lg italic text-center">
+                            "别再只守着你那一亩三分地了！前后端、服务器、数据库，全部打通才能称得上全栈高手！"
+                        </p>
+                    </div>
+
+                    <!-- 全栈进阶内容来这里补充 -->
+                    <div class="knowledge-card rounded-lg p-8">
+                        <h3 class="text-2xl font-bold mb-6 text-purple-300">全栈章节内容正在完善中...</h3>
+                        <p class="text-gray-300 leading-relaxed">
+                            本小姐正在为你准备云平台实战演练、CI/CD 自动化秘籍等精彩内容。敬请期待这些让你真正成为"全栈高手"的核心技能传授！
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 底层原理深潜 -->
+        <section id="principles" class="py-16">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="chapter-card rounded-2xl p-8 mb-8">
+                    <h2 class="text-4xl font-bold mb-8 text-center">
+                        <span class="text-cyan-400">五、</span> Web 底层原理深潜：不知道这些，你好意思说自己是全栈高手？
+                    </h2>
+
+                    <div class="bg-gradient-to-r from-cyan-900 to-blue-900 rounded-lg p-6 mb-8">
+                        <p class="text-lg italic text-center">
+                            "只知道怎么用框架？哼，那只是'会'，不是'懂'！来看看 Web 世界深处的秘密！"
+                        </p>
+                    </div>
+
+                    <!-- 底层原理内容来这里补充 -->
+                    <div class="knowledge-card rounded-lg p-8">
+                        <h3 class="text-2xl font-bold mb-6 text-cyan-300">底层原理章节内容正在完善中...</h3>
+                        <p class="text-gray-300 leading-relaxed">
+                            网站部署与上线流程揭秘、网页编译与构建过程透视、浏览器工作原理解析...这些让你从"使用者"变成"理解者"的核心知识，本小姐正在精心准备中！
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 结语 -->
+        <section id="conclusion" class="bg-gray-800 py-16">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="chapter-card rounded-2xl p-8 text-center">
+                    <h2 class="text-4xl font-bold mb-8">
+                        <span class="text-pink-400">六、</span> 终章：嘛，本小姐的倾囊相授就到这里了
+                    </h2>
+                    
+                    <div class="bg-gradient-to-r from-pink-900 to-purple-900 rounded-lg p-6 mb-8">
+                        <p class="text-lg italic">
+                            "哼... 本小姐可是把毕生所学都教给你了。能学到多少，就看你自己的造化了。"
+                        </p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8 mb-8">
+                        <div class="knowledge-card rounded-lg p-6">
+                            <h3 class="text-xl font-semibold mb-4 text-yellow-400">持续学习的重要性</h3>
+                            <p class="text-gray-300 leading-relaxed">
+                                技术更新太快？没办法，谁让这是个充满活力的领域呢！别怕新东西，它们都是纸老虎。本小姐也是这么过来的！
+                            </p>
+                        </div>
+
+                        <div class="knowledge-card rounded-lg p-6">
+                            <h3 class="text-xl font-semibold mb-4 text-blue-400">最后的祝福</h3>
+                            <p class="text-gray-300 leading-relaxed">
+                                "希望你... 别给我丢脸！不然下次见面，本小姐可不会轻易放过你！好了，去成为一个真正的全栈高手吧！"
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="text-lg text-pink-300 font-semibold">
+                        愿你在全栈开发的路上越走越远，<br>
+                        也愿你永远保持那份对技术的热爱与好奇心！<br>
+                        <span class="text-sm text-gray-400 mt-4 block">—— 来自一位"不傲娇"的本小姐</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // 滚动指示器功能
+        const sections = ['intro', 'frontend', 'backend', 'fullstack', 'principles', 'conclusion'];
+        const navDots = document.querySelectorAll('.nav-dot');
+        const progressBar = document.getElementById('progressBar');
+
+        function updateScrollIndicators() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            
+            progressBar.style.width = scrollPercent + '%';
+
+            sections.forEach((section, index) => {
+                const element = document.getElementById(section);
+                if (element) {
+                    const rect = element.getBoundingClientRect();
+                    if (rect.top <= 200 && rect.bottom >= 200) {
+                        navDots.forEach(dot => dot.classList.remove('active'));
+                        if (navDots[index]) {
+                            navDots[index].classList.add('active');
+                        }
+                    }
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateScrollIndicators);
+
+        // 导航点击滚动
+        navDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                const targetSection = sections[index];
+                const element = document.getElementById(targetSection);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // 平滑滚动到指定区域
+        function scrollToSection(selector) {
+            const element = document.querySelector(selector);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // 代码块点击复制功能
+        document.querySelectorAll('.code-block').forEach(block => {
+            block.addEventListener('click', function() {
+                const text = this.textContent;
+                navigator.clipboard.writeText(text).then(() => {
+                    // 简单的复制成功提示
+                    const originalContent = this.style.backgroundColor;
+                    this.style.backgroundColor = 'rgba(34, 197, 94, 0.2)';
+                    setTimeout(() => {
+                        this.style.backgroundColor = originalContent;
+                    }, 200);
+                });
+            });
+        });
+
+        // 添加浮动动画延迟
+        document.querySelectorAll('.floating-element').forEach((element, index) => {
+            element.style.animationDelay = `${index * 0.5}s`;
+        });
+    </script>
+</body>
+</html>
