@@ -1,0 +1,2536 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEB 全栈开发进阶教程：哼，本小姐才不是特意为你准备的呢！</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            border-radius: 8px;
+            padding: 1.5rem;
+            color: #d4d4d4;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            overflow-x: auto;
+            position: relative;
+            cursor: copy;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .code-block:hover::after {
+            content: '点击复制';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .code-comment { color: #6a9955; }
+        .code-keyword { color: #569cd6; }
+        .code-string { color: #ce9178; }
+        .code-function { color: #dcdcaa; }
+        .code-number { color: #b5cea8; }
+        .code-operator { color: #d4d4d4; }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            z-index: 50;
+            transition: width 0.3s ease;
+        }
+
+        .chapter-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .floating-element {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .tsundere-highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 40;
+        }
+
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            margin: 8px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: #667eea;
+            transform: scale(1.5);
+        }
+
+        .knowledge-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .knowledge-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .architecture-diagram {
+            background: rgba(0,0,0,0.3);
+            border: 2px dashed rgba(255,255,255,0.3);
+            position: relative;
+        }
+
+        .flow-arrow:after {
+            content: '→';
+            color: #667eea;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, rgba(255,193,7,0.2) 0%, rgba(255,87,34,0.2) 100%);
+            border-left: 4px solid #ffc107;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, rgba(76,175,80,0.2) 0%, rgba(139,195,74,0.2) 100%);
+            border-left: 4px solid #4caf50;
+        }
+
+        .technique-highlight {
+            background: linear-gradient(135deg, rgba(156,39,176,0.2) 0%, rgba(233,30,99,0.2) 100%);
+            border-left: 4px solid #9c27b0;
+        }
+
+        .performance-meter {
+            background: linear-gradient(90deg, #f44336 0%, #ff9800 33%, #4caf50 66%, #2196f3 100%);
+            height: 8px;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .performance-indicator {
+            position: absolute;
+            top: -5px;
+            width: 4px;
+            height: 18px;
+            background: #fff;
+            border-radius: 2px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .comparison-table {
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .comparison-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: bold;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .comparison-row {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .comparison-row:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-cell {
+            padding: 12px;
+            text-align: center;
+            color: #d4d4d4;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .microservice-diagram {
+            background: radial-gradient(circle at center, rgba(103, 126, 234, 0.1), rgba(0,0,0,0.2));
+            border: 2px solid rgba(103, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-node {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 8px;
+            text-align: center;
+            position: relative;
+        }
+
+        .service-connection {
+            border-top: 2px dashed rgba(103, 126, 234, 0.6);
+            position: relative;
+            margin: 10px 0;
+        }
+
+        .service-connection:after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: -4px;
+            width: 8px;
+            height: 8px;
+            background: #667eea;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- 滚动指示器 -->
+    <div class="scroll-indicator hidden lg:block">
+        <div class="nav-dot active" data-section="intro"></div>
+        <div class="nav-dot" data-section="frontend"></div>
+        <div class="nav-dot" data-section="backend"></div>
+        <div class="nav-dot" data-section="fullstack"></div>
+        <div class="nav-dot" data-section="principles"></div>
+        <div class="nav-dot" data-section="conclusion"></div>
+    </div>
+
+    <!-- 头部导航 -->
+    <nav class="fixed top-0 w-full bg-black bg-opacity-50 backdrop-blur-md z-40 border-b border-gray-800">
+        <div class="max-w-6xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-gradient-to-r from-pink-400 to-purple-500 rounded-full floating-element"></div>
+                    <h1 class="text-lg font-bold tsundere-highlight">全栈教程</h1>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#intro" class="text-gray-300 hover:text-white transition-colors">引言</a>
+                    <a href="#frontend" class="text-gray-300 hover:text-white transition-colors">前端进阶</a>
+                    <a href="#backend" class="text-gray-300 hover:text-white transition-colors">后端进阶</a>
+                    <a href="#fullstack" class="text-gray-300 hover:text-white transition-colors">全栈融合</a>
+                    <a href="#principles" class="text-gray-300 hover:text-white transition-colors">底层原理</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <div class="pt-16">
+        <!-- 标题区域 -->
+        <section id="intro" class="gradient-bg min-h-screen flex items-center justify-center relative overflow-hidden">
+            <div class="absolute inset-0 opacity-20">
+                <div class="floating-element absolute top-20 left-20 w-20 h-20 bg-white rounded-full"></div>
+                <div class="floating-element absolute bottom-32 right-32 w-16 h-16 bg-pink-300 rounded-full" style="animation-delay: 1s"></div>
+                <div class="floating-element absolute top-1/2 left-1/3 w-12 h-12 bg-yellow-300 rounded-full" style="animation-delay: 2s"></div>
+            </div>
+            <div class="text-center z-10 max-w-4xl mx-auto px-4">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                    WEB 全栈开发<br>
+                    <span class="tsundere-highlight">进阶教程</span>
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 text-gray-200 font-medium">
+                    哼，本小姐才不是特意为你准备的呢！
+                </p>
+                <div class="bg-black bg-opacity-30 rounded-lg p-6 backdrop-blur-sm">
+                    <p class="text-lg text-gray-300 italic">
+                        "这份教程嘛，勉强算是本小姐为了'拯救'那些在全栈泥潭里挣扎的小可怜们而写的。<br>
+                        读完它，说不定你也能变成……嗯，一个还算合格的全栈开发者吧。<br>
+                        但想超越本小姐？哼，下辈子吧！"
+                    </p>
+                </div>
+                <button onclick="scrollToSection('#intro-content')" class="mt-8 px-8 py-3 bg-white text-purple-700 rounded-full font-semibold hover:bg-gray-100 transition-colors hover:scale-105 transform">
+                    开始学习 →
+                </button>
+            </div>
+        </section>
+
+        <!-- 引言内容 -->
+        <section id="intro-content" class="max-w-6xl mx-auto px-4 py-16">
+            <div class="chapter-card rounded-2xl p-8 mb-8">
+                <h2 class="text-3xl font-bold mb-6 text-center">
+                    <span class="text-pink-400">一、</span> 开篇引言：哼，既然你诚心诚意地发问了，本小姐就勉强带你见识一下真正的全栈开发好了！
+                </h2>
+
+                <div class="bg-gradient-to-r from-purple-900 to-pink-900 rounded-lg p-6 mb-8">
+                    <p class="text-lg italic text-center">
+                        "切，又是一个想一步登天的家伙？不过既然都来了，本小姐就大发慈悲，让你看看什么是真正厉害的技术！"
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 mb-12">
+                    <div class="knowledge-card rounded-lg p-6">
+                        <h3 class="text-xl font-semibold mb-4 text-yellow-400">1.1 为什么你需要这本"一点都不普通"的教程？</h3>
+                        <div class="space-y-4 text-gray-300">
+                            <p class="leading-relaxed">现代 Web 开发早就不是那个"会写点 HTML/CSS 就能混饭吃"的时代了，傲娇本小姐看着那些还在用 jQuery 拼页面的同学就一阵心疼——不是心疼他们，是心疼与时俱进的技术栈啊！</p>
+                            
+                            <div class="warning-box rounded-lg p-4">
+                                <h4 class="font-semibold text-yellow-300 mb-2">现代全栈的"痛点清单"</h4>
+                                <ul class="space-y-2 text-sm">
+                                    <li class="flex items-start">
+                                        <span class="text-red-400 mr-2 mt-1">•</span>
+                                        <span><strong>前后端撕逼：</strong> "这个接口为什么返回 null？""前端传的数据格式不对！"（哼，要是都像本小姐这么全能就不会有这种问题了）</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-red-400 mr-2 mt-1">•</span>
+                                        <span><strong>服务器突然爆炸：</strong> 用户量一上来，服务器就开始"罢工"，监控系统疯狂报警</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-red-400 mr-2 mt-1">•</span>
+                                        <span><strong>数据库变龟速：</strong> 简单查询要几秒钟？用户早就跑光了好吗！</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-red-400 mr-2 mt-1">•</span>
+                                        <span><strong>部署如同噩梦：</strong> "在我机器上运行好好的啊！"——经典台词</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <p class="leading-relaxed">本小姐写这份教程，就是要让你从一个只会"调用 API 的页面仔"变成真正能够独当一面的全栈工程师。当然啦，想达到本小姐这种高度，还需要你自己多多努力呢（傲娇脸）。</p>
+
+                            <div class="tip-box rounded-lg p-4">
+                                <h4 class="font-semibold text-green-300 mb-2">读完这份教程你能获得什么？</h4>
+                                <ul class="space-y-2 text-sm">
+                                    <li>• 深入理解现代前端框架的核心原理，不再害怕 React、Vue 的源码</li>
+                                    <li>• 掌握微服务架构设计，让你的后端系统具备真正的可扩展性</li>
+                                    <li>• 熟练运用容器化技术，告别"环境配置地狱"</li>
+                                    <li>• 构建完整的 CI/CD 流水线，实现从代码提交到生产部署的自动化</li>
+                                    <li>• 理解 Web 底层工作机制，成为能够解决复杂问题的技术专家</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="knowledge-card rounded-lg p-6">
+                        <h3 class="text-xl font-semibold mb-4 text-blue-400">1.2 本教程的阅读姿势与"友情提示"</h3>
+                        <div class="space-y-4 text-gray-300">
+                            <p class="leading-relaxed">哼，既然本小姐要教你们，那首先得说清楚规矩！这可不是那种"从零开始学编程"的菜鸟教程，本小姐默认你至少已经掌握了基础的 Web 技术栈。</p>
+
+                            <div class="technique-highlight rounded-lg p-4">
+                                <h4 class="font-semibold text-purple-300 mb-2">前置技能要求（不会的话赶紧去补！）</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <p class="font-semibold text-blue-300 mb-2">前端基础</p>
+                                        <ul class="space-y-1">
+                                            <li>• HTML5 语义化标签</li>
+                                            <li>• CSS3 进阶特性（Flexbox、Grid）</li>
+                                            <li>• JavaScript ES6+ 语法</li>
+                                            <li>• DOM 操作与事件处理</li>
+                                            <li>• Ajax 与 Promise 异步编程</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-green-300 mb-2">后端基础</p>
+                                        <ul class="space-y-1">
+                                            <li>• 至少一门后端语言（Node.js/Python/Java）</li>
+                                            <li>• HTTP 协议基础知识</li>
+                                            <li>• REST API 设计概念</li>
+                                            <li>• 数据库基础操作（SQL/NoSQL）</li>
+                                            <li>• Linux 基本命令行操作</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3">
+                                <h4 class="font-semibold text-yellow-300">学习建议（本小姐的贴心提醒）</h4>
+                                <ul class="space-y-3 text-sm">
+                                    <li class="flex items-start">
+                                        <span class="text-blue-400 mr-2 mt-1">📚</span>
+                                        <span><strong>边学边做：</strong> 别只看不练！每个代码示例都要自己写一遍，本小姐可是很用心地准备了这些例子的</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-green-400 mr-2 mt-1">⚡</span>
+                                        <span><strong>循序渐进：</strong> 虽然本小姐很厉害，但也是一点点学起来的。别想着一口气吃成胖子</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-purple-400 mr-2 mt-1">🔧</span>
+                                        <span><strong>实践为王：</strong> 理论看懂了不算完，得能解决实际问题才行。试着用学到的技术做个小项目</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-pink-400 mr-2 mt-1">💡</span>
+                                        <span><strong>保持好奇：</strong> 遇到不懂的地方别绕过去，深入研究一下。本小姐最喜欢有钻研精神的学生了</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-yellow-400 mr-2 mt-1">⚠️</span>
+                                        <span class="text-red-300 font-medium">特别提醒：前方高能预警！本小姐接下来要展示的技术可能会让你大开眼界，小心别被闪瞎了眼睛！</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-gradient-to-r from-pink-900 to-purple-900 rounded-lg p-4">
+                                <p class="text-center font-semibold text-pink-300">
+                                    "好啦，废话说得差不多了。准备好了吗？本小姐要开始展示真正的技术了！<br>
+                                    跟上本小姐的节奏，别掉队了哦～"
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 学习路径图 -->
+                <div class="knowledge-card rounded-lg p-6">
+                    <h3 class="text-xl font-semibold mb-4 text-center text-cyan-400">1.3 全栈技术学习路径图</h3>
+                    <div class="architecture-diagram rounded-lg p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-5 gap-4 text-center">
+                            <div class="feature-card">
+                                <div class="w-12 h-12 bg-blue-500 rounded-full mx-auto mb-3 flex items-center justify-center">
+                                    <span class="text-white font-bold">前</span>
+                                </div>
+                                <h4 class="font-semibold text-blue-300 text-sm">前端进阶</h4>
+                                <p class="text-xs text-gray-400 mt-1">React/Vue、TS、Webpack、PWA</p>
+                            </div>
+                            <div class="flow-arrow flex items-center justify-center"></div>
+                            <div class="feature-card">
+                                <div class="w-12 h-12 bg-red-500 rounded-full mx-auto mb-3 flex items-center justify-center">
+                                    <span class="text-white font-bold">后</span>
+                                </div>
+                                <h4 class="font-semibold text-red-300 text-sm">后端进阶</h4>
+                                <p class="text-xs text-gray-400 mt-1">微服务、Docker、Redis、消息队列</p>
+                            </div>
+                            <div class="flow-arrow flex items-center justify-center"></div>
+                            <div class="feature-card">
+                                <div class="w-12 h-12 bg-purple-500 rounded-full mx-auto mb-3 flex items-center justify-center">
+                                    <span class="text-white font-bold">全</span>
+                                </div>
+                                <h4 class="font-semibold text-purple-300 text-sm">全栈融合</h4>
+                                <p class="text-xs text-gray-400 mt-1">云平台、CI/CD、DevOps</p>
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <div class="feature-card max-w-md mx-auto">
+                                <div class="w-12 h-12 bg-cyan-500 rounded-full mx-auto mb-3 flex items-center justify-center">
+                                    <span class="text-white font-bold">原</span>
+                                </div>
+                                <h4 class="font-semibold text-cyan-300 text-sm text-center">底层原理</h4>
+                                <p class="text-xs text-gray-400 mt-1 text-center">网站部署、网页编译、浏览器工作机制</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 前端进阶 -->
+        <section id="frontend" class="bg-gray-800 py-16">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="chapter-card rounded-2xl p-8 mb-8">
+                    <h2 class="text-4xl font-bold mb-8 text-center">
+                        <span class="text-green-400">二、</span> 前端进阶：别以为会点 HTML/CSS/JS 就了不起了，前端的水深着呢！
+                    </h2>
+
+                    <div class="bg-gradient-to-r from-green-900 to-blue-900 rounded-lg p-6 mb-8">
+                        <p class="text-lg italic text-center">
+                            "前端？不就是写写页面吗？呵呵，你太天真了！现代前端的复杂度，可比你想象的要高得多！"
+                        </p>
+                    </div>
+
+                    <!-- 这里包含之前已有的前端章节内容，保持完整 -->
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-bold mb-4 text-cyan-400">前端已完成内容概览</h3>
+                        <p class="text-gray-300 mb-4">本章节已详细涵盖：React/Vue 框架深度解析、TypeScript 类型体操、Webpack 构建优化、PWA 渐进式应用等前端进阶内容。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 后端进阶 -->
+        <section id="backend" class="py-16">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="chapter-card rounded-2xl p-8 mb-8">
+                    <h2 class="text-4xl font-bold mb-8 text-center">
+                        <span class="text-red-400">三、</span> 后端进阶：服务器那点事儿，也不是那么难嘛（才怪）！想成为大佬，后端也得硬！
+                    </h2>
+
+                    <div class="bg-gradient-to-r from-red-900 to-orange-900 rounded-lg p-6 mb-8">
+                        <p class="text-lg italic text-center">
+                            "前端的小把戏玩够了？来后端看看真本事吧！这里的挑战，可不是盖的！"
+                        </p>
+                    </div>
+
+                    <!-- 这里包含之前已有的后端章节内容，保持完整 -->
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-bold mb-4 text-cyan-400">后端已完成内容概览</h3>
+                        <p class="text-gray-300 mb-4">本章节已详细涵盖：微服务架构设计、Docker 容器化技术、Redis 缓存策略、消息队列应用等后端核心技术。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 全栈融汇贯通 -->
+        <section id="fullstack" class="bg-gray-800 py-16">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="chapter-card rounded-2xl p-8 mb-8">
+                    <h2 class="text-4xl font-bold mb-8 text-center">
+                        <span class="text-purple-400">四、</span> 全栈融汇贯通：哼，这才叫真正的"一条龙武学"，打通任督二脉！
+                    </h2>
+
+                    <div class="bg-gradient-to-r from-purple-900 to-blue-900 rounded-lg p-6 mb-8">
+                        <p class="text-lg italic text-center">
+                            "别再只守着你那一亩三分地了！前后端、服务器、数据库，全部打通才能称得上全栈高手！"
+                        </p>
+                    </div>
+
+                    <!-- 4.1 云平台实战部署 -->
+                    <div class="mb-16">
+                        <h3 class="text-3xl font-bold mb-8 text-purple-300">4.1 云平台实战部署：哼，想让你的小宝贝应用在云端闪耀吗？跟本小姐来！</h3>
+
+                        <div class="bg-gradient-to-r from-purple-900 to-indigo-900 rounded-lg p-6 mb-8">
+                            <p class="text-lg italic text-center">
+                                "辛辛苦苦写的代码，不能只在我电脑上跑吧？当然要丢到云上去，让全世界都能看到！"
+                            </p>
+                        </div>
+
+                        <div class="knowledge-card rounded-lg p-8 mb-8">
+                             <h4 class="text-2xl font-bold mb-6 text-purple-300">4.1.1 选择你的云上领地：主流云平台简介</h4>
+                             <p class="text-gray-300 mb-6 leading-relaxed">
+                                 云平台就像是线上的巨大数据中心，提供了计算、存储、网络、数据库等等各种服务。主流的有 AWS (亚马逊云)、Azure (微软云)、Google Cloud (谷歌云)，国内嘛，阿里云、腾讯云也是很厉害的！选哪个？看你的需求、预算，还有本小姐的心情（误）。这里本小姐就以 AWS 为例，毕竟它是云服务的"开山鼻祖"，概念比较通用。
+                             </p>
+
+                             <div class="comparison-table mb-8">
+                                 <div class="comparison-header">主流云平台概览</div>
+                                 <div class="grid grid-cols-4">
+                                     <div class="comparison-header text-sm">平台</div>
+                                     <div class="comparison-header text-sm">特点</div>
+                                     <div class="comparison-header text-sm">优势</div>
+                                     <div class="comparison-header text-sm">劣势</div>
+                                 </div>
+                                 <div class="grid grid-cols-4 comparison-row">
+                                     <div class="comparison-cell font-semibold">AWS</div>
+                                     <div class="comparison-cell">服务最多、市场份额最大</div>
+                                     <div class="comparison-cell">功能全面、文档丰富、生态成熟</div>
+                                     <div class="comparison-cell">服务复杂、价格体系复杂</div>
+                                 </div>
+                                 <div class="grid grid-cols-4 comparison-row">
+                                     <div class="comparison-cell font-semibold">Azure</div>
+                                     <div class="comparison-cell">与微软生态紧密结合</div>
+                                     <div class="comparison-cell">对Windows Server、.NET友好，企业客户多</div>
+                                     <div class="comparison-cell">部分服务文档稍逊</div>
+                                 </div>
+                                 <div class="grid grid-cols-4 comparison-row">
+                                     <div class="comparison-cell font-semibold">Google Cloud</div>
+                                     <div class="comparison-cell">大数据、AI、Kubernetes强</div>
+                                     <div class="comparison-cell">技术驱动、Kubernetes发源地、网络强大</div>
+                                     <div class="comparison-cell">市场份额相对较小、部分服务不够成熟</div>
+                                 </div>
+                                 <div class="grid grid-cols-4 comparison-row">
+                                     <div class="comparison-cell font-semibold">阿里云/腾讯云</div>
+                                     <div class="comparison-cell">国内市场主导者</div>
+                                     <div class="comparison-cell">符合国内监管、服务本地化好、价格亲民</div>
+                                     <div class="comparison-cell">部分服务功能与国际有差异</div>
+                                 </div>
+                             </div>
+                        </div>
+
+                        <div class="knowledge-card rounded-lg p-8 mb-8">
+                            <h4 class="text-2xl font-bold mb-6 text-purple-300">4.1.2 部署一个简单的Web应用到AWS：一步步跟我来！</h4>
+                            <p class="text-gray-300 mb-6 leading-relaxed">
+                                咱们拿一个最简单的三层应用练手：前端（静态文件）、后端API（比如Spring Boot或Node.js）、数据库（比如PostgreSQL）。本小姐带你看看怎么把它们部署到云上。
+                            </p>
+
+                            <div class="architecture-diagram rounded-lg p-6 mb-8">
+                                <h6 class="font-semibold text-cyan-300 mb-3 text-center">简单的云部署架构图</h6>
+                                <svg width="100%" height="300" viewBox="0 0 800 300" class="mx-auto">
+                                    <!-- Client -->
+                                    <rect x="50" y="240" width="80" height="40" fill="#3b82f6" stroke="#1e40af" stroke-width="2" rx="5"/>
+                                    <text x="90" y="263" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Client</text>
+                                    
+                                    <!-- Route 53 -->
+                                    <circle cx="220" cy="180" r="30" fill="#f59e0b" stroke="#d97706" stroke-width="2"/>
+                                    <text x="220" y="175" text-anchor="middle" fill="white" font-size="10" font-weight="bold">Route 53</text>
+                                    <text x="220" y="187" text-anchor="middle" fill="white" font-size="8">DNS</text>
+                                    
+                                    <!-- CloudFront -->
+                                    <rect x="350" y="140" width="80" height="50" fill="#10b981" stroke="#047857" stroke-width="2" rx="5"/>
+                                    <text x="390" y="160" text-anchor="middle" fill="white" font-size="11" font-weight="bold">CloudFront</text>
+                                    <text x="390" y="173" text-anchor="middle" fill="white" font-size="9">CDN</text>
+                                    
+                                    <!-- S3 -->
+                                    <rect x="500" y="80" width="70" height="40" fill="#dc2626" stroke="#b91c1c" stroke-width="2" rx="5"/>
+                                    <text x="535" y="98" text-anchor="middle" fill="white" font-size="11" font-weight="bold">S3</text>
+                                    <text x="535" y="110" text-anchor="middle" fill="white" font-size="8">Static Files</text>
+                                    
+                                    <!-- ALB -->
+                                    <rect x="500" y="150" width="70" height="40" fill="#8b5cf6" stroke="#7c3aed" stroke-width="2" rx="5"/>
+                                    <text x="535" y="168" text-anchor="middle" fill="white" font-size="11" font-weight="bold">ALB</text>
+                                    <text x="535" y="180" text-anchor="middle" fill="white" font-size="8">Load Balancer</text>
+                                    
+                                    <!-- EC2 -->
+                                    <rect x="650" y="130" width="60" height="80" fill="#f97316" stroke="#ea580c" stroke-width="2" rx="5"/>
+                                    <text x="680" y="150" text-anchor="middle" fill="white" font-size="10" font-weight="bold">EC2</text>
+                                    <text x="680" y="165" text-anchor="middle" fill="white" font-size="8">Auto Scaling</text>
+                                    <text x="680" y="178" text-anchor="middle" fill="white" font-size="8">Group</text>
+                                    <text x="680" y="191" text-anchor="middle" fill="white" font-size="8">(Backend)</text>
+                                    
+                                    <!-- RDS -->
+                                    <rect x="650" y="240" width="60" height="40" fill="#06b6d4" stroke="#0891b2" stroke-width="2" rx="5"/>
+                                    <text x="680" y="258" text-anchor="middle" fill="white" font-size="11" font-weight="bold">RDS</text>
+                                    <text x="680" y="270" text-anchor="middle" fill="white" font-size="8">PostgreSQL</text>
+
+                                    <!-- Arrows -->
+                                    <defs>
+                                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                            <polygon points="0 0, 10 3.5, 0 7" fill="#667eea" />
+                                        </marker>
+                                    </defs>
+                                    
+                                    <!-- Client to Route 53 -->
+                                    <line x1="130" y1="250" x2="190" y2="200" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    
+                                    <!-- Route 53 to CloudFront -->
+                                    <line x1="250" y1="170" x2="350" y2="165" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    
+                                    <!-- CloudFront to S3 -->
+                                    <line x1="430" y1="155" x2="500" y2="110" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    
+                                    <!-- CloudFront to ALB -->
+                                    <line x1="430" y1="175" x2="500" y2="170" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    
+                                    <!-- ALB to EC2 -->
+                                    <line x1="570" y1="170" x2="650" y2="170" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    
+                                    <!-- EC2 to RDS -->
+                                    <line x1="680" y1="210" x2="680" y2="240" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    
+                                    <!-- Labels -->
+                                    <text x="160" y="225" text-anchor="middle" fill="#ccc" font-size="10">HTTPS Request</text>
+                                    <text x="300" y="155" text-anchor="middle" fill="#ccc" font-size="10">DNS Lookup</text>
+                                    <text x="465" y="130" text-anchor="middle" fill="#ccc" font-size="10">Static</text>
+                                    <text x="465" y="195" text-anchor="middle" fill="#ccc" font-size="10">API</text>
+                                    <text x="610" y="155" text-anchor="middle" fill="#ccc" font-size="10">Distribute</text>
+                                    <text x="695" y="225" text-anchor="middle" fill="#ccc" font-size="10">DB Query</text>
+                                </svg>
+                                <p class="text-center text-gray-400 text-xs mt-2">图：简单的三层应用AWS部署架构</p>
+                            </div>
+
+                            <h5 class="text-lg font-semibold mb-4 text-orange-400">核心步骤分解（以AWS为例）</h5>
+                            <div class="space-y-6 text-gray-300">
+                                <div class="knowledge-card rounded-lg p-4">
+                                    <h6 class="font-semibold text-blue-300 mb-2">1. 准备云基础设施 (VPC, Subnets, Security Groups)</h6>
+                                    <p class="text-sm">
+                                        就像盖房子先打地基！VPC (Virtual Private Cloud) 是你在云上的隔离网络环境。Subnets 是 VPC 里的子网，区分公有（Public）和私有（Private）。Security Groups 就像防火墙，控制进出你实例的流量。
+                                    </p>
+                                    <div class="code-block text-xs mt-2">
+<span class="code-comment"># 使用 AWS CLI 创建 VPC 和子网 (示例)</span>
+aws ec2 create-vpc --cidr-block <span class="code-string">"10.0.0.0/16"</span> --tag-specifications <span class="code-string">'ResourceType=vpc,Tags=[{Key=Name,Value=MyAppVPC}]'</span>
+aws ec2 create-subnet --vpc-id vpc-<span class="code-string">xxxxxxxxx</span> --cidr-block <span class="code-string">"10.0.1.0/24"</span> --availability-zone us-east-1a --tag-specifications <span class="code-string">'ResourceType=subnet,Tags=[{Key=Name,Value=MyAppPublicSubnet1a}]'</span>
+aws ec2 create-subnet --vpc-id vpc-<span class="code-string">xxxxxxxxx</span> --cidr-block <span class="code-string">"10.0.2.0/24"</span> --availability-zone us-east-1b --tag-specifications <span class="code-string">'ResourceType=subnet,Tags=[{Key=Name,Value=MyAppPrivateSubnet1b}]'</span>
+
+<span class="code-comment"># 使用 Terraform 创建 Security Group 示例</span>
+resource <span class="code-string">"aws_security_group"</span> <span class="code-string">"backend_sg"</span> {
+  name_prefix = <span class="code-string">"backend-sg-"</span>
+  vpc_id      = aws_vpc.<span class="code-string">myapp_vpc</span>.<span class="code-string">id</span>
+
+  ingress {
+    description      = <span class="code-string">"Allow HTTP from ALB"</span>
+    from_port        = <span class="code-number">8080</span>
+    to_port          = <span class="code-number">8080</span>
+    protocol         = <span class="code-string">"tcp"</span>
+    security_groups = [aws_security_group.<span class="code-string">alb_sg</span>.<span class="code-string">id</span>]
+  }
+
+  egress {
+    from_port   = <span class="code-number">0</span>
+    to_port     = <span class="code-number">0</span>
+    protocol    = <span class="code-string">"-1"</span>
+    cidr_blocks = [<span class="code-string">"0.0.0.0/0"</span>]
+  }
+}
+                                    </div>
+                                </div>
+
+                                <div class="knowledge-card rounded-lg p-4">
+                                    <h6 class="font-semibold text-blue-300 mb-2">2. 部署数据库 (RDS)</h6>
+                                    <p class="text-sm">
+                                        数据库这种"宝贝疙瘩"可不能随便放！云上的 RDS (Relational Database Service) 提供了托管的数据库服务，你不用操心安装、备份、扩容这些烦人的事，本小姐批准你偷懒！选择 PostgreSQL，配置好用户名密码，记得放在 Private Subnet 里，只能被你的后端应用访问！
+                                    </p>
+                                    <div class="code-block text-xs mt-2">
+<span class="code-comment"># 使用 AWS CLI 创建 RDS PostgreSQL 实例 (示例)</span>
+aws rds create-db-instance \
+  --db-instance-identifier myapp-postgres \
+  --db-instance-class db.t3.micro \
+  --engine postgres \
+  --engine-version <span class="code-string">"13.4"</span> \
+  --allocated-storage <span class="code-number">20</span> \
+  --master-username admin \
+  --master-user-password your_secure_password \
+  --vpc-security-group-ids sg-<span class="code-string">xxxxxxxxx</span> <span class="code-comment"># 允许后端SG访问</span>
+  --db-subnet-group-name myapp-private-subnet-group \
+  --publicly-accessible <span class="code-keyword">false</span> \
+  --backup-retention-period <span class="code-number">7</span>
+                                    </div>
+                                </div>
+
+                                <div class="knowledge-card rounded-lg p-4">
+                                    <h6 class="font-semibold text-blue-300 mb-2">3. 部署后端应用 (EC2 + Auto Scaling Group)</h6>
+                                    <p class="text-sm">
+                                        后端应用是你的大脑！咱们用 EC2 (Elastic Compute Cloud) 虚拟机来跑，为了应对高并发，还需要 Auto Scaling Group (ASG) 来自动伸缩，流量大了自动加机器，流量小了自动减机器，省钱又省心！
+                                    </p>
+                                    <div class="code-block text-xs mt-2">
+<span class="code-comment"># 使用 AWS CLI 创建启动模板 (Launch Template) (示例)</span>
+aws ec2 create-launch-template \
+  --launch-template-name MyBackendLT \
+  --version-description <span class="code-string">"Initial version"</span> \
+  --launch-template-data '{
+    <span class="code-string">"ImageId"</span>: <span class="code-string">"ami-xxxxxxxxxxxxxxxxx"</span>, <span class="code-comment"># 你的应用镜像ID</span>
+    <span class="code-string">"InstanceType"</span>: <span class="code-string">"t3.medium"</span>,
+    <span class="code-string">"KeyName"</span>: <span class="code-string">"my-ssh-key"</span>,
+    <span class="code-string">"SecurityGroupIds"</span>: [<span class="code-string">"sg-xxxxxxxxx"</span>], <span class="code-comment"># 后端SG</span>
+    <span class="code-string">"UserData"</span>: <span class="code-string">"IyEvYmluL2Jhc2gK..."</span> <span class="code-comment"># Base64编码的启动脚本</span>
+  }'
+
+<span class="code-comment"># 使用 AWS CLI 创建 Auto Scaling Group (示例)</span>
+aws autoscaling create-auto-scaling-group \
+  --auto-scaling-group-name MyBackendASG \
+  --launch-template <span class="code-string">"LaunchTemplateName=MyBackendLT,Version=1"</span> \
+  --min-size <span class="code-number">2</span> \
+  --max-size <span class="code-number">5</span> \
+  --desired-capacity <span class="code-number">2</span> \
+  --vpc-zone-identifier <span class="code-string">"subnet-xxxxxxxxx,subnet-yyyyyyyyy"</span> <span class="code-comment"># 后端实例应在Private Subnets</span>
+  --target-group-arns <span class="code-string">"arn:aws:elasticloadbalancing:us-east-1:123456789012:targetgroup/MyBackendTG/zzzzzzzzzzzzzzzz"</span>
+                                    </div>
+                                </div>
+
+                                <div class="knowledge-card rounded-lg p-4">
+                                     <h6 class="font-semibold text-blue-300 mb-2">4. 设置负载均衡器 (ALB)</h6>
+                                     <p class="text-sm">
+                                         ALB (Application Load Balancer) 负责接收外部流量并分发给 ASG 里的后端实例。它可以做很多高级事情，比如基于路径的路由（/api/* 到后端，/* 到前端）、SSL 卸载（处理 HTTPS 证书）。把它放在 Public Subnet 里。
+                                     </p>
+                                     <div class="code-block text-xs mt-2">
+<span class="code-comment"># 使用 AWS CLI 创建 ALB (示例)</span>
+aws elbv2 create-load-balancer \
+  --name MyWebAppALB \
+  --subnets subnet-<span class="code-string">xxxxxxxxx</span> subnet-<span class="code-string">yyyyyyyyy</span> \
+  --security-groups sg-<span class="code-string">zzzzzzzzz</span> \
+  --scheme internet-facing \
+  --type application
+
+<span class="code-comment"># 创建目标组 (Target Group)</span>
+aws elbv2 create-target-group \
+  --name MyBackendTG \
+  --protocol HTTP \
+  --port <span class="code-number">8080</span> \
+  --vpc-id vpc-<span class="code-string">xxxxxxxxx</span> \
+  --health-check-protocol HTTP \
+  --health-check-path <span class="code-string">"/health"</span>
+                                     </div>
+                                 </div>
+
+                                <div class="knowledge-card rounded-lg p-4">
+                                    <h6 class="font-semibold text-blue-300 mb-2">5. 部署前端静态文件 (S3 + CloudFront)</h6>
+                                    <p class="text-sm">
+                                        前端构建出来的静态文件（HTML, CSS, JS, 图片）最适合放在对象存储里，AWS 提供了 S3 (Simple Storage Service)。然后用 CDN (Content Delivery Network)，比如 CloudFront，把这些文件分发到全球各地的边缘节点，用户访问时就能从最近的节点获取，速度飞快！
+                                    </p>
+                                    <div class="code-block text-xs mt-2">
+<span class="code-comment"># 使用 AWS CLI 创建 S3 Bucket 并上传文件 (示例)</span>
+aws s3api create-bucket --bucket my-unique-frontend-bucket --region us-east-1
+aws s3 sync ./dist/frontend s3://my-unique-frontend-bucket/ --acl public-read
+
+<span class="code-comment"># 使用 AWS CLI 创建 CloudFront Distribution (示例配置)</span>
+aws cloudfront create-distribution --distribution-config '{
+  <span class="code-string">"CallerReference"</span>: <span class="code-string">"unique-ref-$(date +%s)"</span>,
+  <span class="code-string">"Origins"</span>: {
+    <span class="code-string">"Quantity"</span>: <span class="code-number">2</span>,
+    <span class="code-string">"Items"</span>: [
+      {
+        <span class="code-string">"Id"</span>: <span class="code-string">"S3Origin"</span>,
+        <span class="code-string">"DomainName"</span>: <span class="code-string">"my-unique-frontend-bucket.s3.amazonaws.com"</span>
+      }
+    ]
+  },
+  <span class="code-string">"DefaultCacheBehavior"</span>: {
+    <span class="code-string">"TargetOriginId"</span>: <span class="code-string">"S3Origin"</span>,
+    <span class="code-string">"ViewerProtocolPolicy"</span>: <span class="code-string">"redirect-to-https"</span>
+  },
+  <span class="code-string">"Comment"</span>: <span class="code-string">"My Web App Distribution"</span>,
+  <span class="code-string">"Enabled"</span>: <span class="code-keyword">true</span>
+}'
+                                    </div>
+                                </div>
+
+                                <div class="knowledge-card rounded-lg p-4">
+                                    <h6 class="font-semibold text-blue-300 mb-2">6. 配置域名解析 (Route 53)</h6>
+                                    <p class="text-sm">
+                                        有了 CloudFront 的域名，总不能让用户访问一串看不懂的地址吧？用 Route 53 (Domain Name System) 把你自己的域名指向 CloudFront 的域名，这样用户就能通过 <code>myapp.yourdomain.com</code> 访问了！
+                                    </p>
+                                    <div class="code-block text-xs mt-2">
+<span class="code-comment"># 使用 AWS CLI 创建 DNS A记录 (示例)</span>
+aws route53 change-resource-record-sets \
+  --hosted-zone-id YOUR_HOSTED_ZONE_ID \
+  --change-batch '{
+    <span class="code-string">"Changes"</span>: [
+      {
+        <span class="code-string">"Action"</span>: <span class="code-string">"CREATE"</span>,
+        <span class="code-string">"ResourceRecordSet"</span>: {
+          <span class="code-string">"Name"</span>: <span class="code-string">"myapp.yourdomain.com."</span>,
+          <span class="code-string">"Type"</span>: <span class="code-string">"A"</span>,
+          <span class="code-string">"AliasTarget"</span>: {
+            <span class="code-string">"HostedZoneId"</span>: <span class="code-string">"Z2FDTNDATAQYW2"</span>,
+            <span class="code-string">"DNSName"</span>: <span class="code-string">"d111111abcdef8.cloudfront.net."</span>,
+            <span class="code-string">"EvaluateTargetHealth"</span>: <span class="code-keyword">false</span>
+          }
+        }
+      }
+    ]
+  }'
+                                    </div>
+                                </div>
+                            </div>
+
+                             <div class="warning-box rounded-lg p-4 mt-8">
+                                 <h6 class="font-semibold text-yellow-300 mb-2">云部署的"碎碎念"</h6>
+                                 <ul class="text-sm space-y-1">
+                                     <li>• <strong>安全第一：</strong> Security Group 和 IAM (Identity and Access Management) 是你的左右手，别把权限给大了！</li>
+                                     <li>• <strong>成本管理：</strong> 云服务按量计费，一不小心就"烧钱"，多关注账单和优化资源。</li>
+                                     <li>• <strong>IaC (Infrastructure as Code)：</strong> 用 Terraform、CloudFormation 这些工具管理基础设施，别纯手动操作了，重复又容易出错！</li>
+                                     <li>• <strong>监控与日志：</strong> CloudWatch、ELK Stack 这些得用起来，知道你的应用在云上过得好不好。</li>
+                                 </ul>
+                             </div>
+                        </div>
+                    </div>
+
+                    <!-- 4.2 CI/CD 自动化魔法阵 -->
+                    <div class="mb-8">
+                        <h3 class="text-3xl font-bold mb-8 text-blue-300">4.2 CI/CD 自动化魔法阵：代码提交到上线？咻~ 一下就搞定！</h3>
+
+                        <div class="bg-gradient-to-r from-blue-900 to-cyan-900 rounded-lg p-6 mb-8">
+                            <p class="text-lg italic text-center">
+                                "手动部署？太原始了啦！本小姐的自动化魔法阵，让你的代码更新像施展咒语一样轻松！"
+                            </p>
+                        </div>
+
+                        <div class="knowledge-card rounded-lg p-8 mb-8">
+                            <h4 class="text-2xl font-bold mb-6 text-blue-300">4.2.1 CI/CD 核心概念与价值：告别"发布焦虑症"！</h4>
+                            <p class="text-gray-300 mb-6 leading-relaxed">
+                                CI/CD = Continuous Integration (持续集成) / Continuous Delivery (持续交付) 或 Continuous Deployment (持续部署)。简单来说，就是让你的代码从提交到仓库，到最终部署到生产环境的整个过程自动化！这样你就可以更快、更频繁、更可靠地交付新功能了！
+                            </p>
+
+                            <div class="architecture-diagram rounded-lg p-6 mb-8">
+                                <h6 class="font-semibold text-cyan-300 mb-3 text-center">典型的 CI/CD 流程图</h6>
+                                <svg width="100%" height="350" viewBox="0 0 900 350" class="mx-auto">
+                                    <!-- Developer -->
+                                    <rect x="20" y="150" width="80" height="40" fill="#3b82f6" stroke="#1e40af" stroke-width="2" rx="5"/>
+                                    <text x="60" y="168" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Developer</text>
+                                    <text x="60" y="182" text-anchor="middle" fill="white" font-size="8">Commits Code</text>
+
+                                    <!-- Git Repository -->
+                                    <rect x="130" y="150" width="80" height="40" fill="#f59e0b" stroke="#d97706" stroke-width="2" rx="5"/>
+                                    <text x="170" y="168" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Git Repo</text>
+                                    <text x="170" y="182" text-anchor="middle" fill="white" font-size="8">GitHub/GitLab</text>
+
+                                    <!-- CI Server -->
+                                    <rect x="240" y="80" width="120" height="160" fill="#10b981" stroke="#047857" stroke-width="2" rx="8"/>
+                                    <text x="300" y="100" text-anchor="middle" fill="white" font-size="12" font-weight="bold">CI Pipeline</text>
+                                    
+                                    <!-- CI Steps -->
+                                    <rect x="250" y="110" width="100" height="20" fill="rgba(255,255,255,0.1)" rx="3"/>
+                                    <text x="300" y="123" text-anchor="middle" fill="white" font-size="9">Pull Code</text>
+                                    
+                                    <rect x="250" y="135" width="100" height="20" fill="rgba(255,255,255,0.1)" rx="3"/>
+                                    <text x="300" y="148" text-anchor="middle" fill="white" font-size="9">Build & Test</text>
+                                    
+                                    <rect x="250" y="160" width="100" height="20" fill="rgba(255,255,255,0.1)" rx="3"/>
+                                    <text x="300" y="173" text-anchor="middle" fill="white" font-size="9">Code Analysis</text>
+                                    
+                                    <rect x="250" y="185" width="100" height="20" fill="rgba(255,255,255,0.1)" rx="3"/>
+                                    <text x="300" y="198" text-anchor="middle" fill="white" font-size="9">Docker Build</text>
+                                    
+                                    <rect x="250" y="210" width="100" height="20" fill="rgba(255,255,255,0.1)" rx="3"/>
+                                    <text x="300" y="223" text-anchor="middle" fill="white" font-size="9">Push Artifacts</text>
+
+                                    <!-- CD Server -->
+                                    <rect x="390" y="80" width="120" height="160" fill="#8b5cf6" stroke="#7c3aed" stroke-width="2" rx="8"/>
+                                    <text x="450" y="100" text-anchor="middle" fill="white" font-size="12" font-weight="bold">CD Pipeline</text>
+                                    
+                                    <!-- CD Steps -->
+                                    <rect x="400" y="110" width="100" height="20" fill="rgba(255,255,255,0.1)" rx="3"/>
+                                    <text x="450" y="123" text-anchor="middle" fill="white" font-size="9">Deploy to Staging</text>
+                                    
+                                    <rect x="400" y="135" width="100" height="20" fill="rgba(255,255,255,0.1)" rx="3"/>
+                                    <text x="450" y="148" text-anchor="middle" fill="white" font-size="9">E2E Tests</text>
+                                    
+                                    <rect x="400" y="160" width="100" height="20" fill="rgba(255,255,255,0.1)" rx="3"/>
+                                    <text x="450" y="173" text-anchor="middle" fill="white" font-size="9">Security Scan</text>
+                                    
+                                    <rect x="400" y="185" width="100" height="20" fill="rgba(255,255,255,0.1)" rx="3"/>
+                                    <text x="450" y="198" text-anchor="middle" fill="white" font-size="9">Approval</text>
+                                    
+                                    <rect x="400" y="210" width="100" height="20" fill="rgba(255,255,255,0.1)" rx="3"/>
+                                    <text x="450" y="223" text-anchor="middle" fill="white" font-size="9">Deploy to Prod</text>
+
+                                    <!-- Environments -->
+                                    <rect x="540" y="120" width="80" height="40" fill="#f97316" stroke="#ea580c" stroke-width="2" rx="5"/>
+                                    <text x="580" y="138" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Staging</text>
+                                    <text x="580" y="152" text-anchor="middle" fill="white" font-size="8">Environment</text>
+
+                                    <rect x="640" y="120" width="80" height="40" fill="#dc2626" stroke="#b91c1c" stroke-width="2" rx="5"/>
+                                    <text x="680" y="138" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Production</text>
+                                    <text x="680" y="152" text-anchor="middle" fill="white" font-size="8">Environment</text>
+
+                                    <!-- Monitoring -->
+                                    <rect x="750" y="120" width="80" height="40" fill="#06b6d4" stroke="#0891b2" stroke-width="2" rx="5"/>
+                                    <text x="790" y="138" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Monitoring</text>
+                                    <text x="790" y="152" text-anchor="middle" fill="white" font-size="8">& Alerting</text>
+
+                                    <!-- Arrows -->
+                                    <defs>
+                                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                            <polygon points="0 0, 10 3.5, 0 7" fill="#667eea" />
+                                        </marker>
+                                    </defs>
+                                    
+                                    <!-- Developer to Git -->
+                                    <line x1="100" y1="170" x2="130" y2="170" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    
+                                    <!-- Git to CI -->
+                                    <line x1="210" y1="170" x2="240" y2="170" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    
+                                    <!-- CI to CD -->
+                                    <line x1="360" y1="160" x2="390" y2="160" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    
+                                    <!-- CD to Staging -->
+                                    <line x1="510" y1="140" x2="540" y2="140" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    
+                                    <!-- CD to Production -->
+                                    <line x1="510" y1="180" x2="640" y2="140" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    
+                                    <!-- Production to Monitoring -->
+                                    <line x1="720" y1="140" x2="750" y2="140" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    
+                                    <!-- Labels -->
+                                    <text x="115" y="160" text-anchor="middle" fill="#ccc" font-size="10">push</text>
+                                    <text x="225" y="160" text-anchor="middle" fill="#ccc" font-size="10">trigger</text>
+                                    <text x="375" y="150" text-anchor="middle" fill="#ccc" font-size="10">success</text>
+                                    <text x="590" y="190" text-anchor="middle" fill="#ccc" font-size="10">auto deploy</text>
+
+                                    <!-- Feedback loop -->
+                                    <path d="M 790 160 Q 790 280 60 280 Q 60 260 60 200" stroke="#667eea" stroke-width="2" fill="none" marker-end="url(#arrowhead)" stroke-dasharray="5,5"/>
+                                    <text x="425" y="295" text-anchor="middle" fill="#ccc" font-size="10">Feedback & Monitoring</text>
+                                </svg>
+                                <p class="text-center text-gray-400 text-xs mt-2">图：代码到生产环境的CI/CD自动化流程</p>
+                            </div>
+
+                            <h5 class="text-lg font-semibold mb-4 text-orange-400">CI/CD 的"超能力"</h5>
+                            <div class="feature-grid gap-4 text-gray-300 mb-8">
+                                <div class="tip-box rounded-lg p-3">
+                                    <h6 class="font-semibold text-green-300 mb-1 text-sm">🚀 加速发布</h6>
+                                    <p class="text-xs">从几周/几天一次发布到一天多次发布</p>
+                                </div>
+                                <div class="tip-box rounded-lg p-3">
+                                    <h6 class="font-semibold text-green-300 mb-1 text-sm">🐞 减少错误</h6>
+                                    <p class="text-xs">自动化测试提前发现问题，减少人为错误</p>
+                                </div>
+                                <div class="tip-box rounded-lg p-3">
+                                    <h6 class="font-semibold text-green-300 mb-1 text-sm">🛡️ 提高可靠性</h6>
+                                    <p class="text-xs">每次发布流程一致，可回滚</p>
+                                </div>
+                                <div class="tip-box rounded-lg p-3">
+                                    <h6 class="font-semibold text-green-300 mb-1 text-sm">✨ 更好协作</h6>
+                                    <p class="text-xs">团队成员频繁集成代码，减少冲突</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="knowledge-card rounded-lg p-8 mb-8">
+                            <h4 class="text-2xl font-bold mb-6 text-purple-300">4.2.2 魔法道具箱：主流 CI/CD 工具介绍与实践</h4>
+                            <p class="text-gray-300 mb-6 leading-relaxed">
+                                实现 CI/CD 需要一些得力的工具，Jenkins、GitLab CI、GitHub Actions 都是常用的"魔法道具"。它们的核心都是通过配置文件定义流水线 (Pipeline)。本小姐就以 GitHub Actions 为例，因为它和 GitHub 集成紧密，配置也比较直观。
+                            </p>
+
+                             <h5 class="text-lg font-semibold mb-4 text-orange-400">GitHub Actions 实战：构建、测试、部署 Node.js 应用</h5>
+                             <p class="text-gray-300 mb-4 leading-relaxed">
+                                假设你有一个 Node.js 后端应用，代码放在 GitHub 上，你想在每次 push 到 main 分支时，自动构建、测试，并部署到云服务器（比如刚才配置好的 AWS EC2）。
+                             </p>
+
+                            <div class="code-block text-sm">
+<span class="code-comment"># .github/workflows/node-ci-cd.yml - GitHub Actions Workflow 文件</span>
+<span class="code-comment"># Workflow 名称</span>
+name: Node.js CI/CD
+
+<span class="code-comment"># 触发条件：push到main分支时触发</span>
+on:
+  push:
+    branches:
+      - main
+
+<span class="code-comment"># 定义Jobs</span>
+jobs:
+  <span class="code-comment"># CI Job: 构建和测试</span>
+  build_and_test:
+    runs-on: ubuntu-latest <span class="code-comment"># 在最新的Ubuntu虚拟机上运行</span>
+    
+    steps:
+    - name: 检查代码 <span class="code-comment"># Checkout code</span>
+      uses: actions/checkout@v3
+      
+    - name: 设置 Node.js 环境 <span class="code-comment"># Set up Node.js</span>
+      uses: actions/setup-node@v3
+      with:
+        node-version: <span class="code-number">16.x</span>
+        
+    - name: 安装依赖 <span class="code-comment"># Install dependencies</span>
+      run: npm ci
+      
+    - name: 运行代码检查和格式化 <span class="code-comment"># Run linter and formatter</span>
+      run: npm run lint && npm run format --check
+      
+    - name: 运行单元测试 <span class="code-comment"># Run unit tests</span>
+      run: npm test
+      env:
+        DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }} <span class="code-comment"># 使用GitHub Secrets</span>
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        
+    - name: 构建应用 <span class="code-comment"># Build application</span>
+      run: npm run build
+      
+    - name: 保存构建产物 <span class="code-comment"># Archive build artifacts</span>
+      uses: actions/upload-artifact@v3
+      with:
+        name: node-app-build
+        path: dist <span class="code-comment"># 构建生成的文件夹</span>
+        
+  <span class="code-comment"># CD Job: 部署</span>
+  deploy:
+    needs: build_and_test <span class="code-comment"># 依赖于build_and_test成功</span>
+    runs-on: ubuntu-latest
+    environment: production <span class="code-comment"># 部署到生产环境，可以配置环境变量、密钥等</span>
+    
+    steps:
+    - name: 检查代码 <span class="code-comment"># Checkout code</span>
+      uses: actions/checkout@v3 <span class="code-comment"># 重新checkout用于部署</span>
+      
+    - name: 下载构建产物 <span class="code-comment"># Download build artifacts</span>
+      uses: actions/download-artifact@v3
+      with:
+        name: node-app-build
+        path: . <span class="code-comment"># 下载到当前目录</span>
+        
+    - name: 配置 AWS 凭证 <span class="code-comment"># Configure AWS credentials</span>
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+        
+    <span class="code-comment"># 假设你使用Docker部署，先构建并推送到ECR</span>
+    - name: 登录到 Amazon ECR <span class="code-comment"># Login to Amazon ECR</span>
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+      
+    - name: 构建并推送 Docker 镜像 <span class="code-comment"># Build, tag, and push image to Amazon ECR</span>
+      run: |
+        docker build -t my-node-app:latest .
+        docker tag my-node-app:latest ${{ steps.login-ecr.outputs.registry }}/my-node-app:latest
+        docker push ${{ steps.login-ecr.outputs.registry }}/my-node-app:latest
+        
+    <span class="code-comment"># 部署到EC2 (多种方式，这里用SSH和脚本示例)</span>
+    - name: 通过 SSH 部署到 EC2 <span class="code-comment"># Deploy to EC2 via SSH</span>
+      uses: appleboy/ssh-action@v0.1.4
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ubuntu
+        key: ${{ secrets.SSH_PRIVATE_KEY }} <span class="code-comment"># 使用GitHub Secrets存储私钥</span>
+        script: |
+          sudo docker pull ${{ steps.login-ecr.outputs.registry }}/my-node-app:latest
+          sudo docker stop my-node-app || true
+          sudo docker rm my-node-app || true
+          sudo docker run -d -p 80:3000 --name my-node-app \
+            -e NODE_ENV=production \
+            -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
+            -e REDIS_URL=${{ secrets.REDIS_URL }} \
+            -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
+            ${{ steps.login-ecr.outputs.registry }}/my-node-app:latest
+          sudo docker system prune -f
+</div>
+                             <div class="tip-box rounded-lg p-4 mt-4">
+                                 <h6 class="font-semibold text-green-300 mb-2">Workflow 文件解释：</h6>
+                                 <ul class="text-sm space-y-1">
+                                     <li>• <code>name</code>: 给你的流水线起个名字。</li>
+                                     <li>• <code>on</code>: 定义触发条件，比如 <code>push</code>、<code>pull_request</code>、<code>schedule</code> 等。</li>
+                                     <li>• <code>jobs</code>: 一个 workflow 包含一个或多个 job，它们可以在不同的虚拟机上并行或按依赖顺序运行。</li>
+                                     <li>• <code>runs-on</code>: 指定运行 job 的虚拟机环境。</li>
+                                     <li>• <code>steps</code>: job 包含一系列按顺序执行的步骤。</li>
+                                     <li>• <code>uses</code>: 调用 GitHub Actions 社区或官方提供的 Action。</li>
+                                     <li>• <code>run</code>: 执行 shell 命令。</li>
+                                     <li>• <code>secrets</code>: 从 GitHub 仓库设置的 Secrets 中获取敏感信息，确保安全。</li>
+                                     <li>• <code>needs</code>: 定义 job 的依赖关系，确保按顺序执行。</li>
+                                 </ul>
+                             </div>
+                        </div>
+
+                         <div class="knowledge-card rounded-lg p-8">
+                             <h4 class="text-2xl font-bold mb-6 text-blue-300">4.2.3 版本控制策略：Git Flow 的"武林秘籍"</h4>
+                             <p class="text-gray-300 mb-6 leading-relaxed">
+                                 好的 CI/CD 离不开好的版本控制策略。Git Flow 是一种流行的分支模型，它定义了不同分支的用途，能让团队协作更清晰、发布流程更规范。
+                             </p>
+                             <div class="architecture-diagram rounded-lg p-6 mb-8">
+                                 <h6 class="font-semibold text-cyan-300 mb-3 text-center">简化的 Git Flow 分支模型</h6>
+                                 <svg width="100%" height="250" viewBox="0 0 700 250" class="mx-auto">
+                                     <!-- main branch -->
+                                     <line x1="50" y1="50" x2="650" y2="50" stroke="#22c55e" stroke-width="4"/>
+                                     <text x="60" y="70" fill="#22c55e" font-size="12" font-weight="bold">main (production)</text>
+                                     
+                                     <!-- develop branch -->
+                                     <line x1="50" y1="100" x2="650" y2="100" stroke="#3b82f6" stroke-width="4"/>
+                                     <text x="60" y="120" fill="#3b82f6" font-size="12" font-weight="bold">develop (integration)</text>
+                                     
+                                     <!-- feature branches -->
+                                     <path d="M 150 100 Q 150 130, 200 140 Q 250 150, 300 140 Q 350 130, 400 140 Q 450 150, 500 140 Q 550 130, 550 100" 
+                                           stroke="#f59e0b" stroke-width="3" fill="none"/>
+                                     <text x="350" y="165" text-anchor="middle" fill="#f59e0b" font-size="11">feature branches</text>
+                                     
+                                     <!-- release branch -->
+                                     <path d="M 450 100 Q 450 80, 500 70 Q 550 60, 600 70 Q 600 60, 600 50" 
+                                           stroke="#8b5cf6" stroke-width="3" fill="none"/>
+                                     <text x="525" y="85" text-anchor="middle" fill="#8b5cf6" font-size="11">release</text>
+                                     
+                                     <!-- hotfix branch -->
+                                     <path d="M 200 50 Q 200 30, 250 20 Q 300 10, 350 20 Q 350 30, 350 50" 
+                                           stroke="#ef4444" stroke-width="3" fill="none"/>
+                                     <text x="275" y="35" text-anchor="middle" fill="#ef4444" font-size="11">hotfix</text>
+                                     
+                                     <!-- Merge arrows -->
+                                     <defs>
+                                         <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                                             <polygon points="0 0, 8 3, 0 6" fill="#666"/>
+                                         </marker>
+                                     </defs>
+                                     
+                                     <!-- Feature to develop -->
+                                     <line x1="550" y1="140" x2="550" y2="100" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+                                     
+                                     <!-- Release to main and develop -->
+                                     <line x1="600" y1="70" x2="600" y2="50" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+                                     <line x1="590" y1="75" x2="590" y2="100" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+                                     
+                                     <!-- Hotfix to main and develop -->
+                                     <line x1="350" y1="20" x2="350" y2="50" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+                                     <line x1="360" y1="25" x2="360" y2="100" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+                                     
+                                     <!-- Version tags -->
+                                     <circle cx="100" cy="50" r="8" fill="#22c55e"/>
+                                     <text x="100" y="55" text-anchor="middle" fill="white" font-size="8">v1.0</text>
+                                     
+                                     <circle cx="350" cy="50" r="8" fill="#ef4444"/>
+                                     <text x="350" y="55" text-anchor="middle" fill="white" font-size="8">v1.1</text>
+                                     
+                                     <circle cx="600" cy="50" r="8" fill="#8b5cf6"/>
+                                     <text x="600" y="55" text-anchor="middle" fill="white" font-size="8">v2.0</text>
+                                     
+                                     <!-- Legend -->
+                                     <text x="50" y="200" fill="#ccc" font-size="11" font-weight="bold">分支说明:</text>
+                                     <text x="50" y="215" fill="#22c55e" font-size="10">main: 生产环境代码</text>
+                                     <text x="200" y="215" fill="#3b82f6" font-size="10">develop: 开发主干</text>
+                                     <text x="350" y="215" fill="#f59e0b" font-size="10">feature: 新功能开发</text>
+                                     <text x="500" y="215" fill="#8b5cf6" font-size="10">release: 发布准备</text>
+                                     <text x="50" y="230" fill="#ef4444" font-size="10">hotfix: 线上bug修复</text>
+                                 </svg>
+                                 <p class="text-center text-gray-400 text-xs mt-2">图：Git Flow 分支模型示意</p>
+                             </div>
+
+                             <h5 class="text-lg font-semibold mb-4 text-orange-400">Git Flow 主要分支</h5>
+                             <div class="space-y-4 text-gray-300">
+                                 <div class="tip-box rounded-lg p-3">
+                                     <h6 class="font-semibold text-green-300 mb-1 text-sm"><code>main</code> (或 <code>master</code>)</h6>
+                                     <p class="text-xs">永远保持可发布状态的代码，对应生产环境。</p>
+                                 </div>
+                                 <div class="tip-box rounded-lg p-3">
+                                     <h6 class="font-semibold text-green-300 mb-1 text-sm"><code>develop</code></h6>
+                                     <p class="text-xs">集成所有最新开发功能的分支，相对不稳定，是开发的主干。</p>
+                                 </div>
+                                 <div class="tip-box rounded-lg p-3">
+                                     <h6 class="font-semibold text-green-300 mb-1 text-sm"><code>feature/*</code></h6>
+                                     <p class="text-xs">为开发新功能创建的分支，从 <code>develop</code> 分出，完成后合并回 <code>develop</code>。</p>
+                                 </div>
+                                  <div class="tip-box rounded-lg p-3">
+                                     <h6 class="font-semibold text-green-300 mb-1 text-sm"><code>release/*</code></h6>
+                                     <p class="text-xs">准备发布新版本时的分支，从 <code>develop</code> 分出，只进行 Bug 修复和发布准备，完成后合并回 <code>main</code> 和 <code>develop</code>。</p>
+                                 </div>
+                                 <div class="tip-box rounded-lg p-3">
+                                     <h6 class="font-semibold text-green-300 mb-1 text-sm"><code>hotfix/*</code></h6>
+                                     <p class="text-xs">紧急修复生产环境 Bug 的分支，从 <code>main</code> 分出，完成后合并回 <code>main</code> 和 <code>develop</code>。</p>
+                                 </div>
+                             </div>
+                         </div>
+                    </div>
+
+                     <div class="technique-highlight rounded-lg p-6 mt-8">
+                         <h6 class="font-semibold text-purple-300 mb-2 text-center">本小姐的CI/CD秘诀</h6>
+                         <p class="text-center text-sm text-gray-300 italic">
+                             "CI/CD 不是一次性的配置，而是一个持续优化的过程！<br>
+                             <strong>从小处着手，逐步自动化。</strong><br>
+                             监控流水线、分析失败原因、持续改进自动化脚本，<br>
+                             才能让你的交付流程真正像丝般顺滑！"
+                         </p>
+                     </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 底层原理深潜 -->
+        <section id="principles" class="py-16">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="chapter-card rounded-2xl p-8 mb-8">
+                    <h2 class="text-4xl font-bold mb-8 text-center">
+                        <span class="text-cyan-400">五、</span> Web 底层原理深潜：不知道这些，你好意思说自己是全栈高手？
+                    </h2>
+
+                    <div class="bg-gradient-to-r from-cyan-900 to-blue-900 rounded-lg p-6 mb-8">
+                        <p class="text-lg italic text-center">
+                            "只知道怎么用框架？哼，那只是'会'，不是'懂'！来看看 Web 世界深处的秘密！"
+                        </p>
+                    </div>
+
+                    <!-- 5.1 网站部署背后的秘密 -->
+                    <div class="mb-16">
+                        <h3 class="text-3xl font-bold mb-8 text-cyan-300">5.1 网站部署背后的秘密：哼哼，你以为点一下就出来了？</h3>
+
+                        <div class="bg-gradient-to-r from-cyan-900 to-teal-900 rounded-lg p-6 mb-8">
+                            <p class="text-lg italic text-center">
+                                "用户在浏览器输入网址，回车！这短短几秒钟，背后可是一场'技术接力赛'！"
+                            </p>
+                        </div>
+
+                        <div class="knowledge-card rounded-lg p-8 mb-8">
+                            <h4 class="text-2xl font-bold mb-6 text-cyan-300">5.1.1 Web 请求的完整生命周期：从浏览器到服务器再返回</h4>
+                            <p class="text-gray-300 mb-6 leading-relaxed">
+                                用户在浏览器地址栏输入 <code>https://www.example.com</code> 并按下回车，会发生什么？这背后藏着一套复杂的网络通信流程，涉及 DNS、TCP/IP、HTTP/HTTPS 等一系列协议和技术。本小姐带你拆解这个过程！
+                            </p>
+
+                            <div class="architecture-diagram rounded-lg p-6 mb-8">
+                                <h6 class="font-semibold text-cyan-300 mb-3 text-center">Web 请求完整流程图</h6>
+                                <svg width="100%" height="400" viewBox="0 0 900 400" class="mx-auto">
+                                    <!-- Steps Flow -->
+                                    <!-- 1. User Input URL -->
+                                    <rect x="20" y="20" width="100" height="40" fill="#3b82f6" stroke="#1e40af" stroke-width="2" rx="5"/>
+                                    <text x="70" y="38" text-anchor="middle" fill="white" font-size="10" font-weight="bold">1. 用户输入URL</text>
+                                    <text x="70" y="52" text-anchor="middle" fill="white" font-size="8">浏览器地址栏</text>
+
+                                    <!-- 2. Browser Cache -->
+                                    <rect x="150" y="20" width="100" height="40" fill="#f59e0b" stroke="#d97706" stroke-width="2" rx="5"/>
+                                    <text x="200" y="38" text-anchor="middle" fill="white" font-size="10" font-weight="bold">2. 浏览器缓存</text>
+                                    <text x="200" y="52" text-anchor="middle" fill="white" font-size="8">检查缓存</text>
+
+                                    <!-- 3. DNS Resolution -->
+                                    <rect x="280" y="20" width="100" height="40" fill="#10b981" stroke="#047857" stroke-width="2" rx="5"/>
+                                    <text x="330" y="38" text-anchor="middle" fill="white" font-size="10" font-weight="bold">3. DNS解析</text>
+                                    <text x="330" y="52" text-anchor="middle" fill="white" font-size="8">域名→IP</text>
+
+                                    <!-- 4. TCP Connection -->
+                                    <rect x="410" y="20" width="100" height="40" fill="#8b5cf6" stroke="#7c3aed" stroke-width="2" rx="5"/>
+                                    <text x="460" y="38" text-anchor="middle" fill="white" font-size="10" font-weight="bold">4. TCP连接</text>
+                                    <text x="460" y="52" text-anchor="middle" fill="white" font-size="8">三次握手</text>
+
+                                    <!-- 5. HTTPS Handshake -->
+                                    <rect x="540" y="20" width="100" height="40" fill="#dc2626" stroke="#b91c1c" stroke-width="2" rx="5"/>
+                                    <text x="590" y="38" text-anchor="middle" fill="white" font-size="10" font-weight="bold">5. HTTPS握手</text>
+                                    <text x="590" y="52" text-anchor="middle" fill="white" font-size="8">SSL/TLS</text>
+
+                                    <!-- 6. HTTP Request -->
+                                    <rect x="670" y="20" width="100" height="40" fill="#06b6d4" stroke="#0891b2" stroke-width="2" rx="5"/>
+                                    <text x="720" y="38" text-anchor="middle" fill="white" font-size="10" font-weight="bold">6. 发送请求</text>
+                                    <text x="720" y="52" text-anchor="middle" fill="white" font-size="8">HTTP请求</text>
+
+                                    <!-- Server Side Processing -->
+                                    <!-- 7. Web Server -->
+                                    <rect x="670" y="120" width="100" height="40" fill="#f97316" stroke="#ea580c" stroke-width="2" rx="5"/>
+                                    <text x="720" y="138" text-anchor="middle" fill="white" font-size="10" font-weight="bold">7. Web服务器</text>
+                                    <text x="720" y="152" text-anchor="middle" fill="white" font-size="8">Nginx/Apache</text>
+
+                                    <!-- 8. Application Server -->
+                                    <rect x="540" y="120" width="100" height="40" fill="#059669" stroke="#047857" stroke-width="2" rx="5"/>
+                                    <text x="590" y="138" text-anchor="middle" fill="white" font-size="10" font-weight="bold">8. 应用服务器</text>
+                                    <text x="590" y="152" text-anchor="middle" fill="white" font-size="8">业务逻辑</text>
+
+                                    <!-- 9. Database -->
+                                    <rect x="410" y="120" width="100" height="40" fill="#7c3aed" stroke="#6d28d9" stroke-width="2" rx="5"/>
+                                    <text x="460" y="138" text-anchor="middle" fill="white" font-size="10" font-weight="bold">9. 数据库</text>
+                                    <text x="460" y="152" text-anchor="middle" fill="white" font-size="8">查询数据</text>
+
+                                    <!-- Response Flow -->
+                                    <!-- 10. Generate Response -->
+                                    <rect x="280" y="220" width="100" height="40" fill="#db2777" stroke="#be185d" stroke-width="2" rx="5"/>
+                                    <text x="330" y="238" text-anchor="middle" fill="white" font-size="10" font-weight="bold">10. 生成响应</text>
+                                    <text x="330" y="252" text-anchor="middle" fill="white" font-size="8">HTML/JSON</text>
+
+                                    <!-- 11. Send Response -->
+                                    <rect x="150" y="220" width="100" height="40" fill="#0891b2" stroke="#0e7490" stroke-width="2" rx="5"/>
+                                    <text x="200" y="238" text-anchor="middle" fill="white" font-size="10" font-weight="bold">11. 发送响应</text>
+                                    <text x="200" y="252" text-anchor="middle" fill="white" font-size="8">HTTP响应</text>
+
+                                    <!-- 12. Browser Processing -->
+                                    <rect x="20" y="320" width="100" height="40" fill="#16a34a" stroke="#15803d" stroke-width="2" rx="5"/>
+                                    <text x="70" y="338" text-anchor="middle" fill="white" font-size="10" font-weight="bold">12. 浏览器处理</text>
+                                    <text x="70" y="352" text-anchor="middle" fill="white" font-size="8">解析渲染</text>
+
+                                    <!-- 13. DOM Construction -->
+                                    <rect x="150" y="320" width="100" height="40" fill="#ca8a04" stroke="#a16207" stroke-width="2" rx="5"/>
+                                    <text x="200" y="338" text-anchor="middle" fill="white" font-size="10" font-weight="bold">13. 构建DOM</text>
+                                    <text x="200" y="352" text-anchor="middle" fill="white" font-size="8">DOM树</text>
+
+                                    <!-- 14. Render -->
+                                    <rect x="280" y="320" width="100" height="40" fill="#9333ea" stroke="#7c3aed" stroke-width="2" rx="5"/>
+                                    <text x="330" y="338" text-anchor="middle" fill="white" font-size="10" font-weight="bold">14. 页面渲染</text>
+                                    <text x="330" y="352" text-anchor="middle" fill="white" font-size="8">显示内容</text>
+
+                                    <!-- Arrows -->
+                                    <defs>
+                                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                            <polygon points="0 0, 10 3.5, 0 7" fill="#667eea"/>
+                                        </marker>
+                                    </defs>
+
+                                    <!-- Request Flow Arrows -->
+                                    <line x1="120" y1="40" x2="150" y2="40" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    <line x1="250" y1="40" x2="280" y2="40" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    <line x1="380" y1="40" x2="410" y2="40" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    <line x1="510" y1="40" x2="540" y2="40" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    <line x1="640" y1="40" x2="670" y2="40" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    
+                                    <!-- Down to server processing -->
+                                    <line x1="720" y1="60" x2="720" y2="120" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    <line x1="670" y1="140" x2="640" y2="140" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    <line x1="540" y1="140" x2="510" y2="140" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    
+                                    <!-- Back from database -->
+                                    <line x1="460" y1="160" x2="460" y2="180" stroke="#667eea" stroke-width="2"/>
+                                    <line x1="460" y1="180" x2="330" y2="180" stroke="#667eea" stroke-width="2"/>
+                                    <line x1="330" y1="180" x2="330" y2="220" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    
+                                    <!-- Response flow -->
+                                    <line x1="280" y1="240" x2="250" y2="240" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    
+                                    <!-- Down to browser -->
+                                    <line x1="200" y1="260" x2="200" y2="280" stroke="#667eea" stroke-width="2"/>
+                                    <line x1="200" y1="280" x2="70" y2="280" stroke="#667eea" stroke-width="2"/>
+                                    <line x1="70" y1="280" x2="70" y2="320" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    
+                                    <!-- Browser processing -->
+                                    <line x1="120" y1="340" x2="150" y2="340" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    <line x1="250" y1="340" x2="280" y2="340" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                                    <!-- Time indicators -->
+                                    <text x="450" y="15" text-anchor="middle" fill="#ccc" font-size="12" font-weight="bold">↑ 请求阶段 ↑</text>
+                                    <text x="450" y="180" text-anchor="middle" fill="#ccc" font-size="12" font-weight="bold">← 服务器处理 →</text>
+                                    <text x="450" y="305" text-anchor="middle" fill="#ccc" font-size="12" font-weight="bold">↓ 响应与渲染 ↓</text>
+                                </svg>
+                                <p class="text-center text-gray-400 text-xs mt-2">图：Web 请求从输入URL到页面渲染的完整流程</p>
+                            </div>
+
+                            <h5 class="text-lg font-semibold mb-4 text-orange-400">DNS 解析：找到服务器的"地址"</h5>
+                            <p class="text-gray-300 mb-4 leading-relaxed">
+                                就像寄信需要地址一样，浏览器要知道 <code>www.example.com</code> 对应的服务器 IP 地址。DNS (Domain Name System) 就是互联网的"电话本"！
+                            </p>
+                            <ol class="text-gray-300 text-sm space-y-2 mb-8">
+                                <li><strong>1. 浏览器缓存：</strong> 浏览器先看看自己有没有存过这个域名对应的 IP。</li>
+                                <li><strong>2. 操作系统缓存：</strong> 没有就去问操作系统。</li>
+                                <li><strong>3. 本地 DNS 服务器：</strong> 还没找到就去问本地 DNS 服务器（通常是你的路由器或ISP提供的）。</li>
+                                <li><strong>4. 递归查询 vs 迭代查询：</strong> 本地 DNS 服务器会帮你去互联网上的 DNS 系统找。</li>
+                                <li><strong>5. 根域名服务器：</strong> 本地 DNS 先问根域名服务器（"."）。</li>
+                                <li><strong>6. 顶级域名服务器 (TLD)：</strong> 根服务器告诉你去问对应顶级域名（".com"）的服务器。</li>
+                                <li><strong>7. 权威域名服务器：</strong> TLD 服务器告诉你去问负责 <code>example.com</code> 的权威域名服务器。</li>
+                                <li><strong>8. 获取 IP：</strong> 权威服务器最终告诉你 <code>www.example.com</code> 的 IP 地址。</li>
+                                <li><strong>9. 返回 IP：</strong> IP 地址层层返回给浏览器。</li>
+                            </ol>
+
+                            <h5 class="text-lg font-semibold mb-4 text-orange-400">TCP/IP 协议栈：网络通信的基石</h5>
+                            <p class="text-gray-300 mb-4 leading-relaxed">
+                                拿到 IP 地址后，浏览器需要和服务器建立连接。这就要靠 TCP/IP 协议栈了！它就像一个分层的快递系统，保证数据可靠地传输。
+                            </p>
+                            <div class="architecture-diagram rounded-lg p-6 mb-8">
+                                <h6 class="font-semibold text-cyan-300 mb-3 text-center">TCP/IP 四层模型 (简化)</h6>
+                                <svg width="100%" height="200" viewBox="0 0 500 200" class="mx-auto">
+                                    <!-- Application Layer -->
+                                    <rect x="100" y="20" width="300" height="35" fill="#3b82f6" stroke="#1e40af" stroke-width="2" rx="5"/>
+                                    <text x="250" y="38" text-anchor="middle" fill="white" font-size="12" font-weight="bold">应用层 (Application Layer)</text>
+                                    <text x="250" y="50" text-anchor="middle" fill="white" font-size="10">HTTP, HTTPS, DNS, FTP...</text>
+
+                                    <!-- Transport Layer -->
+                                    <rect x="100" y="65" width="300" height="35" fill="#10b981" stroke="#047857" stroke-width="2" rx="5"/>
+                                    <text x="250" y="83" text-anchor="middle" fill="white" font-size="12" font-weight="bold">传输层 (Transport Layer)</text>
+                                    <text x="250" y="95" text-anchor="middle" fill="white" font-size="10">TCP (可靠), UDP (快速)</text>
+
+                                    <!-- Internet Layer -->
+                                    <rect x="100" y="110" width="300" height="35" fill="#f59e0b" stroke="#d97706" stroke-width="2" rx="5"/>
+                                    <text x="250" y="128" text-anchor="middle" fill="white" font-size="12" font-weight="bold">互联网层 (Internet Layer)</text>
+                                    <text x="250" y="140" text-anchor="middle" fill="white" font-size="10">IP (路由寻址), ICMP</text>
+
+                                    <!-- Network Access Layer -->
+                                    <rect x="100" y="155" width="300" height="35" fill="#8b5cf6" stroke="#7c3aed" stroke-width="2" rx="5"/>
+                                    <text x="250" y="173" text-anchor="middle" fill="white" font-size="12" font-weight="bold">网络访问层 (Network Access Layer)</text>
+                                    <text x="250" y="185" text-anchor="middle" fill="white" font-size="10">以太网, Wi-Fi, 蓝牙...</text>
+
+                                    <!-- Data Flow Arrows -->
+                                    <line x1="80" y1="37" x2="50" y2="37" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    <line x1="80" y1="82" x2="50" y2="82" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    <line x1="80" y1="127" x2="50" y2="127" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    <line x1="80" y1="172" x2="50" y2="172" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                                    <text x="30" y="105" text-anchor="middle" fill="#ccc" font-size="10" transform="rotate(-90 30 105)">数据传输</text>
+                                </svg>
+                                <p class="text-center text-gray-400 text-xs mt-2">图：TCP/IP协议栈分层</p>
+                            </div>
+                            <div class="space-y-4 text-gray-300 mb-8">
+                                <div class="tip-box rounded-lg p-3">
+                                    <h6 class="font-semibold text-green-300 mb-1 text-sm">应用层 (Application Layer)</h6>
+                                    <p class="text-xs">处理特定应用协议，比如 HTTP、HTTPS、DNS。直接与用户应用交互。</p>
+                                </div>
+                                <div class="tip-box rounded-lg p-3">
+                                    <h6 class="font-semibold text-green-300 mb-1 text-sm">传输层 (Transport Layer)</h6>
+                                    <p class="text-xs">提供端到端的通信服务。TCP 提供可靠的、面向连接的服务（三次握手、数据确认），UDP 提供不可靠的、无连接的服务。</p>
+                                </div>
+                                <div class="tip-box rounded-lg p-3">
+                                    <h6 class="font-semibold text-green-300 mb-1 text-sm">互联网层 (Internet Layer)</h6>
+                                    <p class="text-xs">处理数据包在网络中的路由，IP 协议就在这一层。负责将数据包从源地址发送到目标地址。</p>
+                                </div>
+                                 <div class="tip-box rounded-lg p-3">
+                                    <h6 class="font-semibold text-green-300 mb-1 text-sm">网络访问层 (Network Access Layer)</h6>
+                                    <p class="text-xs">处理数据在物理网络媒介上的传输，比如以太网、Wi-Fi。负责将 IP 数据包封装成帧。</p>
+                                </div>
+                            </div>
+                             <p class="text-gray-300 mb-4 leading-relaxed">
+                                 Web 请求中的 TCP 三次握手就是发生在传输层，用来确保浏览器和服务器之间的连接是稳定可靠的。
+                             </p>
+                             <div class="architecture-diagram rounded-lg p-6 mb-8">
+                                 <h6 class="font-semibold text-cyan-300 mb-3 text-center">TCP 三次握手</h6>
+                                 <svg width="100%" height="180" viewBox="0 0 400 180" class="mx-auto">
+                                     <!-- Client -->
+                                     <rect x="50" y="20" width="80" height="40" fill="#3b82f6" stroke="#1e40af" stroke-width="2" rx="5"/>
+                                     <text x="90" y="43" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Client</text>
+                                     
+                                     <!-- Server -->
+                                     <rect x="270" y="20" width="80" height="40" fill="#10b981" stroke="#047857" stroke-width="2" rx="5"/>
+                                     <text x="310" y="43" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Server</text>
+                                     
+                                     <!-- Step 1: SYN -->
+                                     <line x1="130" y1="80" x2="270" y2="90" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                     <text x="200" y="78" text-anchor="middle" fill="#667eea" font-size="11" font-weight="bold">1. SYN</text>
+                                     <text x="200" y="95" text-anchor="middle" fill="#ccc" font-size="9">请求连接</text>
+                                     
+                                     <!-- Step 2: SYN-ACK -->
+                                     <line x1="270" y1="110" x2="130" y2="120" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                     <text x="200" y="108" text-anchor="middle" fill="#10b981" font-size="11" font-weight="bold">2. SYN-ACK</text>
+                                     <text x="200" y="125" text-anchor="middle" fill="#ccc" font-size="9">确认并请求</text>
+                                     
+                                     <!-- Step 3: ACK -->
+                                     <line x1="130" y1="140" x2="270" y2="130" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                     <text x="200" y="138" text-anchor="middle" fill="#f59e0b" font-size="11" font-weight="bold">3. ACK</text>
+                                     <text x="200" y="155" text-anchor="middle" fill="#ccc" font-size="9">确认连接</text>
+                                     
+                                     <!-- Connection Established -->
+                                     <text x="200" y="175" text-anchor="middle" fill="#22c55e" font-size="12" font-weight="bold">🔗 连接建立成功</text>
+                                 </svg>
+                                 <p class="text-center text-gray-400 text-xs mt-2">图：TCP连接建立过程</p>
+                             </div>
+
+                            <h5 class="text-lg font-semibold mb-4 text-orange-400">HTTP/HTTPS 协议：Web 应用的"语言"</h5>
+                             <p class="text-gray-300 mb-4 leading-relaxed">
+                                 连接建立后，浏览器和服务器开始用 HTTP (Hypertext Transfer Protocol) 或 HTTPS (HTTP Secure) "对话"。HTTP 定义了客户端如何向服务器发送请求以及服务器如何响应。
+                             </p>
+                            <div class="space-y-4 text-gray-300 mb-8">
+                                 <div class="tip-box rounded-lg p-3">
+                                     <h6 class="font-semibold text-green-300 mb-1 text-sm">HTTP 请求结构</h6>
+                                     <p class="text-xs">包括请求行 (方法、URL、协议版本)、请求头 (Headers, 比如 User-Agent, Cookie)、空行、请求体 (Body, 比如 POST 请求的数据)。</p>
+                                 </div>
+                                <div class="code-block text-xs mt-2">
+<span class="code-comment"># 示例 HTTP GET 请求</span>
+GET /api/users/<span class="code-number">1001</span> HTTP/<span class="code-number">1.1</span>
+Host: api.example.com
+User-Agent: Mozilla/<span class="code-number">5.0</span> (<span class="code-string">Windows NT 10.0; Win64; x64</span>)
+Accept: application/json, text/plain, */*
+Cookie: sessionid=<span class="code-string">abcdef123456</span>
+<span class="code-comment"># 空行表示请求头结束</span>
+</div>
+                                 <div class="tip-box rounded-lg p-3 mt-4">
+                                     <h6 class="font-semibold text-green-300 mb-1 text-sm">HTTP 响应结构</h6>
+                                     <p class="text-xs">包括状态行 (协议版本、状态码、状态文本)、响应头 (Headers, 比如 Content-Type, Set-Cookie)、空行、响应体 (Body, 比如 HTML 内容或 JSON 数据)。</p>
+                                 </div>
+                                 <div class="code-block text-xs mt-2">
+<span class="code-comment"># 示例 HTTP 200 OK 响应</span>
+HTTP/<span class="code-number">1.1</span> <span class="code-number">200</span> OK
+Content-Type: application/json
+Content-Length: <span class="code-number">150</span>
+Date: Tue, 11 Jan <span class="code-number">2024</span> 10:00:00 GMT
+Server: Nginx
+
+{
+  <span class="code-string">"id"</span>: <span class="code-number">1001</span>,
+  <span class="code-string">"name"</span>: <span class="code-string">"本小姐"</span>,
+  <span class="code-string">"email"</span>: <span class="code-string">"aowu@example.com"</span>
+}
+</div>
+                                <div class="tip-box rounded-lg p-3 mt-4">
+                                     <h6 class="font-semibold text-green-300 mb-1 text-sm">HTTPS：加密的对话</h6>
+                                     <p class="text-xs">HTTPS 是 HTTP 加上 SSL/TLS 加密协议。它保证了数据传输的机密性和完整性。</p>
+                                 </div>
+                                <div class="architecture-diagram rounded-lg p-6 mt-4">
+                                    <h6 class="font-semibold text-cyan-300 mb-3 text-center">HTTPS 握手过程 (简化)</h6>
+                                    <svg width="100%" height="250" viewBox="0 0 500 250" class="mx-auto">
+                                        <!-- Client -->
+                                        <rect x="50" y="20" width="80" height="40" fill="#3b82f6" stroke="#1e40af" stroke-width="2" rx="5"/>
+                                        <text x="90" y="43" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Client</text>
+                                        
+                                        <!-- Server -->
+                                        <rect x="370" y="20" width="80" height="40" fill="#10b981" stroke="#047857" stroke-width="2" rx="5"/>
+                                        <text x="410" y="43" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Server</text>
+                                        
+                                        <!-- 1. ClientHello -->
+                                        <line x1="130" y1="80" x2="370" y2="90" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                        <text x="250" y="78" text-anchor="middle" fill="#667eea" font-size="10" font-weight="bold">1. ClientHello</text>
+                                        <text x="250" y="92" text-anchor="middle" fill="#ccc" font-size="8">支持的加密算法、随机数</text>
+                                        
+                                        <!-- 2. ServerHello + Certificate -->
+                                        <line x1="370" y1="110" x2="130" y2="120" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                        <text x="250" y="108" text-anchor="middle" fill="#10b981" font-size="10" font-weight="bold">2. ServerHello + Certificate</text>
+                                        <text x="250" y="122" text-anchor="middle" fill="#ccc" font-size="8">选择加密算法、服务器证书</text>
+                                        
+                                        <!-- 3. Key Exchange -->
+                                        <line x1="130" y1="140" x2="370" y2="150" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                        <text x="250" y="138" text-anchor="middle" fill="#f59e0b" font-size="10" font-weight="bold">3. Client Key Exchange</text>
+                                        <text x="250" y="152" text-anchor="middle" fill="#ccc" font-size="8">预主密钥交换、验证服务器</text>
+                                        
+                                        <!-- 4. Change Cipher Spec -->
+                                        <line x1="130" y1="170" x2="370" y2="180" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                        <line x1="370" y1="190" x2="130" y2="200" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                        <text x="250" y="168" text-anchor="middle" fill="#8b5cf6" font-size="10" font-weight="bold">4. Change Cipher Spec</text>
+                                        <text x="250" y="195" text-anchor="middle" fill="#ccc" font-size="8">开始加密通信</text>
+                                        
+                                        <!-- Encrypted Data -->
+                                        <text x="250" y="220" text-anchor="middle" fill="#22c55e" font-size="12" font-weight="bold">🔒 加密数据传输</text>
+                                        <text x="250" y="235" text-anchor="middle" fill="#ccc" font-size="10">所有后续HTTP数据都被加密</text>
+                                    </svg>
+                                    <p class="text-center text-gray-400 text-xs mt-2">图：HTTPS握手建立安全连接</p>
+                                </div>
+                            </div>
+
+                            <h5 class="text-lg font-semibold mb-4 text-orange-400">Web 服务器软件：请求的"守门员"</h5>
+                             <p class="text-gray-300 mb-4 leading-relaxed">
+                                用户请求到达服务器 IP 后，是哪个软件最先接收到请求？通常是 Web 服务器软件，比如 Nginx 或 Apache。它们负责监听端口、接收连接、处理静态文件请求、反向代理应用服务器等。
+                             </p>
+                             <div class="comparison-table mb-8">
+                                 <div class="comparison-header">Nginx vs Apache 对比</div>
+                                 <div class="grid grid-cols-3">
+                                     <div class="comparison-header text-sm">特性</div>
+                                     <div class="comparison-header text-sm">Nginx</div>
+                                     <div class="comparison-header text-sm">Apache</div>
+                                 </div>
+                                 <div class="grid grid-cols-3 comparison-row">
+                                     <div class="comparison-cell font-semibold">连接处理模型</div>
+                                     <div class="comparison-cell">事件驱动 (Event-driven)</div>
+                                     <div class="comparison-cell">进程/线程驱动 (Process/Thread-driven)</div>
+                                 </div>
+                                 <div class="grid grid-cols-3 comparison-row">
+                                     <div class="comparison-cell font-semibold">高并发性能</div>
+                                     <div class="comparison-cell">优秀，适合处理静态资源、反向代理</div>
+                                     <div class="comparison-cell">较好，高并发下可能资源消耗大</div>
+                                 </div>
+                                 <div class="grid grid-cols-3 comparison-row">
+                                     <div class="comparison-cell font-semibold">配置复杂度</div>
+                                     <div class="comparison-cell">相对简洁</div>
+                                     <div class="comparison-cell">模块化，配置灵活但可能复杂</div>
+                                 </div>
+                                 <div class="grid grid-cols-3 comparison-row">
+                                     <div class="comparison-cell font-semibold">功能定位</div>
+                                     <div class="comparison-cell">高性能Web服务器、反向代理、负载均衡</div>
+                                     <div class="comparison-cell">通用Web服务器、模块丰富</div>
+                                 </div>
+                             </div>
+                             <p class="text-gray-300 mb-4 leading-relaxed">
+                                 现代 Web 架构中，常用 Nginx 做反向代理和负载均衡，它将请求转发给后端的应用服务器（比如 Node.js、Java、Python 应用）。
+                             </p>
+                            <div class="code-block text-sm">
+<span class="code-comment"># 示例 Nginx 反向代理配置</span>
+http {
+    upstream backend_app { <span class="code-comment"># 定义后端应用服务器列表</span>
+        server 127.0.0.1:<span class="code-number">8080</span>; <span class="code-comment"># 后端应用监听的地址和端口</span>
+        server 127.0.0.1:<span class="code-number">8081</span>; <span class="code-comment"># 另一个后端实例</span>
+    }
+
+    server {
+        listen <span class="code-number">80</span>; <span class="code-comment"># 监听80端口</span>
+        server_name www.example.com; <span class="code-comment"># 服务器名称</span>
+
+        location / { <span class="code-comment"># 所有请求</span>
+            proxy_pass http://backend_app; <span class="code-comment"># 转发给后端应用</span>
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+
+        location /static/ { <span class="code-comment"># 处理静态文件请求</span>
+            alias /path/to/your/static/files/; <span class="code-comment"># 直接从文件系统提供服务</span>
+            expires <span class="code-number">30d</span>; <span class="code-comment"># 设置缓存过期时间</span>
+            access_log off;
+        }
+
+        <span class="code-comment"># HTTPS配置 (通常由ALB/CDN处理)</span>
+        <span class="code-comment"># listen 443 ssl;</span>
+        <span class="code-comment"># ssl_certificate /path/to/your_cert.crt;</span>
+        <span class="code-comment"># ssl_certificate_key /path/to/your_key.key;</span>
+    }
+}
+</div>
+                        </div>
+                    </div>
+
+                    <!-- 5.2 网页编译构建的炼金术 -->
+                    <div class="mb-16">
+                         <h3 class="text-3xl font-bold mb-8 text-yellow-400">5.2 网页编译构建的炼金术：那些花里胡哨的代码怎么变身浏览器认识的样子？</h3>
+
+                         <div class="bg-gradient-to-r from-yellow-900 to-orange-900 rounded-lg p-6 mb-8">
+                            <p class="text-lg italic text-center">
+                                "你写的那些 TypeScript、Sass、React JSX 代码，浏览器可不认识哦！得靠构建工具这位'炼金术士'给它们施魔法！"
+                            </p>
+                         </div>
+
+                        <div class="knowledge-card rounded-lg p-8 mb-8">
+                            <h4 class="text-2xl font-bold mb-6 text-yellow-300">5.2.1 前端构建工具的核心作用：把散装零件变成精美成品！</h4>
+                            <p class="text-gray-300 mb-6 leading-relaxed">
+                                现代前端项目通常由大量的模块组成，使用各种新特性、新语言。构建工具就是把这些分散的、浏览器不直接支持的文件，打包、转换、优化成浏览器能理解、加载效率最高的静态资源（HTML, CSS, JS, 图片等）。
+                            </p>
+
+                            <div class="architecture-diagram rounded-lg p-6 mb-8">
+                                <h6 class="font-semibold text-cyan-300 mb-3 text-center">前端构建流程图</h6>
+                                <svg width="100%" height="300" viewBox="0 0 800 300" class="mx-auto">
+                                    <!-- Source Code -->
+                                    <rect x="50" y="30" width="100" height="200" fill="#3b82f6" stroke="#1e40af" stroke-width="2" rx="8"/>
+                                    <text x="100" y="50" text-anchor="middle" fill="white" font-size="12" font-weight="bold">源代码</text>
+                                    
+                                    <rect x="60" y="60" width="80" height="25" fill="rgba(255,255,255,0.1)" rx="3"/>
+                                    <text x="100" y="75" text-anchor="middle" fill="white" font-size="9">React JSX</text>
+                                    
+                                    <rect x="60" y="90" width="80" height="25" fill="rgba(255,255,255,0.1)" rx="3"/>
+                                    <text x="100" y="105" text-anchor="middle" fill="white" font-size="9">TypeScript</text>
+                                    
+                                    <rect x="60" y="120" width="80" height="25" fill="rgba(255,255,255,0.1)" rx="3"/>
+                                    <text x="100" y="135" text-anchor="middle" fill="white" font-size="9">Sass/Less</text>
+                                    
+                                    <rect x="60" y="150" width="80" height="25" fill="rgba(255,255,255,0.1)" rx="3"/>
+                                    <text x="100" y="165" text-anchor="middle" fill="white" font-size="9">Images</text>
+                                    
+                                    <rect x="60" y="180" width="80" height="25" fill="rgba(255,255,255,0.1)" rx="3"/>
+                                    <text x="100" y="195" text-anchor="middle" fill="white" font-size="9">Fonts</text>
+
+                                    <!-- Bundler -->
+                                    <rect x="220" y="30" width="200" height="200" fill="#10b981" stroke="#047857" stroke-width="2" rx="8"/>
+                                    <text x="320" y="50" text-anchor="middle" fill="white" font-size="14" font-weight="bold">构建工具 (Bundler)</text>
+                                    <text x="320" y="65" text-anchor="middle" fill="white" font-size="10">Webpack / Vite / Rollup</text>
+                                    
+                                    <!-- Loaders -->
+                                    <rect x="240" y="80" width="160" height="40" fill="rgba(255,255,255,0.1)" rx="5"/>
+                                    <text x="320" y="95" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Loaders (转换器)</text>
+                                    <text x="320" y="110" text-anchor="middle" fill="white" font-size="9">Babel, TS Loader, CSS Loader...</text>
+                                    
+                                    <!-- Plugins -->
+                                    <rect x="240" y="130" width="160" height="40" fill="rgba(255,255,255,0.1)" rx="5"/>
+                                    <text x="320" y="145" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Plugins (功能扩展)</text>
+                                    <text x="320" y="160" text-anchor="middle" fill="white" font-size="9">代码压缩, 文件优化, HTML生成...</text>
+                                    
+                                    <!-- Optimization -->
+                                    <rect x="240" y="180" width="160" height="40" fill="rgba(255,255,255,0.1)" rx="5"/>
+                                    <text x="320" y="195" text-anchor="middle" fill="white" font-size="11" font-weight="bold">优化 (Optimization)</text>
+                                    <text x="320" y="210" text-anchor="middle" fill="white" font-size="9">Tree Shaking, Code Splitting...</text>
+
+                                    <!-- Output -->
+                                    <rect x="500" y="30" width="120" height="200" fill="#f59e0b" stroke="#d97706" stroke-width="2" rx="8"/>
+                                    <text x="560" y="50" text-anchor="middle" fill="white" font-size="12" font-weight="bold">优化产物</text>
+                                    
+                                    <rect x="510" y="70" width="100" height="25" fill="rgba(255,255,255,0.1)" rx="3"/>
+                                    <text x="560" y="85" text-anchor="middle" fill="white" font-size="9">bundle.js</text>
+                                    
+                                    <rect x="510" y="100" width="100" height="25" fill="rgba(255,255,255,0.1)" rx="3"/>
+                                    <text x="560" y="115" text-anchor="middle" fill="white" font-size="9">style.css</text>
+                                    
+                                    <rect x="510" y="130" width="100" height="25" fill="rgba(255,255,255,0.1)" rx="3"/>
+                                    <text x="560" y="145" text-anchor="middle" fill="white" font-size="9">index.html</text>
+                                    
+                                    <rect x="510" y="160" width="100" height="25" fill="rgba(255,255,255,0.1)" rx="3"/>
+                                    <text x="560" y="175" text-anchor="middle" fill="white" font-size="9">assets/*</text>
+                                    
+                                    <rect x="510" y="190" width="100" height="25" fill="rgba(255,255,255,0.1)" rx="3"/>
+                                    <text x="560" y="205" text-anchor="middle" fill="white" font-size="9">sourcemap</text>
+
+                                    <!-- Browser -->
+                                    <rect x="680" y="80" width="80" height="80" fill="#8b5cf6" stroke="#7c3aed" stroke-width="2" rx="8"/>
+                                    <text x="720" y="110" text-anchor="middle" fill="white" font-size="12" font-weight="bold">浏览器</text>
+                                    <text x="720" y="125" text-anchor="middle" fill="white" font-size="10">可执行</text>
+                                    <text x="720" y="140" text-anchor="middle" fill="white" font-size="10">已优化</text>
+
+                                    <!-- Arrows -->
+                                    <defs>
+                                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                            <polygon points="0 0, 10 3.5, 0 7" fill="#667eea"/>
+                                        </marker>
+                                    </defs>
+                                    
+                                    <line x1="150" y1="130" x2="220" y2="130" stroke="#667eea" stroke-width="3" marker-end="url(#arrowhead)"/>
+                                    <line x1="420" y1="130" x2="500" y2="130" stroke="#667eea" stroke-width="3" marker-end="url(#arrowhead)"/>
+                                    <line x1="620" y1="130" x2="680" y2="130" stroke="#667eea" stroke-width="3" marker-end="url(#arrowhead)"/>
+                                    
+                                    <!-- Labels -->
+                                    <text x="185" y="120" text-anchor="middle" fill="#ccc" font-size="10">解析转换</text>
+                                    <text x="460" y="120" text-anchor="middle" fill="#ccc" font-size="10">打包优化</text>
+                                    <text x="650" y="120" text-anchor="middle" fill="#ccc" font-size="10">部署运行</text>
+
+                                    <!-- Process Labels -->
+                                    <text x="400" y="270" text-anchor="middle" fill="#ccc" font-size="14" font-weight="bold">前端"炼金术"流程</text>
+                                </svg>
+                                <p class="text-center text-gray-400 text-xs mt-2">图：前端源代码通过构建工具变成浏览器可运行资产的过程</p>
+                            </div>
+
+                            <h5 class="text-lg font-semibold mb-4 text-orange-400">构建工具的"魔法咒语"</h5>
+                             <div class="feature-grid gap-4 text-gray-300 mb-8">
+                                 <div class="tip-box rounded-lg p-3">
+                                     <h6 class="font-semibold text-green-300 mb-1 text-sm">📦 模块打包 (Module Bundling)</h6>
+                                     <p class="text-xs">将分散的模块合并成少数几个文件，减少HTTP请求次数。</p>
+                                 </div>
+                                 <div class="tip-box rounded-lg p-3">
+                                     <h6 class="font-semibold text-green-300 mb-1 text-sm">🔄 代码转换 (Code Transformation)</h6>
+                                     <p class="text-xs">将 TS、ESNext、JSX、Sass 等转换成浏览器兼容的 JS、CSS。</p>
+                                 </div>
+                                 <div class="tip-box rounded-lg p-3">
+                                     <h6 class="font-semibold text-green-300 mb-1 text-sm">✨ 优化 (Optimization)</h6>
+                                     <p class="text-xs">压缩代码、混淆、Tree Shaking (移除死代码)、Code Splitting (按需加载)。</p>
+                                 </div>
+                                  <div class="tip-box rounded-lg p-3">
+                                     <h6 class="font-semibold text-green-300 mb-1 text-sm">🖼️ 资源管理 (Asset Management)</h6>
+                                     <p class="text-xs">处理图片、字体等非代码文件，比如文件名加哈希缓存。</p>
+                                 </div>
+                                  <div class="tip-box rounded-lg p-3">
+                                     <h6 class="font-semibold text-green-300 mb-1 text-sm">⚡ 热模块替换 (HMR)</h6>
+                                     <p class="text-xs">开发时，只更新修改的模块，不用刷新整个页面，提高开发效率。</p>
+                                 </div>
+                             </div>
+                        </div>
+
+                        <div class="knowledge-card rounded-lg p-8 mb-8">
+                            <h4 class="text-2xl font-bold mb-6 text-purple-300">5.2.2 Webpack vs Vite：谁是构建界的"扛把子"？</h4>
+                            <p class="text-gray-300 mb-6 leading-relaxed">
+                                Webpack 曾经是前端构建的绝对霸主，功能强大但配置复杂，开发环境启动慢。Vite 作为后起之秀，利用浏览器原生 ES Modules 和 Go 语言编写的 Esbuild，极大地提升了开发体验！
+                            </p>
+
+                             <div class="comparison-table mb-8">
+                                 <div class="comparison-header">Webpack vs Vite 对比</div>
+                                 <div class="grid grid-cols-3">
+                                     <div class="comparison-header text-sm">特性</div>
+                                     <div class="comparison-header text-sm">Webpack</div>
+                                     <div class="comparison-header text-sm">Vite</div>
+                                 </div>
+                                 <div class="grid grid-cols-3 comparison-row">
+                                     <div class="comparison-cell font-semibold">开发模式启动</div>
+                                     <div class="comparison-cell">打包整个应用，启动慢</div>
+                                     <div class="comparison-cell">按需启动，利用ESM，启动飞快</div>
+                                 </div>
+                                 <div class="grid grid-cols-3 comparison-row">
+                                     <div class="comparison-cell font-semibold">HMR</div>
+                                     <div class="comparison-cell">需要额外配置和插件</div>
+                                     <div class="comparison-cell">基于ESM原生支持，热更新快</div>
+                                 </div>
+                                 <div class="grid grid-cols-3 comparison-row">
+                                     <div class="comparison-cell font-semibold">构建生产包</div>
+                                     <div class="comparison-cell">打包一切，功能强大</div>
+                                     <div class="comparison-cell">使用Rollup打包，性能不错</div>
+                                 </div>
+                                  <div class="grid grid-cols-3 comparison-row">
+                                     <div class="comparison-cell font-semibold">配置</div>
+                                     <div class="comparison-cell">基于配置，灵活但复杂</div>
+                                     <div class="comparison-cell">基于约定，配置少，简单易用</div>
+                                 </div>
+                             </div>
+
+                            <h5 class="text-lg font-semibold mb-4 text-orange-400">Webpack 核心概念与配置示例</h5>
+                             <p class="text-gray-300 mb-4 leading-relaxed">
+                                 理解 Webpack 的核心概念很重要：Entry (入口)、Output (输出)、Loader (模块转换器)、Plugin (扩展功能)。
+                             </p>
+                            <div class="code-block text-sm">
+<span class="code-comment">// webpack.config.js - 简化版 Webpack 配置</span>
+<span class="code-keyword">const</span> path = <span class="code-keyword">require</span>(<span class="code-string">'path'</span>);
+<span class="code-keyword">const</span> HtmlWebpackPlugin = <span class="code-keyword">require</span>(<span class="code-string">'html-webpack-plugin'</span>);
+<span class="code-keyword">const</span> MiniCssExtractPlugin = <span class="code-keyword">require</span>(<span class="code-string">'mini-css-extract-plugin'</span>);
+<span class="code-keyword">const</span> CssMinimizerPlugin = <span class="code-keyword">require</span>(<span class="code-string">'css-minimizer-webpack-plugin'</span>);
+<span class="code-keyword">const</span> TerserPlugin = <span class="code-keyword">require</span>(<span class="code-string">'terser-webpack-plugin'</span>);
+
+<span class="code-keyword">module</span>.<span class="code-function">exports</span> = {
+  <span class="code-comment">// 入口文件</span>
+  entry: <span class="code-string">'./src/index.js'</span>,
+
+  <span class="code-comment">// 输出配置</span>
+  output: {
+    filename: <span class="code-string">'bundle.[contenthash].js'</span>, <span class="code-comment">// 输出文件名，加上哈希用于缓存控制</span>
+    path: path.<span class="code-function">resolve</span>(__dirname, <span class="code-string">'dist'</span>), <span class="code-comment">// 输出目录</span>
+    clean: <span class="code-keyword">true</span>, <span class="code-comment">// 构建前清理输出目录</span>
+  },
+
+  <span class="code-comment">// 开发模式 vs 生产模式</span>
+  mode: <span class="code-string">'production'</span>, <span class="code-comment">// 'development' 或 'production'</span>
+
+  <span class="code-comment">// Loader 配置：处理不同类型的文件</span>
+  module: {
+    rules: [
+      { <span class="code-comment">// 处理 JavaScript/JSX</span>
+        test: /\.(js|jsx|ts|tsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: <span class="code-string">'babel-loader'</span>,
+          options: {
+            presets: [<span class="code-string">'@babel/preset-env'</span>, <span class="code-string">'@babel/preset-react'</span>, <span class="code-string">'@babel/preset-typescript'</span>],
+          },
+        },
+      },
+      { <span class="code-comment">// 处理 CSS/Sass</span>
+        test: /\.(css|scss)$/,
+        use: [
+          MiniCssExtractPlugin.<span class="code-keyword">loader</span>, <span class="code-comment">// 提取CSS到单独文件</span>
+          <span class="code-string">'css-loader'</span>, <span class="code-comment">// 解析CSS文件</span>
+          <span class="code-string">'sass-loader'</span>, <span class="code-comment">// 编译Sass</span>
+        ],
+      },
+      { <span class="code-comment">// 处理图片等资产</span>
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: <span class="code-string">'asset/resource'</span>, <span class="code-comment">// Webpack 5 内置loader</span>
+      },
+      { <span class="code-comment">// 处理字体</span>
+         test: /\.(woff|woff2|eot|ttf|otf)$/i,
+         type: <span class="code-string">'asset/resource'</span>,
+      },
+    ],
+  },
+
+  <span class="code-comment">// Plugin 配置：执行更广泛的任务</span>
+  plugins: [
+    <span class="code-comment">// 自动生成 HTML 文件并引入打包后的 JS/CSS</span>
+    <span class="code-keyword">new</span> <span class="code-function">HtmlWebpackPlugin</span>({
+      template: <span class="code-string">'./public/index.html'</span>, <span class="code-comment">// 基于现有HTML模板</span>
+      filename: <span class="code-string">'index.html'</span>,
+      minify: <span class="code-keyword">true</span>, <span class="code-comment">// 压缩HTML</span>
+    }),
+    <span class="code-comment">// 提取CSS</span>
+    <span class="code-keyword">new</span> <span class="code-function">MiniCssExtractPlugin</span>({
+      filename: <span class="code-string">'[name].[contenthash].css'</span>,
+    }),
+  ],
+
+  <span class="code-comment">// 优化配置 (仅在 production 模式下生效)</span>
+  optimization: {
+    minimize: <span class="code-keyword">true</span>,
+    minimizer: [
+      <span class="code-comment">// 压缩JS</span>
+      <span class="code-keyword">new</span> <span class="code-function">TerserPlugin</span>({
+         extractComments: <span class="code-keyword">false</span>, <span class="code-comment">// 不提取注释</span>
+      }),
+      <span class="code-comment">// 压缩CSS</span>
+      <span class="code-keyword">new</span> <span class="code-function">CssMinimizerPlugin</span>(),
+    ],
+    splitChunks: { <span class="code-comment"># 代码分割，提取公共模块和第三方库</span>
+        chunks: <span class="code-string">'all'</span>,
+    },
+  },
+
+  <span class="code-comment">// 开发服务器配置 (仅在 development 模式下生效)</span>
+  devServer: {
+    static: path.<span class="code-function">join</span>(__dirname, <span class="code-string">'dist'</span>),
+    compress: <span class="code-keyword">true</span>,
+    port: <span class="code-number">9000</span>,
+    open: <span class="code-keyword">true</span>, <span class="code-comment">// 自动打开浏览器</span>
+    historyApiFallback: <span class="code-keyword">true</span>, <span class="code-comment">// 支持SPA路由</span>
+    hot: <span class="code-keyword">true</span>, <span class="code-comment"># 开启热模块替换 (HMR)</span>
+  },
+
+  <span class="code-comment">// 解析模块的规则</span>
+  resolve: {
+    extensions: [<span class="code-string">'.js'</span>, <span class="code-string">'.jsx'</span>, <span class="code-string">'.ts'</span>, <span class="code-string">'.tsx'</span>], <span class="code-comment"># 自动解析这些文件扩展名</span>
+    alias: { <span class="code-comment"># 设置别名，简化导入路径</span>
+        <span class="code-string">'@'</span>: path.<span class="code-function">resolve</span>(__dirname, <span class="code-string">'src'</span>),
+    },
+  },
+};
+</div>
+                             <div class="tip-box rounded-lg p-4 mt-4">
+                                 <h6 class="font-semibold text-green-300 mb-2">常见 Loader 和 Plugin：</h6>
+                                 <ul class="text-sm space-y-1">
+                                     <li>• <strong>babel-loader:</strong> 使用 Babel 转换 JS/JSX/TS 代码，使其兼容旧浏览器。</li>
+                                     <li>• <strong>css-loader:</strong> 解析 CSS 文件中的 <code>@import</code> 和 <code>url()</code>。</li>
+                                     <li>• <strong>style-loader:</strong> 将 CSS 注入到 DOM 中。</li>
+                                     <li>• <strong>mini-css-extract-plugin:</strong> 将 CSS 提取到单独的文件而不是注入 JS 中。</li>
+                                     <li>• <strong>sass-loader / less-loader:</strong> 编译 Sass/Less 到 CSS。</li>
+                                     <li>• <strong>HtmlWebpackPlugin:</strong> 自动生成或处理 HTML 文件，并将打包好的资源引入。</li>
+                                     <li>• <strong>TerserPlugin / CssMinimizerPlugin:</strong> 压缩 JS 和 CSS 代码。</li>
+                                 </ul>
+                             </div>
+                        </div>
+
+                         <div class="technique-highlight rounded-lg p-6 mt-8">
+                             <h6 class="font-semibold text-purple-300 mb-2 text-center">本小姐的构建优化心得</h6>
+                             <p class="text-center text-sm text-gray-300 italic">
+                                 "构建是前端性能优化的重要一环！<br>
+                                 <strong>减小打包体积、提高加载速度，</strong><br>
+                                 合理使用 Tree Shaking、Code Splitting，配置好缓存策略，<br>
+                                 让你的应用飞起来！"
+                             </p>
+                         </div>
+                    </div>
+
+                    <!-- 5.3 浏览器大大的工作日常 -->
+                    <div class="mb-8">
+                         <h3 class="text-3xl font-bold mb-8 text-blue-400">5.3 浏览器大大的工作日常：解析、渲染、执行，浏览器原来这么忙！</h3>
+
+                         <div class="bg-gradient-to-r from-blue-900 to-indigo-900 rounded-lg p-6 mb-8">
+                            <p class="text-lg italic text-center">
+                                "你以为浏览器只会乖乖显示页面？它可是个多面手！要解析代码、要画画、还要跑你的小脚本！"
+                            </p>
+                         </div>
+
+                        <div class="knowledge-card rounded-lg p-8 mb-8">
+                            <h4 class="text-2xl font-bold mb-6 text-blue-300">5.3.1 浏览器内核与渲染引擎：把代码变成像素的魔法</h4>
+                            <p class="text-gray-300 mb-6 leading-relaxed">
+                                浏览器最核心的部分是浏览器内核（也叫渲染引擎），它负责解析 HTML、CSS，构建页面结构，计算样式，最后把页面绘制出来。不同的浏览器用不同的内核，比如 Chrome/Edge/Opera 用 Blink，Firefox 用 Gecko，Safari 用 WebKit。
+                            </p>
+
+                             <h5 class="text-lg font-semibold mb-4 text-orange-400">渲染引擎的工作流程 (Critical Rendering Path)</h5>
+                             <p class="text-gray-300 mb-4 leading-relaxed">
+                                 拿到 HTML、CSS、JS 文件后，渲染引擎不是一股脑全部处理的，它有自己的工作流程，这直接影响页面的加载速度和用户感知性能。
+                             </p>
+
+                             <div class="architecture-diagram rounded-lg p-6 mb-8">
+                                <h6 class="font-semibold text-cyan-300 mb-3 text-center">浏览器渲染流程</h6>
+                                 <svg width="100%" height="350" viewBox="0 0 800 350" class="mx-auto">
+                                     <!-- HTML Processing -->
+                                     <rect x="50" y="30" width="80" height="40" fill="#3b82f6" stroke="#1e40af" stroke-width="2" rx="5"/>
+                                     <text x="90" y="48" text-anchor="middle" fill="white" font-size="10" font-weight="bold">HTML</text>
+                                     <text x="90" y="60" text-anchor="middle" fill="white" font-size="8">文档</text>
+
+                                     <rect x="50" y="90" width="80" height="40" fill="#10b981" stroke="#047857" stroke-width="2" rx="5"/>
+                                     <text x="90" y="108" text-anchor="middle" fill="white" font-size="10" font-weight="bold">Parse HTML</text>
+                                     <text x="90" y="120" text-anchor="middle" fill="white" font-size="8">解析HTML</text>
+
+                                     <rect x="50" y="150" width="80" height="40" fill="#f59e0b" stroke="#d97706" stroke-width="2" rx="5"/>
+                                     <text x="90" y="168" text-anchor="middle" fill="white" font-size="10" font-weight="bold">DOM Tree</text>
+                                     <text x="90" y="180" text-anchor="middle" fill="white" font-size="8">DOM树</text>
+
+                                     <!-- CSS Processing -->
+                                     <rect x="180" y="30" width="80" height="40" fill="#8b5cf6" stroke="#7c3aed" stroke-width="2" rx="5"/>
+                                     <text x="220" y="48" text-anchor="middle" fill="white" font-size="10" font-weight="bold">CSS</text>
+                                     <text x="220" y="60" text-anchor="middle" fill="white" font-size="8">样式</text>
+
+                                     <rect x="180" y="90" width="80" height="40" fill="#dc2626" stroke="#b91c1c" stroke-width="2" rx="5"/>
+                                     <text x="220" y="108" text-anchor="middle" fill="white" font-size="10" font-weight="bold">Parse CSS</text>
+                                     <text x="220" y="120" text-anchor="middle" fill="white" font-size="8">解析CSS</text>
+
+                                     <rect x="180" y="150" width="80" height="40" fill="#059669" stroke="#047857" stroke-width="2" rx="5"/>
+                                     <text x="220" y="168" text-anchor="middle" fill="white" font-size="10" font-weight="bold">CSSOM Tree</text>
+                                     <text x="220" y="180" text-anchor="middle" fill="white" font-size="8">样式树</text>
+
+                                     <!-- Combine -->
+                                     <rect x="320" y="110" width="120" height="40" fill="#db2777" stroke="#be185d" stroke-width="2" rx="5"/>
+                                     <text x="380" y="128" text-anchor="middle" fill="white" font-size="10" font-weight="bold">Attachment</text>
+                                     <text x="380" y="140" text-anchor="middle" fill="white" font-size="8">DOM + CSSOM</text>
+
+                                     <!-- Render Tree -->
+                                     <rect x="480" y="110" width="120" height="40" fill="#0891b2" stroke="#0e7490" stroke-width="2" rx="5"/>
+                                     <text x="540" y="128" text-anchor="middle" fill="white" font-size="10" font-weight="bold">Render Tree</text>
+                                     <text x="540" y="140" text-anchor="middle" fill="white" font-size="8">渲染树</text>
+
+                                     <!-- Layout -->
+                                     <rect x="640" y="110" width="100" height="40" fill="#ca8a04" stroke="#a16207" stroke-width="2" rx="5"/>
+                                     <text x="690" y="128" text-anchor="middle" fill="white" font-size="10" font-weight="bold">Layout</text>
+                                     <text x="690" y="140" text-anchor="middle" fill="white" font-size="8">布局计算</text>
+
+                                     <!-- Paint -->
+                                     <rect x="480" y="200" width="120" height="40" fill="#16a34a" stroke="#15803d" stroke-width="2" rx="5"/>
+                                     <text x="540" y="218" text-anchor="middle" fill="white" font-size="10" font-weight="bold">Paint</text>
+                                     <text x="540" y="230" text-anchor="middle" fill="white" font-size="8">绘制像素</text>
+
+                                     <!-- Composite -->
+                                     <rect x="320" y="200" width="120" height="40" fill="#9333ea" stroke="#7c3aed" stroke-width="2" rx="5"/>
+                                     <text x="380" y="218" text-anchor="middle" fill="white" font-size="10" font-weight="bold">Composite</text>
+                                     <text x="380" y="230" text-anchor="middle" fill="white" font-size="8">图层合成</text>
+
+                                     <!-- Screen -->
+                                     <rect x="150" y="280" width="120" height="40" fill="#22c55e" stroke="#16a34a" stroke-width="2" rx="5"/>
+                                     <text x="210" y="298" text-anchor="middle" fill="white" font-size="12" font-weight="bold">屏幕显示</text>
+                                     <text x="210" y="312" text-anchor="middle" fill="white" font-size="9">最终渲染</text>
+
+                                     <!-- Arrows -->
+                                     <defs>
+                                         <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                             <polygon points="0 0, 10 3.5, 0 7" fill="#667eea"/>
+                                         </marker>
+                                     </defs>
+
+                                     <!-- HTML flow -->
+                                     <line x1="90" y1="70" x2="90" y2="90" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                     <line x1="90" y1="130" x2="90" y2="150" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                                     <!-- CSS flow -->
+                                     <line x1="220" y1="70" x2="220" y2="90" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                     <line x1="220" y1="130" x2="220" y2="150" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                                     <!-- Combine flows -->
+                                     <line x1="130" y1="170" x2="320" y2="130" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                     <line x1="260" y1="170" x2="320" y2="130" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                                     <!-- Render pipeline -->
+                                     <line x1="440" y1="130" x2="480" y2="130" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                     <line x1="600" y1="130" x2="640" y2="130" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                     
+                                     <!-- Down to paint -->
+                                     <line x1="690" y1="150" x2="690" y2="180" stroke="#667eea" stroke-width="2"/>
+                                     <line x1="690" y1="180" x2="540" y2="200" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                     
+                                     <!-- Paint to composite -->
+                                     <line x1="480" y1="220" x2="440" y2="220" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                     
+                                     <!-- To screen -->
+                                     <line x1="380" y1="240" x2="380" y2="260" stroke="#667eea" stroke-width="2"/>
+                                     <line x1="380" y1="260" x2="210" y2="280" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                                     <!-- JavaScript (can interrupt) -->
+                                     <rect x="320" y="30" width="120" height="40" fill="#ef4444" stroke="#dc2626" stroke-width="2" rx="5" stroke-dasharray="5,5"/>
+                                     <text x="380" y="48" text-anchor="middle" fill="white" font-size="10" font-weight="bold">JavaScript</text>
+                                     <text x="380" y="60" text-anchor="middle" fill="white" font-size="8">(可阻塞解析)</text>
+                                 </svg>
+                                 <p class="text-center text-gray-400 text-xs mt-2">图：浏览器从HTML/CSS到显示像素的渲染流程</p>
+                             </div>
+
+                            <div class="space-y-4 text-gray-300 mb-8">
+                                <div class="tip-box rounded-lg p-3">
+                                    <h6 class="font-semibold text-green-300 mb-1 text-sm">构建 DOM 树 (DOM Tree)</h6>
+                                    <p class="text-xs">解析 HTML 结构，创建节点树。</p>
+                                </div>
+                                <div class="tip-box rounded-lg p-3">
+                                    <h6 class="font-semibold text-green-300 mb-1 text-sm">构建 CSSOM 树 (CSSOM Tree)</h6>
+                                    <p class="text-xs">解析 CSS 规则，创建样式树。</p>
+                                </div>
+                                <div class="tip-box rounded-lg p-3">
+                                    <h6 class="font-semibold text-green-300 mb-1 text-sm">构建渲染树 (Render Tree / Layout Tree)</h6>
+                                    <p class="text-xs">将 DOM 树和 CSSOM 树合并，生成包含可见元素及其样式的树。</p>
+                                </div>
+                                <div class="tip-box rounded-lg p-3">
+                                    <h6 class="font-semibold text-green-300 mb-1 text-sm">布局 (Layout / Reflow)</h6>
+                                    <p class="text-xs">根据渲染树计算每个元素在屏幕上的位置和大小。</p>
+                                </div>
+                                <div class="tip-box rounded-lg p-3">
+                                    <h6 class="font-semibold text-green-300 mb-1 text-sm">绘制 (Paint / Repaint)</h6>
+                                    <p class="text-xs">根据布局信息，将元素的像素绘制到屏幕上。</p>
+                                </div>
+                                <div class="tip-box rounded-lg p-3">
+                                    <h6 class="font-semibold text-green-300 mb-1 text-sm">合成 (Composite)</h6>
+                                    <p class="text-xs">将不同图层的绘制结果合并，最终显示在屏幕上。</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-300 leading-relaxed">
+                                注意，JavaScript 会阻塞 HTML 解析（遇到 <code>&lt;script&gt;</code> 标签会暂停 HTML 解析去下载执行 JS），CSS 会阻塞渲染（即使 DOM 树建好了，CSSOM 树没建好也不能开始构建渲染树），这些都是影响前端性能的关键点！
+                            </p>
+                        </div>
+
+                         <div class="knowledge-card rounded-lg p-8 mb-8">
+                            <h4 class="text-2xl font-bold mb-6 text-purple-300">5.3.2 JavaScript 引擎：让网页动起来的"心脏"</h4>
+                            <p class="text-gray-300 mb-6 leading-relaxed">
+                                JavaScript 引擎负责解析和执行 JS 代码。最著名的就是 Chrome 的 V8 引擎，Node.js 也使用了它。JS 引擎可不是简单的解释器，它会进行各种优化！
+                            </p>
+                             <h5 class="text-lg font-semibold mb-4 text-orange-400">V8 引擎工作流程 (简化)</h5>
+                            <div class="architecture-diagram rounded-lg p-6 mb-8">
+                                <h6 class="font-semibold text-cyan-300 mb-3 text-center">V8引擎工作流程</h6>
+                                 <svg width="100%" height="250" viewBox="0 0 700 250" class="mx-auto">
+                                     <!-- JS Code -->
+                                     <rect x="50" y="30" width="80" height="40" fill="#3b82f6" stroke="#1e40af" stroke-width="2" rx="5"/>
+                                     <text x="90" y="48" text-anchor="middle" fill="white" font-size="11" font-weight="bold">JS Code</text>
+                                     <text x="90" y="62" text-anchor="middle" fill="white" font-size="8">源代码</text>
+
+                                     <!-- Parser -->
+                                     <rect x="170" y="30" width="80" height="40" fill="#10b981" stroke="#047857" stroke-width="2" rx="5"/>
+                                     <text x="210" y="48" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Parser</text>
+                                     <text x="210" y="62" text-anchor="middle" fill="white" font-size="8">解析器</text>
+
+                                     <!-- AST -->
+                                     <rect x="290" y="30" width="80" height="40" fill="#f59e0b" stroke="#d97706" stroke-width="2" rx="5"/>
+                                     <text x="330" y="48" text-anchor="middle" fill="white" font-size="11" font-weight="bold">AST</text>
+                                     <text x="330" y="62" text-anchor="middle" fill="white" font-size="8">语法树</text>
+
+                                     <!-- Ignition (Interpreter) -->
+                                     <rect x="170" y="110" width="100" height="40" fill="#8b5cf6" stroke="#7c3aed" stroke-width="2" rx="5"/>
+                                     <text x="220" y="128" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Ignition</text>
+                                     <text x="220" y="142" text-anchor="middle" fill="white" font-size="8">解释器</text>
+
+                                     <!-- Bytecode -->
+                                     <rect x="310" y="110" width="80" height="40" fill="#dc2626" stroke="#b91c1c" stroke-width="2" rx="5"/>
+                                     <text x="350" y="128" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Bytecode</text>
+                                     <text x="350" y="142" text-anchor="middle" fill="white" font-size="8">字节码</text>
+
+                                     <!-- TurboFan (Optimizing Compiler) -->
+                                     <rect x="450" y="110" width="100" height="40" fill="#059669" stroke="#047857" stroke-width="2" rx="5"/>
+                                     <text x="500" y="128" text-anchor="middle" fill="white" font-size="11" font-weight="bold">TurboFan</text>
+                                     <text x="500" y="142" text-anchor="middle" fill="white" font-size="8">优化编译器</text>
+
+                                     <!-- Optimized Code -->
+                                     <rect x="450" y="190" width="100" height="40" fill="#0891b2" stroke="#0e7490" stroke-width="2" rx="5"/>
+                                     <text x="500" y="208" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Optimized</text>
+                                     <text x="500" y="222" text-anchor="middle" fill="white" font-size="8">优化代码</text>
+
+                                     <!-- Execution -->
+                                     <rect x="170" y="190" width="100" height="40" fill="#16a34a" stroke="#15803d" stroke-width="2" rx="5"/>
+                                     <text x="220" y="208" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Execution</text>
+                                     <text x="220" y="222" text-anchor="middle" fill="white" font-size="8">执行</text>
+
+                                     <!-- Profiler (monitoring) -->
+                                     <ellipse cx="570" cy="50" rx="40" ry="20" fill="#ca8a04" stroke="#a16207" stroke-width="2"/>
+                                     <text x="570" y="48" text-anchor="middle" fill="white" font-size="10" font-weight="bold">Profiler</text>
+                                     <text x="570" y="60" text-anchor="middle" fill="white" font-size="8">性能监控</text>
+
+                                     <!-- Arrows -->
+                                     <defs>
+                                         <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                             <polygon points="0 0, 10 3.5, 0 7" fill="#667eea"/>
+                                         </marker>
+                                     </defs>
+
+                                     <!-- Code to Parser -->
+                                     <line x1="130" y1="50" x2="170" y2="50" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                                     <!-- Parser to AST -->
+                                     <line x1="250" y1="50" x2="290" y2="50" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                                     <!-- AST to Ignition -->
+                                     <line x1="330" y1="70" x2="330" y2="90" stroke="#667eea" stroke-width="2"/>
+                                     <line x1="330" y1="90" x2="220" y2="110" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                                     <!-- Ignition to Bytecode -->
+                                     <line x1="270" y1="130" x2="310" y2="130" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                                     <!-- Bytecode to Execution -->
+                                     <line x1="350" y1="150" x2="350" y2="170" stroke="#667eea" stroke-width="2"/>
+                                     <line x1="350" y1="170" x2="220" y2="190" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                                     <!-- Hot spots to TurboFan -->
+                                     <line x1="390" y1="130" x2="450" y2="130" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="5,5"/>
+                                     <text x="420" y="125" text-anchor="middle" fill="#f59e0b" font-size="8">热点代码</text>
+
+                                     <!-- TurboFan to Optimized -->
+                                     <line x1="500" y1="150" x2="500" y2="190" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                                     <!-- Optimized to Execution -->
+                                     <line x1="450" y1="210" x2="270" y2="210" stroke="#22c55e" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                                     <!-- Deoptimization -->
+                                     <line x1="450" y1="190" x2="390" y2="140" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="3,3"/>
+                                     <text x="420" y="165" text-anchor="middle" fill="#ef4444" font-size="8">去优化</text>
+
+                                     <!-- Profiler monitoring -->
+                                     <line x1="530" y1="50" x2="500" y2="110" stroke="#ca8a04" stroke-width="2" stroke-dasharray="2,2"/>
+                                     <line x1="550" y1="60" x2="270" y2="190" stroke="#ca8a04" stroke-width="2" stroke-dasharray="2,2"/>
+                                 </svg>
+                                 <p class="text-center text-gray-400 text-xs mt-2">图：V8引擎解析和执行JavaScript的过程</p>
+                            </div>
+
+                            <div class="space-y-4 text-gray-300 mb-8">
+                                 <div class="tip-box rounded-lg p-3">
+                                     <h6 class="font-semibold text-green-300 mb-1 text-sm">解析器 (Parser)</h6>
+                                     <p class="text-xs">词法分析和语法分析，将 JS 代码转换成抽象语法树 (AST)。</p>
+                                 </div>
+                                <div class="tip-box rounded-lg p-3">
+                                     <h6 class="font-semibold text-green-300 mb-1 text-sm">解释器 (Ignition)</h6>
+                                     <p class="text-xs">将 AST 转换成字节码 (Bytecode) 并快速执行。适用于代码的首次运行。</p>
+                                 </div>
+                                 <div class="tip-box rounded-lg p-3">
+                                     <h6 class="font-semibold text-green-300 mb-1 text-sm">优化编译器 (TurboFan)</h6>
+                                     <p class="text-xs">监控运行频繁的"热点"代码，将其编译成高效的机器码，提高执行速度。</p>
+                                 </div>
+                                 <div class="tip-box rounded-lg p-3">
+                                     <h6 class="font-semibold text-green-300 mb-1 text-sm">去优化 (Deoptimization)</h6>
+                                     <p class="text-xs">如果优化的代码执行过程中发现之前做的假设不成立（比如对象类型变化），会"反优化"回退到解释器执行。</p>
+                                 </div>
+                            </div>
+                        </div>
+
+                         <div class="knowledge-card rounded-lg p-8">
+                             <h4 class="text-2xl font-bold mb-6 text-blue-300">5.3.3 事件循环 (Event Loop)：JavaScript 异步编程的秘密</h4>
+                             <p class="text-gray-300 mb-6 leading-relaxed">
+                                 JavaScript 是单线程的，但它怎么处理耗时的异步操作（比如网络请求、定时器）而不会阻塞主线程呢？答案就是事件循环！
+                             </p>
+
+                             <div class="architecture-diagram rounded-lg p-6 mb-8">
+                                <h6 class="font-semibold text-cyan-300 mb-3 text-center">JavaScript 事件循环</h6>
+                                 <svg width="100%" height="300" viewBox="0 0 700 300" class="mx-auto">
+                                     <!-- Call Stack -->
+                                     <rect x="50" y="50" width="100" height="120" fill="#3b82f6" stroke="#1e40af" stroke-width="2" rx="5"/>
+                                     <text x="100" y="70" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Call Stack</text>
+                                     <text x="100" y="85" text-anchor="middle" fill="white" font-size="10">调用栈</text>
+                                     
+                                     <!-- Stack frames -->
+                                     <rect x="60" y="100" width="80" height="15" fill="rgba(255,255,255,0.3)" rx="2"/>
+                                     <text x="100" y="110" text-anchor="middle" fill="white" font-size="8">function C()</text>
+                                     <rect x="60" y="120" width="80" height="15" fill="rgba(255,255,255,0.3)" rx="2"/>
+                                     <text x="100" y="130" text-anchor="middle" fill="white" font-size="8">function B()</text>
+                                     <rect x="60" y="140" width="80" height="15" fill="rgba(255,255,255,0.3)" rx="2"/>
+                                     <text x="100" y="150" text-anchor="middle" fill="white" font-size="8">function A()</text>
+
+                                     <!-- Web APIs -->
+                                     <rect x="200" y="50" width="120" height="80" fill="#10b981" stroke="#047857" stroke-width="2" rx="5"/>
+                                     <text x="260" y="70" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Web APIs</text>
+                                     <text x="260" y="85" text-anchor="middle" fill="white" font-size="9">浏览器 API</text>
+                                     
+                                     <!-- API items -->
+                                     <text x="220" y="100" fill="white" font-size="8">• setTimeout</text>
+                                     <text x="220" y="112" fill="white" font-size="8">• fetch</text>
+                                     <text x="220" y="124" fill="white" font-size="8">• DOM events</text>
+
+                                     <!-- Event Loop -->
+                                     <ellipse cx="380" cy="200" rx="50" ry="30" fill="#f59e0b" stroke="#d97706" stroke-width="2"/>
+                                     <text x="380" y="195" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Event Loop</text>
+                                     <text x="380" y="210" text-anchor="middle" fill="white" font-size="9">事件循环</text>
+
+                                     <!-- Callback Queue -->
+                                     <rect x="480" y="170" width="120" height="60" fill="#8b5cf6" stroke="#7c3aed" stroke-width="2" rx="5"/>
+                                     <text x="540" y="190" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Callback Queue</text>
+                                     <text x="540" y="205" text-anchor="middle" fill="white" font-size="9">回调队列</text>
+                                     <text x="540" y="220" text-anchor="middle" fill="white" font-size="8">(宏任务)</text>
+
+                                     <!-- Microtask Queue -->
+                                     <rect x="480" y="80" width="120" height="60" fill="#dc2626" stroke="#b91c1c" stroke-width="2" rx="5"/>
+                                     <text x="540" y="100" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Microtask Queue</text>
+                                     <text x="540" y="115" text-anchor="middle" fill="white" font-size="9">微任务队列</text>
+                                     <text x="540" y="130" text-anchor="middle" fill="white" font-size="8">(Promise.then)</text>
+
+                                     <!-- Heap -->
+                                     <rect x="50" y="200" width="100" height="60" fill="#059669" stroke="#047857" stroke-width="2" rx="5"/>
+                                     <text x="100" y="220" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Heap</text>
+                                     <text x="100" y="235" text-anchor="middle" fill="white" font-size="10">内存堆</text>
+                                     <text x="100" y="250" text-anchor="middle" fill="white" font-size="9">存储对象</text>
+
+                                     <!-- Arrows -->
+                                     <defs>
+                                         <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                             <polygon points="0 0, 10 3.5, 0 7" fill="#667eea"/>
+                                         </marker>
+                                     </defs>
+
+                                     <!-- Web APIs to Callback Queue -->
+                                     <line x1="320" y1="115" x2="430" y2="180" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                     <text x="375" y="140" text-anchor="middle" fill="#ccc" font-size="8">异步完成</text>
+
+                                     <!-- Web APIs to Microtask Queue -->
+                                     <line x1="320" y1="95" x2="480" y2="105" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                     <text x="400" y="90" text-anchor="middle" fill="#ccc" font-size="8">Promise resolve</text>
+
+                                     <!-- Event Loop to Call Stack (Microtask) -->
+                                     <line x1="330" y1="180" x2="150" y2="160" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                     <text x="240" y="165" text-anchor="middle" fill="#dc2626" font-size="8">微任务优先</text>
+
+                                     <!-- Event Loop to Call Stack (Callback) -->
+                                     <line x1="350" y1="220" x2="150" y2="140" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                     <text x="250" y="185" text-anchor="middle" fill="#8b5cf6" font-size="8">栈空时执行</text>
+
+                                     <!-- Microtask Queue to Event Loop -->
+                                     <line x1="480" y1="150" x2="430" y2="180" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="3,3"/>
+
+                                     <!-- Callback Queue to Event Loop -->
+                                     <line x1="480" y1="200" x2="430" y2="200" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="3,3"/>
+
+                                     <!-- Notes -->
+                                     <text x="350" y="280" text-anchor="middle" fill="#ccc" font-size="11" font-weight="bold">执行顺序：调用栈 → 微任务队列 → 宏任务队列</text>
+                                 </svg>
+                                 <p class="text-center text-gray-400 text-xs mt-2">图：JavaScript事件循环机制</p>
+                             </div>
+
+                            <h5 class="text-lg font-semibold mb-4 text-orange-400">事件循环的关键组成部分</h5>
+                             <div class="space-y-4 text-gray-300 mb-8">
+                                 <div class="tip-box rounded-lg p-3">
+                                     <h6 class="font-semibold text-green-300 mb-1 text-sm">调用栈 (Call Stack)</h6>
+                                     <p class="text-xs">存放正在执行的函数。单线程意味着同一时间只能有一个函数在栈顶执行。</p>
+                                 </div>
+                                 <div class="tip-box rounded-lg p-3">
+                                     <h6 class="font-semibold text-green-300 mb-1 text-sm">堆 (Heap)</h6>
+                                     <p class="text-xs">存放对象等引用类型数据。</p>
+                                 </div>
+                                 <div class="tip-box rounded-lg p-3">
+                                     <h6 class="font-semibold text-green-300 mb-1 text-sm">Web APIs (或 Node.js APIs)</h6>
+                                     <p class="text-xs">浏览器或 Node.js 提供的异步功能，比如 <code>setTimeout</code>, <code>XMLHttpRequest</code>/<code>fetch</code>, DOM 事件监听。它们在 Web APIs 中执行，完成后将回调函数放入任务队列。</p>
+                                 </div>
+                                  <div class="tip-box rounded-lg p-3">
+                                     <h6 class="font-semibold text-green-300 mb-1 text-sm">任务队列 (Callback Queue / Task Queue)</h6>
+                                     <p class="text-xs">存放宏任务的回调函数，比如 <code>setTimeout</code>, <code>setInterval</code>, DOM 事件。</p>
+                                 </div>
+                                 <div class="tip-box rounded-lg p-3">
+                                     <h6 class="font-semibold text-green-300 mb-1 text-sm">微任务队列 (Microtask Queue)</h6>
+                                     <p class="text-xs">存放微任务的回调函数，比如 Promise 的 <code>.then()</code>/<code>.catch()</code>/<code>.finally()</code>, <code>MutationObserver</code>。</p>
+                                 </div>
+                                 <div class="tip-box rounded-lg p-3">
+                                     <h6 class="font-semibold text-green-300 mb-1 text-sm">事件循环 (Event Loop)</h6>
+                                     <p class="text-xs">不断检查调用栈是否为空。如果为空，先检查微任务队列，将所有微任务按顺序移到调用栈执行。微任务队列清空后，再检查任务队列，将一个宏任务移到调用栈执行，然后重复这个循环。</p>
+                                 </div>
+                             </div>
+
+                            <div class="code-block text-sm">
+<span class="code-comment">// 事件循环示例</span>
+console.<span class="code-function">log</span>(<span class="code-string">'Start'</span>);
+
+<span class="code-function">setTimeout</span>(() => {
+  console.<span class="code-function">log</span>(<span class="code-string">'Timeout callback'</span>); <span class="code-comment">// 宏任务</span>
+}, <span class="code-number">0</span>); <span class="code-comment">// 即使延迟是0，也是异步宏任务</span>
+
+<span class="code-keyword">new</span> <span class="code-function">Promise</span>((resolve, reject) => {
+  console.<span class="code-function">log</span>(<span class="code-string">'Promise constructor'</span>);
+  resolve(<span class="code-string">'Promise resolved'</span>);
+}).<span class="code-function">then</span>((value) => {
+  console.<span class="code-function">log</span>(value); <span class="code-comment"># 微任务</span>
+});
+
+console.<span class="code-function">log</span>(<span class="code-string">'End'</span>);
+
+<span class="code-comment"># 执行顺序预测：</span>
+<span class="code-comment"># 1. Start (同步代码，进入调用栈)</span>
+<span class="code-comment"># 2. setTimeout 注册宏任务 (进入Web APIs，完成后回调进入任务队列)</span>
+<span class="code-comment"># 3. Promise constructor (同步代码，进入调用栈)</span>
+<span class="code-comment"># 4. Promise.then 注册微任务 (Promise resolved后，回调进入微任务队列)</span>
+<span class="code-comment"># 5. End (同步代码，进入调用栈)</span>
+<span class="code-comment"># 6. 调用栈清空，事件循环检查微任务队列</span>
+<span class="code-comment"># 7. Promise resolved (微任务，进入调用栈)</span>
+<span class="code-comment"># 8. 调用栈清空，微任务队列清空，事件循环检查任务队列</span>
+<span class="code-comment"># 9. Timeout callback (宏任务，进入调用栈)</span>
+
+<span class="code-comment"># 实际输出:</span>
+<span class="code-comment"># Start</span>
+<span class="code-comment"># Promise constructor</span>
+<span class="code-comment"># End</span>
+<span class="code-comment"># Promise resolved</span>
+<span class="code-comment"># Timeout callback</span>
+</div>
+                         </div>
+
+                        <div class="technique-highlight rounded-lg p-6 mt-8">
+                             <h6 class="font-semibold text-purple-300 mb-2 text-center">本小姐的浏览器深潜总结</h6>
+                             <p class="text-center text-sm text-gray-300 italic">
+                                 "了解底层原理，才能真正写出高性能、无 Bug 的应用！<br>
+                                 <strong>优化渲染流程、理解JS执行机制，</strong><br>
+                                 才能成为那个让浏览器大大也佩服的全栈高手！"
+                             </p>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- 结语 -->
+        <section id="conclusion" class="bg-gray-800 py-16">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="chapter-card rounded-2xl p-8 text-center">
+                    <h2 class="text-4xl font-bold mb-8">
+                        <span class="text-pink-400">六、</span> 终章：嘛，本小姐的倾囊相授就到这里了
+                    </h2>
+                    
+                    <div class="bg-gradient-to-r from-pink-900 to-purple-900 rounded-lg p-6 mb-8">
+                        <p class="text-lg italic">
+                            "哼... 本小姐可是把毕生所学都教给你了。能学到多少，就看你自己的造化了。"
+                        </p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8 mb-8">
+                        <div class="knowledge-card rounded-lg p-6">
+                            <h3 class="text-xl font-semibold mb-4 text-yellow-400">持续学习的重要性</h3>
+                            <p class="text-gray-300 leading-relaxed">
+                                技术更新太快？没办法，谁让这是个充满活力的领域呢！别怕新东西，它们都是纸老虎。本小姐也是这么过来的！
+                            </p>
+                        </div>
+
+                        <div class="knowledge-card rounded-lg p-6">
+                            <h3 class="text-xl font-semibold mb-4 text-blue-400">最后的祝福</h3>
+                            <p class="text-gray-300 leading-relaxed">
+                                "希望你... 别给我丢脸！不然下次见面，本小姐可不会轻易放过你！好了，去成为一个真正的全栈高手吧！"
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="text-lg text-pink-300 font-semibold">
+                        愿你在全栈开发的路上越走越远，<br>
+                        也愿你永远保持那份对技术的热爱与好奇心！<br>
+                        <span class="text-sm text-gray-400 mt-4 block">—— 来自一位"不傲娇"的本小姐</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // 滚动指示器功能
+        const sections = ['intro', 'frontend', 'backend', 'fullstack', 'principles', 'conclusion'];
+        const navDots = document.querySelectorAll('.nav-dot');
+        const progressBar = document.getElementById('progressBar');
+
+        function updateScrollIndicators() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            
+            progressBar.style.width = scrollPercent + '%';
+
+            sections.forEach((section, index) => {
+                const element = document.getElementById(section);
+                if (element) {
+                    const rect = element.getBoundingClientRect();
+                    // Adjust threshold based on header height and desired active point
+                    const threshold = 200; // pixels from top
+                     if (rect.top <= threshold && rect.bottom >= threshold) {
+                        navDots.forEach(dot => dot.classList.remove('active'));
+                        if (navDots[index]) {
+                            navDots[index].classList.add('active');
+                        }
+                    }
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateScrollIndicators);
+
+        // 导航点击滚动
+        navDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                const targetSection = sections[index];
+                const element = document.getElementById(targetSection);
+                if (element) {
+                    // Use the same threshold for scrolling
+                    const headerOffset = 64; // Approximate height of fixed header
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
+            });
+        });
+
+        // 平滑滚动到指定区域 (用于引言中的按钮)
+        function scrollToSection(selector) {
+            const element = document.querySelector(selector);
+            if (element) {
+                 const headerOffset = 64; // Approximate height of fixed header
+                 const elementPosition = element.getBoundingClientRect().top;
+                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                 window.scrollTo({
+                     top: offsetPosition,
+                     behavior: "smooth"
+                 });
+            }
+        }
+
+        // 代码块点击复制功能
+        document.querySelectorAll('.code-block').forEach(block => {
+            block.addEventListener('click', function() {
+                // Exclude the "点击复制" text if it's visible
+                let textToCopy = this.textContent;
+                const hoverText = '点击复制';
+                 if (textToCopy.endsWith(hoverText)) {
+                     textToCopy = textToCopy.substring(0, textToCopy.length - hoverText.length).trim();
+                 }
+
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    // Simple visual feedback
+                    const originalBackground = this.style.backgroundColor;
+                    const originalBorder = this.style.border;
+                    this.style.backgroundColor = 'rgba(34, 197, 94, 0.3)'; // Greenish tint
+                    this.style.border = '1px solid rgba(34, 197, 94, 0.6)';
+
+                    const successMessage = document.createElement('span');
+                    successMessage.textContent = '复制成功！';
+                    successMessage.style.position = 'absolute';
+                    successMessage.style.top = '8px';
+                    successMessage.style.right = '8px';
+                    successMessage.style.background = 'rgba(34, 197, 94, 0.8)';
+                    successMessage.style.color = '#fff';
+                    successMessage.style.padding = '4px 8px';
+                    successMessage.style.borderRadius = '4px';
+                    successMessage.style.fontSize = '12px';
+                    successMessage.style.opacity = '1';
+                    successMessage.style.transition = 'opacity 0.5s ease-in-out';
+                    this.appendChild(successMessage);
+
+
+                    setTimeout(() => {
+                         successMessage.style.opacity = '0';
+                         successMessage.addEventListener('transitionend', () => successMessage.remove());
+                         this.style.backgroundColor = originalBackground; // Revert background
+                         this.style.border = originalBorder; // Revert border
+                    }, 1000); // Message stays for 1 second
+
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                     // Optional: Add error feedback
+                });
+            });
+        });
+
+
+        // 添加浮动动画延迟
+        document.querySelectorAll('.floating-element').forEach((element, index) => {
+            element.style.animationDelay = `${index * 0.5}s`;
+        });
+
+         // Initial update on page load
+         document.addEventListener('DOMContentLoaded', updateScrollIndicators);
+    </script>
+</body>
+</html>
